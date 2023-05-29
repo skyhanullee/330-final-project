@@ -1,6 +1,11 @@
 # 330-final-project
 
 ## 1st proposal
+notes after meeting:
+   <br>
+   - Needs more CRUD routes
+   - [ideas] -> make it a forum, admin deletes a post
+   - [ideas] -> blog object, comment object relating to each other
 
 1. A description of the scenario your project is operating in.
    <br>
@@ -42,6 +47,14 @@
    - Week 4: clean up any issues and bugs
 
 ## 2nd proposal (stretch goal)
+   notes after meeting:
+   <br>
+   - need mongo and CRUD, need additional thing
+   - allow users to save posts
+   - my database can have the saved posts
+   - API allows people to write comments for the job post/company
+   - allow users to have additional information
+   - [extend the data thats already available]
 
 1. A description of the scenario your project is operating in.
    <br>
