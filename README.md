@@ -18,9 +18,15 @@
    <br>
    - Authentication and Authorization
    - 2 sets of CRUD routes
-      - GET - get blog posts
-      - POST - create new blog post
-      - PUT - update blog posts
+      - Users:
+         - POST - signup and create new users
+         - POST - signin
+         - POST - change password
+         - GET - get users
+      - Blog Posts:
+         - GET - get blog posts
+         - POST - create new blog post
+         - PUT - update blog posts
    - Text search, aggregations, and lookups
       - Search for blog posts using mongoose
    - Tests for all the CRUD routes
@@ -56,9 +62,15 @@
    - I will use an external API
    - Authentication and Authorization
    - 2 sets of CRUD routes
-      - GET - get job posts
-      - POST - save job post to saved list
-      - PUT - update job posts in saved list
+      - Users:
+         - POST - signup and create new users
+         - POST - signin
+         - POST - change password
+         - GET - get users
+      - Job Posts:
+         - GET - get job posts
+         - POST - save job post to saved list
+         - PUT - update job posts in saved list
    - Text search, aggregations, and lookups
       - search for blog posts using mongoose
    - Tests for all the CRUD routes
