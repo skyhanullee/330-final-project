@@ -21,4 +21,13 @@ describe("/login", () => {
     email: 'user1@mail.com',
     password: '456password'
   }
+
+  describe("before signup", () => {
+    describe("POST /", () => {
+      it("should return 401", async () => {
+        const res = await request(server).post("/login").send(user0);
+        expect(res.statusCode).toEqual(401);
+      })
+    })
+  })
 })
