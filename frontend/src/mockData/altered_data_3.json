@@ -1,0 +1,102 @@
+[
+  {
+    "id": "3952182647",
+    "job": {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "latitude": 41.585685,
+      "salary_max": 101317.1,
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Robert Half"
+      },
+      "salary_min": 101317.1,
+      "category": {
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "tag": "it-jobs",
+        "label": "IT Jobs"
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzk1MjE4MjY0NyIsInMiOiJkT2g3dmlhODdSR1Q5VDB6MTl4MHlRIn0.milFrAxgPXdCRu7yvKCjpMdCw0MsWE5pz6fmm6JVevg",
+      "longitude": -93.618919,
+      "location": {
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "display_name": "Des Moines, Polk County",
+        "area": ["US", "Iowa", "Polk County", "Des Moines"]
+      },
+      "description": "Ref ID: 01500-0012606322 Classification: Mobile Device Developer Compensation: DOE Our growing client is searching for a Mobile Developer. This role will lead the development activities for the mobile and front-end digital customer experience across their hybrid mobile, web app, and web. In this role, you’ll support the roadmap for customer facing experiences, provide development to the maintenance scrum activities, and manage the maintenance schedule for 3rd party software and platform updates…",
+      "title": "Mobile Developer React | React Native",
+      "salary_is_predicted": "1",
+      "created": "2023-03-01T15:55:39Z",
+      "id": "3952182647",
+      "redirect_url": "https://www.adzuna.com/land/ad/3952182647?se=dOh7via87RGT9T0z19x0yQ&utm_medium=api&utm_source=15ced00f&v=557BED3CB22305147DA31661498DA69062DAC4E0"
+    },
+    "location": {
+      "lat": 41.585685,
+      "lng": -93.618919
+    }
+  },
+  {
+    "id": "3930193366",
+    "job": {
+      "redirect_url": "https://www.adzuna.com/land/ad/3930193366?se=dOh7via87RGT9T0z19x0yQ&utm_medium=api&utm_source=15ced00f&v=E67C7EF09C6E96B42BB0520DEBD1DE2F8A55FD0B",
+      "id": "3930193366",
+      "created": "2023-02-17T10:13:47Z",
+      "salary_is_predicted": "1",
+      "description": "Previous experience working as a react.js developer In-depth knowledge of JavaScript, CSS, HTML, and front-end languages. Knowledge of REACT tools including React.js, Webpack, Enzyme, Redux, and Flux. Experience with user interface design. Knowledge of performance testing frameworks including Mocha and Jest. If interested kindly reach out to my email ID - sujathadatapattern.ai",
+      "title": "React Developer",
+      "location": {
+        "display_name": "Princeton, Mercer County",
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": ["US", "New Jersey", "Mercer County", "Princeton"]
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiZE9oN3ZpYTg3UkdUOVQwejE5eDB5USIsImkiOiIzOTMwMTkzMzY2In0.w_0anZs7DOzwuu9gSyxBzGaU2TlGfcAQVGw4_NShw54",
+      "longitude": -74.65938,
+      "category": {
+        "label": "IT Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "tag": "it-jobs"
+      },
+      "salary_min": 76868.63,
+      "latitude": 40.34862,
+      "salary_max": 76868.63,
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "DataPattern LLC"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job"
+    },
+    "location": {
+      "lat": 40.34862,
+      "lng": -74.65938
+    }
+  },
+  {
+    "id": "3927657984",
+    "job": {
+      "salary_max": 78615.76,
+      "company": {
+        "display_name": "Resource Informatics Group",
+        "__CLASS__": "Adzuna::API::Response::Company"
+      },
+      "salary_min": 78615.76,
+      "category": {
+        "label": "IT Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "tag": "it-jobs"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "title": "React Developer",
+      "description": "Role: React developer (not angular with some react) Location: Hybrid Model- Chicago OR Houston the team comes in once a week on Wednesdays. PLEASE do not submit candidates that are unwilling to do this. Please do not submit candidates that are not willing to relocate within 6 weeks Duration: Long term Rate:$$market Must Have: react 16.8 and above- developers that have this understand why the clients look for this Strong focus on react and not a mix of angular and react if more recent experience…",
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzkyNzY1Nzk4NCIsInMiOiJkT2g3dmlhODdSR1Q5VDB6MTl4MHlRIn0.YoSrh5n0Aavs4MROX5Azx7eUWzwPe6IE8XExddq3QXo",
+      "location": {
+        "display_name": "Chicago, Cook County",
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": ["US", "Illinois", "Cook County", "Chicago"]
+      },
+      "salary_is_predicted": "1",
+      "created": "2023-02-15T19:31:25Z",
+      "redirect_url": "https://www.adzuna.com/land/ad/3927657984?se=dOh7via87RGT9T0z19x0yQ&utm_medium=api&utm_source=15ced00f&v=FF45C4F783B98E0AFA383BC004E7ADA8AC326DFD",
+      "id": "3927657984"
+    },
+    "location": {}
+  }
+]

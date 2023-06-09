@@ -1,0 +1,348 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --color-primary-100: hsl(208, 100%, 97%);
+  --color-primary-200: hsl(208, 100%, 90%);
+  /* --color-primary-400: hsl(206, 21%, 77%); */
+  --color-primary-400: hsl(199, 100%, 95%);
+  --color-primary-500: hsl(198, 100%, 87%);
+  --color-primary-900: hsl(224, 61%, 16%);
+
+  --color-accent-400: hsl(191, 31%, 50%);
+  --color-accent-700: hsl(253, 51%, 39%);
+
+  --color-neutral-100: hsl(213, 100%, 98%);
+  --color-neutral-900: hsl(222, 69%, 8%);
+
+  --color-theme-dark: hsl(224, 61%, 16%);
+  --color-theme-light: hsl(0, 0%, 100%);
+
+  /* Font size */
+  --font-size-large: 2rem;
+  --font-size-medium: 1.25rem;
+  --font-size-small: 1rem;
+
+  /* Nav */
+  --nav-height: 4rem;
+}
+
+.dark-mode {
+  --background: var(--color-theme-dark);
+  --card-background: var(--color-primary-100);
+  --background-hover: var(--color-primary-200);
+  --font-color: var(--color-neutral-100);
+  --card-font-color: var(--color-neutral-900);
+}
+
+.light-mode {
+  --background: var(--color-theme-light);
+  --card-background: var(--color-primary-400);
+  --background-hover: var(--color-primary-500);
+  --font-color: var(--color-neutral-900);
+  --card-font-color: var(--color-neutral-900);
+}
+
+body {
+  margin: 0 auto;
+  background-color: var(--background);
+  background-attachment: fixed;
+  height: 100dvh;
+}
+
+ul, li {
+  list-style-type: none;
+  display: grid;
+}
+
+a {
+  border: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+hr {
+  margin: 0 1rem;
+  opacity: 50%;
+}
+
+/* h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3, p {
+  font-size: 1rem;
+} */
+
+#root {
+  height: inherit;
+}
+
+.App {
+  background-color: var(--background);
+  height: inherit;
+}
+
+.top-nav {
+  height: var(--nav-height);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  color: var(--font-color);
+}
+
+.nav-title-container {
+  display: flex;
+}
+
+#adzuna-icon {
+  width: 2.5rem;
+}
+
+#nav-title {
+  display: grid;
+  align-content: center;
+  margin-left: 1rem;
+  font-size: var(--font-size-medium);
+}
+
+.links-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 4rem;
+}
+
+.nav-link {
+  font-size: var(--font-size-medium);
+  text-decoration: underline 1.5px;
+}
+
+#home-link {
+  align-content: center;
+}
+
+#user-info {
+  display: flex;
+  font-size: var(--font-size-medium);
+  align-content: center;
+  gap: 0.5rem;
+} 
+#user-info > * {
+  align-content: center;
+}
+
+#sign-in-out-link {
+  border: 0;
+  /* text-decoration: none; */
+  /* color: inherit; */
+  border-radius: 10px;
+  border: none;
+  background-color: var(--card-background);
+  color: var(--card-font-color);
+  padding: 0.25rem;
+  font-size: var(--font-size-medium);
+}
+
+#sign-in-out-link:hover {
+  background-color: var(--card-background);
+  cursor: pointer;
+}
+
+#sign-in-out-link > a {
+  align-content: center;
+}
+
+#user-photo {
+  height: 2.25rem;
+  border-radius: 10px;
+}
+
+#theme-button {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+#theme-icon {
+  font-size: var(--font-size-large);
+  color: var(--font-color);
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  max-height: calc(100svh - var(--nav-height));
+}
+
+.job-app-container {
+  display: grid;
+  gap: 1rem;
+  height: calc(100svh - var(--nav-height));
+  background-color: var(--background);
+  grid-template-rows: auto 1fr;
+}
+
+.job-form {
+  background-color: var(--background);
+  font-size: var(--font-size-small);
+  color: var(--font-color);
+}
+
+.job-form>form {
+  padding: 1rem;
+}
+
+.job-form>form>div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+input {
+  font-size: var(--font-size-medium);
+  border-radius: 7px;
+  width: 100%;
+}
+
+input[type=text] {
+  padding-left: 0.5rem;
+}
+
+button[type=submit] {
+  border-radius: 10px;
+  border: none;
+  text-decoration: none;
+  background-color: var(--card-background);
+  color: var(--card-font-color);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  font-size: var(--font-size-small);
+}
+
+button[type=submit]:hover {
+  background-color: var(--background-hover);
+  cursor: pointer;
+}
+
+.search-icon {
+  font-size: var(--font-size-large);
+}
+
+.job-card-container {
+  overflow-y: scroll;
+
+}
+
+.job-card-container::-webkit-scrollbar {
+  display: none;
+}
+
+.job-card-container>ul {
+  display: grid;
+  overflow: auto;
+
+}
+
+.job-card {
+  background-color: var(--card-background);
+  color: var(--card-font-color);
+  margin: 1rem;
+}
+
+.job-card:hover {
+  background-color: var(--background-hover);
+}
+
+.job-card-header {
+  display: grid;
+  grid-template-columns: 10fr 1fr;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.job-card-title {
+  /* padding: 1rem; */
+  font-size: var(--font-size-medium);
+}
+
+.bookmark-icon {
+  font-size: var(--font-size-large);
+  /* display: flex; */
+  /* align-self: start; */
+}
+
+.bookmark-icon:hover {
+  cursor: pointer;
+}
+
+.job-card-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-content: space-around;
+  gap: 1rem;
+  padding: 1rem;
+  color: var(--card-font-color);
+}
+
+.job-card-details > * {
+  font-size: var(--font-size-small);
+}
+
+#job-link button {
+  padding: 0.5rem;
+  font-size: var(--font-size-small);
+  border: none;
+  text-decoration: none;
+  border-radius: 7px;
+  background-color: var(--color-accent-400);
+  color: var(--font-color);
+}
+
+.marker-card {
+  width: 17rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.marker-title {
+  font-size: var(--font-size-medium);
+}
+
+.map-container {
+
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.page {
+  background-color: var(--card-background);
+  padding: 2rem;
+  color: var(--card-font-color);
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 600px) {
+  .main-container {
+    /* grid-row: 1; */
+    grid-template-rows: 2fr 1fr;
+    grid-template-columns: auto;
+  }
+  .map-container {
+    height: 40vh;
+  }
+}

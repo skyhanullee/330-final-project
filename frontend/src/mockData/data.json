@@ -1,0 +1,340 @@
+{
+  "results": [
+    {
+      "location": {
+        "display_name": "Times Square, King County",
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Times Square"
+        ]
+      },
+      "id": "3915792488",
+      "salary_max": 97159.38,
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "created": "2023-02-09T17:58:35Z",
+      "redirect_url": "https://www.adzuna.com/land/ad/3915792488?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=648F52509273F440670C8A66026A3FC40FDC8ECF",
+      "salary_min": 97159.38,
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzkxNTc5MjQ4OCIsInMiOiI3cHdYNUpHeDdSR1hHWFlkVkNyMTZRIn0.TgjzDayYXQ27rJzj1MikZxsiyw-7_0EHmBCKlXVEaWk",
+      "company": {
+        "display_name": "Jobot",
+        "__CLASS__": "Adzuna::API::Response::Company"
+      },
+      "title": "Senior Javascript Engineer",
+      "category": {
+        "label": "IT Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "tag": "it-jobs"
+      },
+      "salary_is_predicted": "1",
+      "description": "A legal automation company with the first employees of Amazon is looking for a Javascript ringer This Jobot Job is hosted by: Brian Moriarty Are you a fit? Easy Apply now by clicking the \"Apply Now\" button and sending us your resume. Salary: $150,000 - $190,000 per year A bit about us: A series C funded legal document automation company is looking to hire a senior Javascript/Typescript engineer. As a company, their combination of cutting edge technology, data analytics, and a world renown team …",
+      "longitude": -122.330833,
+      "latitude": 47.606389
+    },
+    {
+      "salary_is_predicted": "1",
+      "title": "JavaScript Expert",
+      "description": "Seattle JavaScript Expert Jobs The Varsity Tutors platform has thousands of students looking for online JavaScript experts nationally and in Seattle. As an expert who uses the Varsity Tutors platform, you can earn good money and choose your own schedule while making a fundamental difference in the lives of your students. Why join our platform? Enjoy competitive rates and get paid up to 2x per week. Teach as much or as little as you want. Share your knowledge with large groups of students. Instr…",
+      "category": {
+        "tag": "teaching-jobs",
+        "label": "Teaching Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category"
+      },
+      "latitude": 47.602077,
+      "longitude": -122.328029,
+      "location": {
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Pioneer Square"
+        ],
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "display_name": "Pioneer Square, King County"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "salary_max": 69795.72,
+      "id": "3895138984",
+      "salary_min": 69795.72,
+      "redirect_url": "https://www.adzuna.com/land/ad/3895138984?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=22CBFEC41E65F8D86AA0164480A2CC5B7E70417F",
+      "created": "2023-02-02T00:15:19Z",
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Varsity Tutors"
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiN3B3WDVKR3g3UkdYR1hZZFZDcjE2USIsImkiOiIzODk1MTM4OTg0In0.0LHV3dGZt1HAaTsg55N3xDBW5honSaUxrdnps55s-58"
+    },
+    {
+      "created": "2023-02-02T00:15:23Z",
+      "redirect_url": "https://www.adzuna.com/land/ad/3895139734?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=B5CD6AB2C447348F2AD36A1FCB5F86BB3C53C638",
+      "salary_min": 68650.16,
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzg5NTEzOTczNCIsInMiOiI3cHdYNUpHeDdSR1hHWFlkVkNyMTZRIn0.ijgYOAVs3ETp3PS-3W0hMhYKxdtiw1aAz6Q0b7o5ZzM",
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Varsity Tutors"
+      },
+      "location": {
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Pioneer Square"
+        ],
+        "display_name": "Pioneer Square, King County"
+      },
+      "salary_max": 68650.16,
+      "id": "3895139734",
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "title": "JavaScript Instructor",
+      "description": "Seattle JavaScript Instructor Jobs The Varsity Tutors platform has thousands of students looking for online JavaScript instructors nationally and in Seattle. As an instructor who uses the Varsity Tutors platform, you can earn good money teaching small groups of students, choose your own hours, and truly make a difference in the lives of your students. Why join our platform? Enjoy competitive rates and get paid 2x per week. Choose to tutor as much or as little as you want. Set your own hours and…",
+      "salary_is_predicted": "1",
+      "category": {
+        "tag": "teaching-jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "label": "Teaching Jobs"
+      },
+      "longitude": -122.328029,
+      "latitude": 47.602077
+    },
+    {
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiN3B3WDVKR3g3UkdYR1hZZFZDcjE2USIsImkiOiIzODk1MTM5NTkyIn0.unomhjyBwCM_-XUnA8JDMhpFDJT58dZrR-q7uyr9S3I",
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Varsity Tutors"
+      },
+      "redirect_url": "https://www.adzuna.com/land/ad/3895139592?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=B4039C523693DF2D62DB0A8C8ACA2CAF4878A3E5",
+      "salary_min": 40291.82,
+      "created": "2023-02-02T00:15:22Z",
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "3895139592",
+      "salary_max": 40291.82,
+      "location": {
+        "display_name": "Pioneer Square, King County",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Pioneer Square"
+        ],
+        "__CLASS__": "Adzuna::API::Response::Location"
+      },
+      "latitude": 47.602077,
+      "longitude": -122.328029,
+      "title": "JavaScript Tutor",
+      "salary_is_predicted": "1",
+      "category": {
+        "tag": "teaching-jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "label": "Teaching Jobs"
+      },
+      "description": "Seattle JavaScript Tutor Jobs The Varsity Tutors platform has thousands of students looking for online JavaScript tutors nationally and in Seattle. As a tutor who uses the Varsity Tutors platform, you can earn good money, choose your own hours, and truly make a difference in the lives of your students. Why join our platform? Enjoy competitive rates and get paid 2x per week. Choose to tutor as much or as little as you want. Set your own hours and schedule. Get paired with students best-suited to…"
+    },
+    {
+      "latitude": 47.608492,
+      "longitude": -122.336407,
+      "salary_is_predicted": "1",
+      "title": "Backend JavaScript Engineer : Samsung",
+      "description": "Interview : Phone and skype Visa: All apart from H1b and CPT Position: Backend JavaScript Engineer - (Node.js Emphasis) NOTE: Candidates must have strong Node.js coding experience. Must have experience working in a Linux environment. Must have experience creating Libraries from scratch. Location: Must be able to work onsite in either Mountain View, CA or Seattle, WA.",
+      "category": {
+        "tag": "it-jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "label": "IT Jobs"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "salary_max": 53306.92,
+      "id": "3917957216",
+      "location": {
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Seattle"
+        ],
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "display_name": "Seattle, King County"
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzkxNzk1NzIxNiIsInMiOiI3cHdYNUpHeDdSR1hHWFlkVkNyMTZRIn0.uEUcHMdAVjxJ4V1tB3T4lUUUDey31cvp50Jtk7_DcCc",
+      "company": {
+        "display_name": "Shiftcode Analytics, Inc",
+        "__CLASS__": "Adzuna::API::Response::Company"
+      },
+      "redirect_url": "https://www.adzuna.com/land/ad/3917957216?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=3053452C2F1B517C9190D11E0D4626D1DF7F9FE8",
+      "salary_min": 53306.92,
+      "created": "2023-02-10T12:52:54Z"
+    },
+    {
+      "title": "Technology Architect -.Net Technologies with Javascript skills",
+      "salary_is_predicted": "1",
+      "id": "3915410107",
+      "salary_max": 95447.76,
+      "salary_min": 95447.76,
+      "longitude": -122.336407,
+      "latitude": 47.608492,
+      "category": {
+        "label": "IT Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "tag": "it-jobs"
+      },
+      "description": "Seattle, WA Full-time Job Description Hi, Greetings Hope you are doing great I would like to update you on an urgent open position with our esteemed client. Please go through the Job Description. Send me your updated resume and expected rate for the below position Role: Technology Architect -.Net Technologies with Javascript skills Duration: Full TIme Location: Denver, CO / Highlands Ranch, CO / Seattle, WA Qualifications Basic •Bachelor’s degree or foreign equivalent required from an accredite…",
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "location": {
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Seattle"
+        ],
+        "display_name": "Seattle, King County"
+      },
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Avance Consulting Services"
+      },
+      "contract_time": "full_time",
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiN3B3WDVKR3g3UkdYR1hZZFZDcjE2USIsImkiOiIzOTE1NDEwMTA3In0.mWlTJ6LbGUT5AaUJJP64qp-8AwShWIRCdgoPb1NJLxc",
+      "created": "2023-02-09T16:23:10Z",
+      "redirect_url": "https://www.adzuna.com/land/ad/3915410107?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=77644B8654A6FBC40A0CC81BD645452A6E435B36"
+    },
+    {
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Capgemini"
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzM2MDQyNzAwNSIsInMiOiI3cHdYNUpHeDdSR1hHWFlkVkNyMTZRIn0.PaXCYG6X85GEUCAX2QZr22lsw1Bot2w-16EBwHcZrhk",
+      "created": "2022-07-30T13:51:22Z",
+      "salary_min": 70340.98,
+      "redirect_url": "https://www.adzuna.com/land/ad/3360427005?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=712EAD4E93C73475E657AAE3FA817F49DA832F77",
+      "id": "3360427005",
+      "salary_max": 70340.98,
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "location": {
+        "display_name": "International, King County",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "International"
+        ],
+        "__CLASS__": "Adzuna::API::Response::Location"
+      },
+      "longitude": -122.326064,
+      "latitude": 47.602485,
+      "title": "Software Development in Test Engineer (w/JavaScript)",
+      "salary_is_predicted": "1",
+      "category": {
+        "tag": "it-jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "label": "IT Jobs"
+      },
+      "description": "Job Description: SDET Location: Seattle, WA (NO Remote option) Sogeti is a leading provider of professional technology services, specializing in Application Management, Infrastructure Management and High-Tech Engineering. Sogeti offers cutting-edge solutions around Testing, Business Intelligence, Mobility, Cloud and Security, combining world class methodologies and the global delivery model, Rightshore®. Sogeti brings together more than 20,000 professionals in 15 countries and is present in ove…"
+    },
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "3901908490",
+      "salary_max": 76478.3,
+      "location": {
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "International"
+        ],
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "display_name": "International, King County"
+      },
+      "company": {
+        "display_name": "The AES Group",
+        "__CLASS__": "Adzuna::API::Response::Company"
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiN3B3WDVKR3g3UkdYR1hZZFZDcjE2USIsImkiOiIzOTAxOTA4NDkwIn0.KhPr9StK4iQSeZMVbhLw9Z3-GJgdwLVBVOW8Reydt9Y",
+      "salary_min": 76478.3,
+      "redirect_url": "https://www.adzuna.com/land/ad/3901908490?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=9EEAB5BDAA69062D855219521420D8B64DA525A0",
+      "created": "2023-02-04T09:22:35Z",
+      "latitude": 47.587356,
+      "longitude": -122.325555,
+      "salary_is_predicted": "1",
+      "title": "Direct Client – Sr. Front-end UI/UX App Developer(ReactJS/Javascript/APIs,Node Js,Azure,SQL,MongoDB)",
+      "category": {
+        "tag": "it-jobs",
+        "label": "IT Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category"
+      },
+      "description": "Title Direct Client Sr. Front-end UI/UX Application Developer (ReactJS/Javascript/APIs, Node Js, Azure, SQL, MongoDB) Location: 100% Remote (Seattle, WA/PST Hrs.) Company is looking for a Senior Application Developer to support the Store Development organization. One of our initiatives is to make their partners and external real-estate brokers work lives easier, improve their efficiency and productivity. This developer will help in creating a web-based application on Azure for the real-estate t…"
+    },
+    {
+      "location": {
+        "display_name": "Seattle, King County",
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Seattle"
+        ]
+      },
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "redirect_url": "https://www.adzuna.com/land/ad/3669531781?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=7E703183C901B12508158943F93DA022A47B04C3",
+      "created": "2022-11-07T19:28:04Z",
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Infinite Reality"
+      },
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiN3B3WDVKR3g3UkdYR1hZZFZDcjE2USIsImkiOiIzNjY5NTMxNzgxIn0.LaNR-AUbbZd1xAcMEdMDKJxtq9JlbAIYZCqcwoP6GXo",
+      "contract_time": "full_time",
+      "category": {
+        "tag": "it-jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "label": "IT Jobs"
+      },
+      "description": "Infinite Reality is a Metaverse innovation and entertainment company defining the future for brands and consumers. The Metaverse will be transformational in the way brands interact with their audiences, and Infinite Reality is on the bleeding edge. We create ownable metaverse spaces for brands, celebrities, athletes, and performers looking to engage audiences in novel ways and provide VIP experiences in an interactive digital environment. The Job Full Stack Web Engineers will design, develop an…",
+      "latitude": 47.608492,
+      "longitude": -122.336407,
+      "salary_max": 131015.7,
+      "id": "3669531781",
+      "salary_min": 131015.7,
+      "title": "Senior Full Stack Web Engineer - Javascript (Remote)",
+      "salary_is_predicted": "1"
+    },
+    {
+      "location": {
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Seattle"
+        ],
+        "display_name": "Seattle, King County"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "created": "2023-02-01T18:19:27Z",
+      "redirect_url": "https://www.adzuna.com/land/ad/3894004342?se=7pwX5JGx7RGXGXYdVCr16Q&utm_medium=api&utm_source=15ced00f&v=0AEF41DC76BA6CEC2A6CF8C54B2159E32A8F5C3A",
+      "company": {
+        "display_name": "Expedia",
+        "__CLASS__": "Adzuna::API::Response::Company"
+      },
+      "contract_time": "full_time",
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzg5NDAwNDM0MiIsInMiOiI3cHdYNUpHeDdSR1hHWFlkVkNyMTZRIn0.1V9NYTzB3nRZv10ica4wwHtxnwI8OKUDDR-dTWlZ5is",
+      "category": {
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "label": "IT Jobs",
+        "tag": "it-jobs"
+      },
+      "description": "If you need assistance during the recruiting process due to a disability, please reach out to our Recruiting Accommodations Team through the Accommodation Request form . This form is used only by individuals with disabilities who require assistance or adjustments in applying and interviewing for a job. This form is not for inquiring about a position or the status of an application. Senior Front-end Software Engineer - React/Javascript Our team is responsible for the Chat bot that lets travelers…",
+      "longitude": -122.336407,
+      "latitude": 47.608492,
+      "salary_max": 102760.6,
+      "id": "3894004342",
+      "salary_min": 102760.6,
+      "title": "Senior Front-end Software Engineer - React/Javascript",
+      "salary_is_predicted": "1"
+    }
+  ],
+  "count": 998,
+  "mean": 116486.48,
+  "__CLASS__": "Adzuna::API::Response::JobSearchResults"
+}

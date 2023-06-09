@@ -7,7 +7,7 @@
     "test": "jest --runInBand --verbose",
     "ci": "jest --json --runInBand | node .github/workflows/parseOutput.js",
     "tdd": "jest --watch --runInBand --verbose",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Sky Lee",
   "license": "MIT",

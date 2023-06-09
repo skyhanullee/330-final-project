@@ -1,0 +1,106 @@
+{
+  "mean": 116486.48,
+  "__CLASS__": "Adzuna::API::Response::JobSearchResults",
+  "results": [
+    {
+      "salary_min": 97159.38,
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJpIjoiMzkxNTc5MjQ4OCIsInMiOiIzdHMxMzZpeDdSRzJXZWxwUkc1YS13In0.WnmIKPFqiS8z4DvJzSrW3i1GxbNd8LlkxOM8FADwf0E",
+      "location": {
+        "display_name": "Times Square, King County",
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Times Square"
+        ]
+      },
+      "salary_is_predicted": "1",
+      "redirect_url": "https://www.adzuna.com/land/ad/3915792488?se=3ts136ix7RG2WelpRG5a-w&utm_medium=api&utm_source=15ced00f&v=648F52509273F440670C8A66026A3FC40FDC8ECF",
+      "description": "A legal automation company with the first employees of Amazon is looking for a Javascript ringer This Jobot Job is hosted by: Brian Moriarty Are you a fit? Easy Apply now by clicking the \"Apply Now\" button and sending us your resume. Salary: $150,000 - $190,000 per year A bit about us: A series C funded legal document automation company is looking to hire a senior Javascript/Typescript engineer. As a company, their combination of cutting edge technology, data analytics, and a world renown team …",
+      "title": "Senior Javascript Engineer",
+      "longitude": -122.330833,
+      "latitude": 47.606389,
+      "salary_max": 97159.38,
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Jobot"
+      },
+      "created": "2023-02-09T17:58:35Z",
+      "id": "3915792488",
+      "category": {
+        "tag": "it-jobs",
+        "label": "IT Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job"
+    },
+    {
+      "longitude": -122.328029,
+      "redirect_url": "https://www.adzuna.com/land/ad/3895138984?se=3ts136ix7RG2WelpRG5a-w&utm_medium=api&utm_source=15ced00f&v=22CBFEC41E65F8D86AA0164480A2CC5B7E70417F",
+      "description": "Seattle JavaScript Expert Jobs The Varsity Tutors platform has thousands of students looking for online JavaScript experts nationally and in Seattle. As an expert who uses the Varsity Tutors platform, you can earn good money and choose your own schedule while making a fundamental difference in the lives of your students. Why join our platform? Enjoy competitive rates and get paid up to 2x per week. Teach as much or as little as you want. Share your knowledge with large groups of students. Instr…",
+      "title": "JavaScript Expert",
+      "salary_max": 69795.72,
+      "company": {
+        "display_name": "Varsity Tutors",
+        "__CLASS__": "Adzuna::API::Response::Company"
+      },
+      "latitude": 47.602077,
+      "created": "2023-02-02T00:15:19Z",
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "category": {
+        "label": "Teaching Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category",
+        "tag": "teaching-jobs"
+      },
+      "id": "3895138984",
+      "salary_min": 69795.72,
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiM3RzMTM2aXg3UkcyV2VscFJHNWEtdyIsImkiOiIzODk1MTM4OTg0In0.s8ynzaGcDdjUeYVKFOMPpQK-a2iNe6Mck_cfvZfPHb0",
+      "salary_is_predicted": "1",
+      "location": {
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "display_name": "Pioneer Square, King County",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Pioneer Square"
+        ]
+      }
+    },
+    {
+      "title": "JavaScript Instructor",
+      "redirect_url": "https://www.adzuna.com/land/ad/3895139734?se=3ts136ix7RG2WelpRG5a-w&utm_medium=api&utm_source=15ced00f&v=B5CD6AB2C447348F2AD36A1FCB5F86BB3C53C638",
+      "description": "Seattle JavaScript Instructor Jobs The Varsity Tutors platform has thousands of students looking for online JavaScript instructors nationally and in Seattle. As an instructor who uses the Varsity Tutors platform, you can earn good money teaching small groups of students, choose your own hours, and truly make a difference in the lives of your students. Why join our platform? Enjoy competitive rates and get paid 2x per week. Choose to tutor as much or as little as you want. Set your own hours and…",
+      "longitude": -122.328029,
+      "latitude": 47.602077,
+      "salary_max": 68650.16,
+      "company": {
+        "__CLASS__": "Adzuna::API::Response::Company",
+        "display_name": "Varsity Tutors"
+      },
+      "created": "2023-02-02T00:15:23Z",
+      "id": "3895139734",
+      "category": {
+        "tag": "teaching-jobs",
+        "label": "Teaching Jobs",
+        "__CLASS__": "Adzuna::API::Response::Category"
+      },
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "salary_min": 68650.16,
+      "adref": "eyJhbGciOiJIUzI1NiJ9.eyJzIjoiM3RzMTM2aXg3UkcyV2VscFJHNWEtdyIsImkiOiIzODk1MTM5NzM0In0.SefhGPXJbwmimV8E2IgHCZ-7xQIn4AhEZex69LZq83o",
+      "location": {
+        "display_name": "Pioneer Square, King County",
+        "__CLASS__": "Adzuna::API::Response::Location",
+        "area": [
+          "US",
+          "Washington",
+          "King County",
+          "Pioneer Square"
+        ]
+      },
+      "salary_is_predicted": "1"
+    }
+  ],
+  "count": 998
+}
