@@ -5,7 +5,7 @@ const isAuthorized = require('../middleware/isAuthorized');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'secretkey';
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = 12;
 
 
 // Signup: POST /login/signup
