@@ -1,5 +1,5 @@
 {
-  "name": "330-final-project-1",
+  "name": "backend",
   "version": "1.0.0",
   "description": "backend for final project in jscript330",
   "main": "index.js",
@@ -7,7 +7,8 @@
     "test": "jest --runInBand --verbose",
     "ci": "jest --json --runInBand | node .github/workflows/parseOutput.js",
     "tdd": "jest --watch --runInBand --verbose",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Sky Lee",
   "license": "MIT",
@@ -28,8 +29,11 @@
   "dependencies": {
     "@shelf/jest-mongodb": "^4.1.7",
     "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.2.2"
+    "mongoose": "^7.2.2",
+    "nodemon": "^2.0.22"
   }
 }
