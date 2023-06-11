@@ -1,12 +1,71 @@
+import { Link } from "react-router-dom"
+import { useState } from "react"
+import { useNavigate } from "react-router";
 
 
 function SignInPage() {
+  const [email, setEmail] = useState('');
+  // const { username, setUsername } = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
+  const loginUser = async (e) => {
+    e.preventDefault();
+    const loginUser = {
+      email,
+      password
+    };
+
+    const response = await fetch('http://127.0.0.1:4000/login', {
+      method: 'POST',
+      body: JSON.stringify(loginUser),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
+    const resJson = await response.json();
+    console.log(resJson);
+    if (!response.ok) {
+      console.log('POST: did not send to mongo db');
+    }
+    // if (response.ok) {
+    if (resJson.user) {
+      alert(`Login successful`);
+      console.log('logged in', resJson);
+      // window.location.href = '/quote';
+      setEmail('');
+      setPassword('');
+      navigate('/');
+    }
+    else {
+      alert(`Please check your username and password`);
+    }
+  }
 
   return (
     <div className='page'>
       <h1>Sign In</h1>
-      <h1>Sign Out</h1>
+      <form onSubmit={loginUser}>
+        <input type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        {/* <input type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        /> */}
+        <input type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <input type="submit" value="Sign In" />
+      </form>
+      <Link to='/register'>Register</Link>
     </div>
   )
 }

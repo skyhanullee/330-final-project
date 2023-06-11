@@ -5,19 +5,36 @@ import JobResultList from '../components/JobResultList';
 import Map from '../components/Map';
 import LoadingPage from './LoadingPage';
 import ErrorPage from './ErrorPage';
+import UserContext from '../context/UserContext';
 const DEFAULT_SEARCH_TERMS = '';
 const DEFAULT_SEARCH_LOCATION = '';
 const DEFAULT_RESULTS_PER_PAGE = 10;
 
 function HomePage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+
+  const handleLogin = (token) => {
+    setIsLoggedIn(true);
+    setUser({
+      isLoggedIn,
+      token,
+    });
+  };
+
+  const handleLogout = (token) => {
+    setIsLoggedIn(true);
+    setUser({
+      isLoggedIn: false,
+      token: "",
+    });
+  };
+
   const [searchTerms, setSearchTerms] = useState(DEFAULT_SEARCH_TERMS);
   const [searchLocation, setSearchLocation] = useState(DEFAULT_SEARCH_LOCATION);
   const resultsPerPage = DEFAULT_RESULTS_PER_PAGE;
-  // const { jobResult, setJobResult, setJobMarkerList } = useContext(JobResultContext);
   const { setJobResult } = useContext(JobResultContext);
-
   const [jobMarkerList, setJobMarkerList] = useState([]);
-
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -68,7 +85,7 @@ function HomePage() {
           setSearchLocation={setSearchLocation}
         />
         <section className='job-card-container'>
-          <JobResultList jobMarkerList={jobMarkerList} setJobMarkerList={setJobMarkerList}/>
+          <JobResultList jobMarkerList={jobMarkerList} setJobMarkerList={setJobMarkerList} />
         </section>
       </section>
     </section>

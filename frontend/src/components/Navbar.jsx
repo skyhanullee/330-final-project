@@ -18,25 +18,9 @@ function Navbar() {
           <li className="nav-link" id='home-link'>
             <Link to='/'>Home</Link>
           </li>
-          {!user &&
-            <li className="nav-link" id="sign-in-out-link">
-              <Link to='/signin'>Sign In</Link>
-            </li>
-          }
-          {user &&
-            <div id='user-info'>
-              <li>{user.displayName}</li>
-              {/* {console.log(user.photoURL)} */}
-              <li><img id='user-photo' src={user.photoURL} alt={user.displayName} /></li>
-
-              <button className='nav-link' id='sign-in-out-link' onClick={() => {
-                // sign in/sign out button
-                // firebase.auth().signOut();
-
-                navigate('/');
-              }}>Sign Out</button>
-            </div>
-          }
+          <li className='nav-link' id='sign-in-out-link'>
+            <Link to='/signin'>Signin/Register</Link>
+          </li>
           <li className="nav-link" id="theme-toggle"><ThemeButton /></li>
         </ul>
       </nav>
