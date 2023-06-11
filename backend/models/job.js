@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
-  jobId: { type: String, required: true },
+  isBookmarked: { type: Boolean },
+  jobId: { type: String, required: true, unique: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   location: { type: String, required: true },
@@ -13,5 +14,5 @@ const jobSchema = new mongoose.Schema({
   url: { type: String },
 });
 
-
-module.exports = mongoose.model("jobs", jobSchema);
+// 
+module.exports = mongoose.model("jobs", jobSchema, "testJobs");

@@ -9,6 +9,7 @@ function JobCard({ job }) {
 
   // const [user, setUser] = useState({});
   const { user, setUser } = useContext(UserContext);
+  const { isBookmarked, setIsBookmarked } = useState(false);
 
   // const addToFavorites = (job) => {
   //   // const jobPostsRef = collection(db, 'users', user.uid, 'saved-job-posts');
@@ -29,6 +30,7 @@ function JobCard({ job }) {
   const addToFavorites = async () => {
     // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
     const job = {
+      isBookmarked: true,
       jobId: id,
       title: title,
       description: description,
@@ -49,17 +51,23 @@ function JobCard({ job }) {
       headers: new Headers({
         'Content-Type': 'application/json'
       })
-    })
+    });
     // .then(res => res.json())
     // .then(data => console.log(data));
 
     const resJson = await response.json();
     console.log(resJson);
     if (!response.ok) {
-      console.log('did not POST');
+      console.log('POST: did not send to mongo db');
+    }
+    if (response.status === 409) {
+      alert('Job has already been saved.');
+      console.log('job already saved in mongo collection');
     }
     if (response.ok) {
+      alert(`${title} has been added to saved list`);
       console.log('new job added', resJson);
+      // setIsBookmarked(true);
     }
   };
 
@@ -75,7 +83,7 @@ function JobCard({ job }) {
         <h1 className='job-card-title'>{title}</h1>
         <Icon
           className='bookmark-icon'
-          icon="material-symbols:bookmark-outline"
+          icon={isBookmarked ? "material-symbols:bookmark" : "material-symbols:bookmark-outline"}
           onClick={handleOnClick}
         />
       </div>

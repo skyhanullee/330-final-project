@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const Job = require('../models/job');
 
+const db = mongoose.connection;
+
 module.exports = {};
 
 // should create a job for the given user (only pro users can create jobs)
 module.exports.createJob = async (jobObj) => {
-  const created = await Job.create(jobObj);
+  // const created = await Job.create(jobObj);
+  const created = await db.collection('testJobs').insertOne(jobObj);
   if (!created) {
     return null;
   }

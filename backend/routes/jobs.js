@@ -12,19 +12,39 @@ router.post("/", async (req, res, next) => {
     if (!job) {
       res.status(400).send('No job given.');
     }
-    else {
-      const newJob = await jobDAO.createJob(job);
-      res.status(200).json(newJob, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(newJob);
+
+    const existingJob = await jobDAO.getJobByJobId(job.jobId);
+    if (existingJob) {
+      return res.status(409).send({ message: 'Job already saved.' });
     }
+
+    const newJob = await jobDAO.createJob(job);
+    res.status(200).json(newJob);
+    console.log(newJob);
+
   } catch (e) {
     next(e);
   }
 });
+// router.post("/", async (req, res, next) => {
+//   try {
+//     const job = req.body;
+//     if (!job) {
+//       res.status(400).send('No job given.');
+//     }
+//     else {
+//       const newJob = await jobDAO.createJob(job);
+//       res.json(newJob, {
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//       });
+//       console.log(newJob);
+//     }
+//   } catch (e) {
+//     next(e);
+//   }
+// });
 
 // Get specific job: GET /jobs/:id - open to all users
 // router.get("/:id", isAuthorized, async (req, res, next) => {

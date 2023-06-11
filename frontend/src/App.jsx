@@ -5,6 +5,7 @@ import JobPage from './pages/JobPage';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import SignInPage from './pages/SignInPage';
+import RegisterPage from './pages/RegisterPage';
 import UserContext from './context/UserContext';
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/job/:jobId' element={<JobPage />} />
         <Route path='/signin' element={<SignInPage />} />
+        <Route path='/register' element={<RegisterPage />} />
       </Routes>
     </div>
   );
