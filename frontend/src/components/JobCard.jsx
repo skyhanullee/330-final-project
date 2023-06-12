@@ -41,6 +41,8 @@ function JobCard({ job }) {
       latitude: latitude,
       longitude: longitude,
       url: redirect_url,
+      isAdzuna: true,
+      author: 'adzuna',
     };
 
     console.log(job);
