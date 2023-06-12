@@ -4,9 +4,9 @@ const userDAO = require('../daos/user');
 const isAuthorized = require('../middleware/isAuthorized');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'secretkey';
-const SALT_ROUNDS = 12;
+require('dotenv').config();
 
+const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
 
 // Signup: POST /login/signup
 // create user record with email and password stored
@@ -61,7 +61,12 @@ router.post("/", async (req, res, next) => {
       _id: user._id,
       email: user.email,
       roles: user.roles
-    }, SECRET_KEY);
+    }, process.env.JWT_SECRET_KEY);
+
+    // set authorization for user
+    req.headers.authorization = `Bearer ${token}`;
+    res.cookie("token", token, { httpOnly: true })
+
     return res.json({ token: token });
   }
   catch (e) {
@@ -93,6 +98,37 @@ router.post("/password", isAuthorized, async (req, res, next) => {
     }
   }
   catch (e) {
+    next(e);
+  }
+});
+
+// POST /logout 
+// if the user is logged in, invalidate their token so they can't use it again (remove it)
+router.post("/logout", isAuthorized, async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).send('Token does not match.');
+    }
+    else {
+      // remove token from local storage
+      // global.localStorage.removeItem('token');
+      // console.log(req.headers.authorization);
+      // const isTokenExist = global.localStorage?.getItem('token');
+      // const isTokenExist = clearCookie('token');
+      // console.log(isTokenExist);
+      req.headers.authorization = ''; // this does not work.
+      console.log(req.user);
+      // if (!isTokenExist) {
+      //   res.status(401).send('Logout went wrong.');
+      // }
+      // else {
+      //   res.status(200).send('Logout successful.');
+      // }
+      res.status(200).send('Logout was called');
+    }
+  }
+  catch (e) {
+    console.log(e);
     next(e);
   }
 });
