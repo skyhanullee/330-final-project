@@ -18,7 +18,7 @@ router.post("/", isAuthorized, async (req, res, next) => {
     for (const jobId of jobs) {
       let jobFromBookmarkList = await jobDAO.getJobByJobId(jobId);
       if (!jobFromBookmarkList) {
-        return res.status(400).send('Bad job _id.');
+        return res.status(400).send({ message: 'Bad job _id.' });
       }
       else {
         total += jobFromBookmarkList.price;
