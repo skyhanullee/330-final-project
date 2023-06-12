@@ -24,7 +24,7 @@ function SignInPage() {
       })
     });
     const resJson = await response.json();
-    console.log(resJson);
+    // console.log(resJson);
     if (!response.ok) {
       console.log('POST: did not send to mongo db');
     }
@@ -32,11 +32,13 @@ function SignInPage() {
     // when successful, token is passed in response
     if (resJson.token) {
       alert(`Login successful`);
-      console.log('logged in', resJson);
+      // clear any token in localStorage
+      localStorage.removeItem('token');
+
+      // store into local storage
+      localStorage.setItem('token', resJson.token);
       setEmail('');
       setPassword('');
-      // store into local storage
-      // window.localStorage.setItem('token', resJson.token);
       // to logout ->  delete token from local storage
       // navigate('/');
     }
