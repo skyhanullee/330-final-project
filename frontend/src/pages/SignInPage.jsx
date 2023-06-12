@@ -29,13 +29,16 @@ function SignInPage() {
       console.log('POST: did not send to mongo db');
     }
     // if (response.ok) {
-    if (resJson.user) {
+    // when successful, token is passed in response
+    if (resJson.token) {
       alert(`Login successful`);
       console.log('logged in', resJson);
-      // window.location.href = '/quote';
       setEmail('');
       setPassword('');
-      navigate('/');
+      // store into local storage
+      // window.localStorage.setItem('token', resJson.token);
+      // to logout ->  delete token from local storage
+      // navigate('/');
     }
     else {
       alert(`Please check your username and password`);
