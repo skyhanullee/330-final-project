@@ -5,8 +5,8 @@ const isAuthorized = require("../middleware/isAuthorized");
 const isPro = require("../middleware/isPro");
 
 // Create: POST /jobs - restricted to users with the "pro" role
-// router.post("/", isAuthorized, isPro, async (req, res, next) => {
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthorized, isPro, async (req, res, next) => {
+  // router.post("/", async (req, res, next) => {
   try {
     const job = req.body;
     if (!job) {
@@ -47,11 +47,11 @@ router.post("/", async (req, res, next) => {
 // });
 
 // Get specific job: GET /jobs/:id - open to all users
-// router.get("/:id", isAuthorized, async (req, res, next) => {
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isAuthorized, async (req, res, next) => {
+  // router.get("/:id", async (req, res, next) => {
   try {
     const jobId = req.params.id;
-    const job = await jobDAO.getJobById(jobId);
+    const job = await jobDAO.getJobByJobId(jobId);
     if (!job) {
       res.status(404).send('Cannot find job from id.')
     }
@@ -64,8 +64,8 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Get all jobs: GET /jobs - open to all users
-// router.get("/", isAuthorized, async (req, res, next) => {
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthorized, async (req, res, next) => {
+  // router.get("/", async (req, res, next) => {
   try {
     const jobs = await jobDAO.getAllJobs();
     res.json(jobs);
@@ -76,13 +76,21 @@ router.get("/", async (req, res, next) => {
 });
 
 // Update a note: PUT /jobs/:id - restricted to users with the "pro" role
-// router.put("/:id", isAuthorized, isPro, async (req, res, next) => {
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", isAuthorized, isPro, async (req, res, next) => {
+  // router.put("/:id", async (req, res, next) => {
   try {
     const jobId = req.params.id;
     const job = req.body;
+    if (!job) {
+      res.status
+    }
     const isUpdated = await jobDAO.updateJobById(jobId, job);
-    res.sendStatus(isUpdated ? 200 : 400);
+    if (!isUpdated) {
+      res.status(400).send({ message: 'Not updated. Something went wrong.' });
+    }
+    else {
+      res.status(200).send({ message: 'Job updated.' })
+    }
   } catch (e) {
     next(e);
   }
