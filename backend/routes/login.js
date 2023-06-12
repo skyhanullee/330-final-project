@@ -45,16 +45,16 @@ router.post("/", async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!password) {
-      return res.status(400).send('Password not found.');
+      return res.status(400).send({ message: 'Password not found.' });
     }
     const user = await userDAO.getUser(email);
     if (!user) {
-      return res.status(401).send('User not found.');
+      return res.status(401).send({ message: 'User not found.' });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-      return res.status(401).send('Incorrect password.');
+      return res.status(401).send({ message: 'Incorrect password.' });
     }
 
     const token = jwt.sign({
@@ -102,35 +102,37 @@ router.post("/password", isAuthorized, async (req, res, next) => {
   }
 });
 
-// POST /logout 
-// if the user is logged in, invalidate their token so they can't use it again (remove it)
-router.post("/logout", isAuthorized, async (req, res, next) => {
-  try {
-    if (!req.user) {
-      return res.status(401).send('Token does not match.');
-    }
-    else {
-      // remove token from local storage
-      // global.localStorage.removeItem('token');
-      // console.log(req.headers.authorization);
-      // const isTokenExist = global.localStorage?.getItem('token');
-      // const isTokenExist = clearCookie('token');
-      // console.log(isTokenExist);
-      req.headers.authorization = ''; // this does not work.
-      console.log(req.user);
-      // if (!isTokenExist) {
-      //   res.status(401).send('Logout went wrong.');
-      // }
-      // else {
-      //   res.status(200).send('Logout successful.');
-      // }
-      res.status(200).send('Logout was called');
-    }
-  }
-  catch (e) {
-    console.log(e);
-    next(e);
-  }
-});
+// [LOGOUT MUST BE HANDLED IN THE FRONT END]
+// [with the way jwt works, server side does not handle logout, delete jwt token from frontend]
+// // POST /logout 
+// // if the user is logged in, invalidate their token so they can't use it again (remove it)
+// router.post("/logout", isAuthorized, async (req, res, next) => {
+//   try {
+//     if (!req.user) {
+//       return res.status(401).send('Token does not match.');
+//     }
+//     else {
+//       // remove token from local storage
+//       // global.localStorage.removeItem('token');
+//       // console.log(req.headers.authorization);
+//       // const isTokenExist = global.localStorage?.getItem('token');
+//       // const isTokenExist = clearCookie('token');
+//       // console.log(isTokenExist);
+//       req.headers.authorization = ''; // this does not work.
+//       console.log(req.user);
+//       // if (!isTokenExist) {
+//       //   res.status(401).send('Logout went wrong.');
+//       // }
+//       // else {
+//       //   res.status(200).send('Logout successful.');
+//       // }
+//       res.status(200).send('Logout was called');
+//     }
+//   }
+//   catch (e) {
+//     console.log(e);
+//     next(e);
+//   }
+// });
 
 module.exports = router;
