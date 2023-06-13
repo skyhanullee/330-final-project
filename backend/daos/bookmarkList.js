@@ -5,8 +5,8 @@ const Job = require('../models/job');
 module.exports = {};
 
 // should create a bookmarkList for the given user
-module.exports.createBookmarkList = async (bookmarkListObj) => {
-  const created = await BookmarkList.create(bookmarkListObj);
+module.exports.createBookmarkList = async (userId) => {
+  const created = await BookmarkList.create(userId);
   if (!created) {
     return null;
   }
@@ -37,7 +37,7 @@ module.exports.getBookmarkListByUserId = async (userId) => {
     return null;
   }
   return bookmarkList;
-}
+};
 
 // should get all bookmarkLists for userId
 module.exports.getAllBookmarkLists = () => {
@@ -46,6 +46,29 @@ module.exports.getAllBookmarkLists = () => {
     return null;
   }
   return bookmarkLists;
+};
+
+// should add job to bookmarkList
+module.exports.addJobToBookmarkList = async (userId, jobId) => {
+  const bookmarkList = BookmarkList.findOne({ user: userId });
+
+  bookmarkList.jobs?.push(jobId);
+  return true;
+};
+
+// should delete job from bookmarkList
+module.exports.removeJobFromBookmarkList = async (userId, jobId) => {
+  const bookmarkList = await bookmarkList.findOne({ user: userId });
+  if (!bookmarkList) {
+    return false;
+  }
+  const index = bookmarkList.jobs.indexOf(jobId);
+  if (index === -1) {
+    return false;
+  }
+  bookmarkList.jobs.splice(index, 1);
+  await bookmarkList.save();
+  return true;
 };
 
 class BadDataError extends Error { };
