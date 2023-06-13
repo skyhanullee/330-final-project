@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router";
+import UserContext from "../context/UserContext";
 
 
 function SignInPage() {
   const [email, setEmail] = useState('');
   // const { username, setUsername } = useState('');
   const [password, setPassword] = useState('');
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
@@ -37,10 +39,10 @@ function SignInPage() {
 
       // store into local storage
       localStorage.setItem('token', resJson.token);
+      setUser(true);
       setEmail('');
       setPassword('');
-      // to logout ->  delete token from local storage
-      // navigate('/');
+      navigate('/');
     }
     else {
       alert(`Please check your username and password`);
