@@ -14,16 +14,16 @@ router.post("/signup", async (req, res, next) => {
   try {
     const { email, password, roles } = req.body;
     if (!email) {
-      return res.status(400).send('No email given.');
+      return res.status(400)({ message: 'No email given.' });
     }
 
     if (!password) {
-      return res.status(400).send('No password given.');
+      return res.status(400).send({ message: 'No password given.' });
     }
 
     const existingUser = await userDAO.getUser(email);
     if (existingUser) {
-      return res.status(409).send('Email already exists.');
+      return res.status(409).send({ message: 'Email already exists.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -65,7 +65,8 @@ router.post("/", async (req, res, next) => {
 
     // set authorization for user
     req.headers.authorization = `Bearer ${token}`;
-    res.cookie("token", token, { httpOnly: true })
+    // res.cookie("token", token, { httpOnly: true })
+    console.log(`POST /LOGIN: {$req.headers.authorization}`);
 
     return res.json({ token: token });
   }
@@ -80,20 +81,20 @@ router.post("/password", isAuthorized, async (req, res, next) => {
     const user = req.user;
     const { password } = req.body;
     if (!user) {
-      return res.status(401).send('User is not authenticated yet.');
+      return res.status(401).send({ message: 'User is not authenticated yet.' });
     }
 
     if (!password) {
-      return res.status(400).send('Something wrong with password.');
+      return res.status(400).send({ message: 'Something wrong with password.' });
     }
     else {
       const newHashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
       const isUserUpdated = await userDAO.updateUserPassword(user._id, newHashedPassword);
       if (!isUserUpdated) {
-        return res.status(401).send('Password did not update');
+        return res.status(401).send({ message: 'Password did not update' });
       }
       else {
-        return res.status(200).send('User password is updated.');
+        return res.status(200).send({ message: 'User password is updated.' });
       }
     }
   }
