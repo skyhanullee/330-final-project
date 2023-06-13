@@ -3,9 +3,9 @@ import { useState, useEffect, useContext } from "react"
 import UserContext from '../context/UserContext';
 
 function JobCard({ job }) {
-  const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = job;
-  const dateCreated = new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-  const salary = salary_min.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const { title, location, company, salary_min, salary, created, createdAt, id, description, latitude, longitude, redirect_url } = job;
+  const dateCreated = new Date((created || createdAt)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const salaryListing = (salary_min || salary).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
   // const [user, setUser] = useState({});
   const { user, setUser } = useContext(UserContext);
@@ -92,11 +92,11 @@ function JobCard({ job }) {
       <hr />
       <div className='job-card-details'>
         <h3>Location:</h3>
-        <p>{location.display_name}</p>
+        <p>{(location.display_name || location)}</p>
         <h3>Company:</h3>
-        <p>{company.display_name}</p>
+        <p>{(company.display_name || company)}</p>
         <h3>Salary:</h3>
-        <p>{salary}</p>
+        <p>{salaryListing}</p>
         <h3>Date Created: </h3>
         <p>{dateCreated}</p>
       </div>
