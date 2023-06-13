@@ -10,7 +10,7 @@ router.post("/", isAuthorized, isPro, async (req, res, next) => {
   try {
     const job = req.body;
     if (!job) {
-      res.status(400).send('No job given.');
+      res.status(400).send({ message: 'No job given.' });
     }
 
     const existingJob = await jobDAO.getJobByJobId(job.jobId);
@@ -53,7 +53,7 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
     const jobId = req.params.id;
     const job = await jobDAO.getJobByJobId(jobId);
     if (!job) {
-      res.status(404).send('Cannot find job from id.')
+      res.status(404).send({ message: 'Cannot find job from id.' })
     }
     else {
       res.json(job);
@@ -64,7 +64,7 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
 });
 
 // Get all jobs: GET /jobs - open to all users
-router.get("/", isAuthorized, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   // router.get("/", async (req, res, next) => {
   try {
     const jobs = await jobDAO.getAllJobs();
