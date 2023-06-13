@@ -125,10 +125,8 @@ h3, p {
 .nav-link {
   font-size: var(--font-size-medium);
   text-decoration: underline 1.5px;
-}
-
-#home-link {
   align-content: center;
+
 }
 
 #user-info {
@@ -136,8 +134,9 @@ h3, p {
   font-size: var(--font-size-medium);
   align-content: center;
   gap: 0.5rem;
-} 
-#user-info > * {
+}
+
+#user-info>* {
   align-content: center;
 }
 
@@ -158,7 +157,7 @@ h3, p {
   cursor: pointer;
 }
 
-#sign-in-out-link > a {
+#sign-in-out-link>a {
   align-content: center;
 }
 
@@ -296,7 +295,7 @@ button[type=submit]:hover {
   color: var(--card-font-color);
 }
 
-.job-card-details > * {
+.job-card-details>* {
   font-size: var(--font-size-small);
 }
 
@@ -320,9 +319,7 @@ button[type=submit]:hover {
   font-size: var(--font-size-medium);
 }
 
-.map-container {
-
-}
+.map-container {}
 
 #map {
   width: 100%;
@@ -342,6 +339,7 @@ button[type=submit]:hover {
     grid-template-rows: 2fr 1fr;
     grid-template-columns: auto;
   }
+
   .map-container {
     height: 40vh;
   }
