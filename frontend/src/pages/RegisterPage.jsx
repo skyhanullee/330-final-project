@@ -25,11 +25,11 @@ function RegisterPage() {
     console.log(resJson);
     if (!response.ok) {
       console.log('POST: did not send to mongo db');
-    }
+    };
     if (response.status === 409) {
-      alert('User already exists');
+      alert('User already exists.');
       console.log('user already saved in mongo collection');
-    }
+    };
     if (response.ok) {
       alert(`New user has been added`);
       console.log('new user added', resJson);
@@ -37,7 +37,7 @@ function RegisterPage() {
       setPassword('');
       navigate('/signin');
       // setIsBookmarked(true);
-    }
+    };
   };
 
   return (
