@@ -6,7 +6,9 @@ require('dotenv').config();
 // and put the decoded value on the req object.
 const isAuthorized = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.header.authorization;
+    console.log(token);
+    console.log(`ISAUTHORIZED: ${token}`);
     if (!token || !token.includes('Bearer')) {
       res.status(401).send({ message: 'No valid token.' });
     }
