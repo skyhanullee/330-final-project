@@ -11,24 +11,7 @@ const DEFAULT_SEARCH_LOCATION = '';
 const DEFAULT_RESULTS_PER_PAGE = 10;
 
 function HomePage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { user, setUser } = useContext(UserContext);
-
-  const handleLogin = (token) => {
-    setIsLoggedIn(true);
-    setUser({
-      isLoggedIn,
-      token,
-    });
-  };
-
-  const handleLogout = (token) => {
-    setIsLoggedIn(true);
-    setUser({
-      isLoggedIn: false,
-      token: "",
-    });
-  };
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [searchTerms, setSearchTerms] = useState(DEFAULT_SEARCH_TERMS);
   const [searchLocation, setSearchLocation] = useState(DEFAULT_SEARCH_LOCATION);
@@ -56,13 +39,14 @@ function HomePage() {
         (data) => {
           setJobResult(data);
           toggleLoading(false);
+          console.log('fetched');
           // updateJobMarkerList();
         },
         (error) => {
           toggleLoading(false);
           setHasError(true);
         }
-      )
+      );
   }, [searchTerms, searchLocation])
 
   if (loading) {
