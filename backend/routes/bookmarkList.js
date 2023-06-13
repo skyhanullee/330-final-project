@@ -19,43 +19,6 @@ router.post("/", isAuthorized, async (req, res, next) => {
     const newBookmarkList = await bookmarkListDAO.createBookmarkList(userId);
     console.log('bookmark list created');
     res.json(newBookmarkList);
-
-
-    // const jobObj = req.body.job;
-    // const jobId = jobObj.jobId;
-
-    // if (!isUserHaveBookmarkList) {
-    //   await bookmarkListDAO.createBookmarkList(userId);
-    //   console.log('bookmark list created');
-    // };
-
-    // const jobFromDB = await jobDAO.getJobByJobId(jobId);
-    // if (!jobFromDB) {
-    //   await jobDAO.createJob(jobObj);
-    //   console.log('job created')
-    // };
-
-    // await bookmarkListDAO.addJobToBookmarkList(userId, jobId);
-    // res.status(200).json({ message: "Job added to bookmarked list." });
-    // const jobs = req.body;
-    // let total = 0;
-
-    // for (const jobId of jobs) {
-    //   let jobFromBookmarkList = await jobDAO.getJobByJobId(jobId);
-    //   if (!jobFromBookmarkList) {
-    //     return res.status(400).send({ message: 'Bad job _id.' });
-    //   }
-    //   else {
-    //     total += jobFromBookmarkList.price;
-    //   }
-    // }
-
-    // const bookmarkList = await bookmarkListDAO.createBookmarkList({
-    //   userId: req.user._id,
-    //   jobs: req.body,
-    //   total: total
-    // })
-    // res.json(bookmarkList);
   } catch (e) {
     next(e);
   }
@@ -113,5 +76,15 @@ router.get("/", isAuthorized, async (req, res, next) => {
   }
 });
 
+// should update bookmark list by adding a job to the list
+router.put("/", isAuthorized, async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+
+  }
+  catch (e) {
+    next(e);
+  }
+});
 
 module.exports = router;
