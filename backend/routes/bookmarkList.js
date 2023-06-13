@@ -46,7 +46,7 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
 
     const bookmarkList = await bookmarkListDAO.getBookmarkListById(bookmarkListId);
     if (!bookmarkList) {
-      res.status(400).send('BookmarkList does not exist.');
+      res.status(400).send({ message: 'BookmarkList does not exist.' });
     }
 
     // return an bookmarkList with jobs array containing full job objects, not just their ids
@@ -56,7 +56,7 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
         res.json(bookmarkList);
       }
       else {
-        res.status(404).send('Invalid user id');
+        res.status(404).send({ message: 'Invalid user id' });
       }
     }
 
