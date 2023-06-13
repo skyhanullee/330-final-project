@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function CreateJobPage() {
   // const [jobId, setJobId] = useState('');
@@ -7,85 +8,134 @@ function CreateJobPage() {
   const [location, setLocation] = useState('');
   const [company, setCompany] = useState('');
   const [salary, setSalary] = useState(0);
-  const [createdAt, setCreatedAt] = useState('');
+  // const [createdAt, setCreatedAt] = useState('');
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const [url, setUrl] = useState('');
+  // const [url, setUrl] = useState('');
   // const [author, setAuthor] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newJobPost = {
+      title: title,
+      description: description,
+      location: location,
+      company: company,
+      salary: salary,
+      latitude: latitude,
+      longitude: longitude,
+      // url: "",
+      isAdzuna: false,
+      // author: mongoose.Types.ObjectId(this.props.userId),
+    };
+
+    const response = await fetch('http://127.0.0.1:4000/jobs', {
+      method: 'POST',
+      body: JSON.stringify(newJobPost),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
+
+    const resJson = await response.json();
+    if (!response.ok) {
+      console.log('POST: did not create job to mongo db');
+    };
+    if (response.status === 409) {
+      alert('Job already exists.');
+      console.log('job already saved inmongo collection');
+    };
+    if (response.ok) {
+      alert('Job post submitted.')
+      navigate('/userjobposts');
+      setTitle('');
+      setDescription('');
+      setLocation('');
+      setCompany('')
+      setSalary(0);
+      setLatitude(0);
+      setLongitude(0);
+    };
+
+
   };
 
   return (
     <div className="page">
       <h1>CreateJobPage</h1>
+
       <form onSubmit={handleSubmit}>
-        {/* <input
-          type="text"
-          value={jobId}
-          onChange={(e) => setJobId(e.target.value)}
-          placeholder="Job ID"
-          required
-        /> */}
+        <label htmlFor="title">Title</label>
         <input
           type="text"
+          id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
           required
         />
+        <br />
+
+        <label htmlFor="description">Description</label>
+        <br />
+
         <textarea
+          id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
           required
         />
+        <br />
+
+        <label htmlFor="location">Location</label>
         <input
           type="text"
+          id="location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Location"
           required
         />
+        <br />
+
+        <label htmlFor="company">Company</label>
         <input
           type="text"
+          id="company"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
-          placeholder="Company"
         />
+        <br />
+
+        <label htmlFor="salary">Salary</label>
         <input
           type="number"
+          id="salary"
           value={salary}
           onChange={(e) => setSalary(e.target.value)}
-          placeholder="Salary"
           required
         />
-        <input
-          type="text"
-          value={createdAt}
-          onChange={(e) => setCreatedAt(e.target.value)}
-          placeholder="Created At"
-        />
+        <br />
+
+        <label htmlFor="latitude">Latitude</label>
         <input
           type="number"
+          id="latitude"
           value={latitude}
           onChange={(e) => setLatitude(e.target.value)}
-          placeholder="Latitude"
         />
+        <br />
+
+        <label htmlFor="longitude">Longitude</label>
         <input
           type="number"
+          id="longitude"
           value={longitude}
           onChange={(e) => setLongitude(e.target.value)}
-          placeholder="Longitude"
         />
-        <input
-          type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder="URL"
-        />
+        <br />
+
         <button type="submit">Submit</button>
+
       </form>
     </div>
   )
