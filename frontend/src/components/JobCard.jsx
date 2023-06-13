@@ -5,27 +5,11 @@ import UserContext from '../context/UserContext';
 function JobCard({ job }) {
   const { title, location, company, salary_min, salary, created, createdAt, id, description, latitude, longitude, redirect_url } = job;
   const dateCreated = new Date((created || createdAt)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-  const salaryListing = (salary_min || salary).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const salaryListing = (salary_min || salary)?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
   // const [user, setUser] = useState({});
   const { user, setUser } = useContext(UserContext);
   const { isBookmarked, setIsBookmarked } = useState(false);
-
-  // const addToFavorites = (job) => {
-  //   // const jobPostsRef = collection(db, 'users', user.uid, 'saved-job-posts');
-  //   const jobPostsRef = collection(db, 'users', user.uid, 'saved-job-posts');
-  //   // addDoc(jobPostsRef, job)
-  //   addDoc(jobPostsRef, JSON.parse(JSON.stringify(job)))
-  //     .then(docRef => {
-  //       console.log("Job has been added successfully");
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     })
-  //   console.log(job);
-  // }
-
-  // console.log(job);
 
   const addToFavorites = async () => {
     // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
@@ -47,17 +31,22 @@ function JobCard({ job }) {
 
     console.log(job);
 
+    const token = `Bearer ${localStorage.getItem('token')}`
+
     const response = await fetch('http://127.0.0.1:4000/jobs', {
       method: 'POST',
       body: JSON.stringify(job),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
+      headers: {
+        authorization: token,
+      }
     });
+
+
     // .then(res => res.json())
     // .then(data => console.log(data));
 
     const resJson = await response.json();
+    console.log('JOB CARD: ')
     console.log(resJson);
     if (!response.ok) {
       console.log('POST: did not send to mongo db');
@@ -76,7 +65,7 @@ function JobCard({ job }) {
   const handleOnClick = async (e) => {
     e.stopPropagation();
     addToFavorites();
-    console.log(job);
+    // console.log(job);
   }
 
   return (
