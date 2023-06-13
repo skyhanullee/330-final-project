@@ -6,31 +6,56 @@ const router = Router();
 
 // BookmarkLists (requires authentication)
 // Create: POST /bookmarkLists - open to all users
-//  - Takes an array of job _id values (repeat values can appear). 
-//    BookmarkList should be created with a total field with the total cost of 
-//    all the jobs from the time the bookmarkList is placed (as the job prices could change). 
+//  - Takes in userId.
+//    BookmarkList should be created only once.
 //    The bookmarkList should also have the userId of the user placing the bookmarkList.
 router.post("/", isAuthorized, async (req, res, next) => {
   try {
-    const jobs = req.body;
-    let total = 0;
-
-    for (const jobId of jobs) {
-      let jobFromBookmarkList = await jobDAO.getJobByJobId(jobId);
-      if (!jobFromBookmarkList) {
-        return res.status(400).send({ message: 'Bad job _id.' });
-      }
-      else {
-        total += jobFromBookmarkList.price;
-      }
+    const userId = req.user.userId;
+    const isUserHaveBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
+    if (isUserHaveBookmarkList) {
+      res.status(409).send({ message: 'bookmark list already exists' });
     }
+    const newBookmarkList = await bookmarkListDAO.createBookmarkList(userId);
+    console.log('bookmark list created');
+    res.json(newBookmarkList);
 
-    const bookmarkList = await bookmarkListDAO.createBookmarkList({
-      userId: req.user._id,
-      jobs: req.body,
-      total: total
-    })
-    res.json(bookmarkList);
+
+    // const jobObj = req.body.job;
+    // const jobId = jobObj.jobId;
+
+    // if (!isUserHaveBookmarkList) {
+    //   await bookmarkListDAO.createBookmarkList(userId);
+    //   console.log('bookmark list created');
+    // };
+
+    // const jobFromDB = await jobDAO.getJobByJobId(jobId);
+    // if (!jobFromDB) {
+    //   await jobDAO.createJob(jobObj);
+    //   console.log('job created')
+    // };
+
+    // await bookmarkListDAO.addJobToBookmarkList(userId, jobId);
+    // res.status(200).json({ message: "Job added to bookmarked list." });
+    // const jobs = req.body;
+    // let total = 0;
+
+    // for (const jobId of jobs) {
+    //   let jobFromBookmarkList = await jobDAO.getJobByJobId(jobId);
+    //   if (!jobFromBookmarkList) {
+    //     return res.status(400).send({ message: 'Bad job _id.' });
+    //   }
+    //   else {
+    //     total += jobFromBookmarkList.price;
+    //   }
+    // }
+
+    // const bookmarkList = await bookmarkListDAO.createBookmarkList({
+    //   userId: req.user._id,
+    //   jobs: req.body,
+    //   total: total
+    // })
+    // res.json(bookmarkList);
   } catch (e) {
     next(e);
   }
