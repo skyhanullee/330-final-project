@@ -11,7 +11,7 @@ const router = Router();
 //    The bookmarkList should also have the userId of the user placing the bookmarkList.
 router.post("/", isAuthorized, async (req, res, next) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user._id;
     const isUserHaveBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
     if (isUserHaveBookmarkList) {
       res.status(409).send({ message: 'bookmark list already exists' });
@@ -79,8 +79,22 @@ router.get("/", isAuthorized, async (req, res, next) => {
 // should update bookmark list by adding a job to the list
 router.put("/", isAuthorized, async (req, res, next) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user._id;
+    const jobData = req.body;
+    const jobId = req.body.jobId;
+    let jobObj = await jobDAO.getJobByJobId(jobId);
+    if (!jobObj) {
+      jobObj = await jobDAO.createJob(jobData);
+    }
 
+    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkList(userId, jobObj);
+    if (!updatedBookmarkList) {
+      res.status(409).send('Something went wrong with adding to bookmark list.');
+      console.log('something went wrong with adding job to bookmark list');
+    };
+
+    res.json(updatedBookmarkList);
+    console.log(updatedBookmarkList);
   }
   catch (e) {
     next(e);
