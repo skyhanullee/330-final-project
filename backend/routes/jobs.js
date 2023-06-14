@@ -3,6 +3,7 @@ const router = Router();
 const jobDAO = require('../daos/job');
 const isAuthorized = require("../middleware/isAuthorized");
 const isPro = require("../middleware/isPro");
+const uuid = require('uuid');
 
 // Get all jobs: GET /jobs - open to all users
 router.get("/", async (req, res, next) => {
@@ -15,8 +16,6 @@ router.get("/", async (req, res, next) => {
     next(e);
   }
 });
-
-// router.use(isAuthorized);
 
 // Get specific job: GET /jobs/:id - open to all users
 router.get("/:id", isAuthorized, async (req, res, next) => {
@@ -43,17 +42,20 @@ router.post("/", isAuthorized, async (req, res, next) => {
   try {
     const job = req.body;
     console.log(job);
+
+    const newJobId = uuid.v4();
     if (!job) {
       res.status(400).send({ message: 'No job given.' });
     }
 
+    // const existingJob = await jobDAO.getJobByJobId(job.jobId);
+    // if (existingJob) {
+    //   return res.status(409).send({ message: 'Job already saved.' });
+    // }
 
-    const existingJob = await jobDAO.getJobByJobId(job.jobId);
-    if (existingJob) {
-      return res.status(409).send({ message: 'Job already saved.' });
-    }
+    const editedJob = { ...job, jobId: newJobId };
 
-    const newJob = await jobDAO.createJob(job);
+    const newJob = await jobDAO.createJob(editedJob);
     res.status(200).json(newJob);
     console.log(newJob);
 
