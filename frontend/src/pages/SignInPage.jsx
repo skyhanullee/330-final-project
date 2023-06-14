@@ -18,11 +18,14 @@ function SignInPage() {
       password
     };
 
+    const token = localStorage.getItem('token');
+
     const response = await fetch('http://127.0.0.1:4000/login', {
       method: 'POST',
       body: JSON.stringify(loginUser),
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": token
       })
     });
     const resJson = await response.json();
