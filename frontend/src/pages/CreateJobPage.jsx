@@ -15,48 +15,82 @@ function CreateJobPage() {
   // const [author, setAuthor] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newJobPost = {
-      title: title,
-      description: description,
-      location: location,
-      company: company,
-      salary: salary,
-      latitude: latitude,
-      longitude: longitude,
-      // url: "",
-      isAdzuna: false,
-      // author: mongoose.Types.ObjectId(this.props.userId),
-    };
+    // const newJobPost = {
+    //   title: title,
+    //   description: description,
+    //   location: location,
+    //   company: company,
+    //   salary: salary,
+    //   latitude: latitude,
+    //   longitude: longitude,
+    //   // url: "",
+    //   isAdzuna: false,
+    //   // author: mongoose.Types.ObjectId(this.props.userId),
+    // };
 
-    const response = await fetch('http://127.0.0.1:4000/jobs', {
+    const token = `Bearer ${localStorage.getItem('token')}`
+
+    // console.log(JSON.stringify(newJobPost));
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('location', location);
+    formData.append('company', company);
+    formData.append('salary', salary);
+    formData.append('latitude', latitude);
+    formData.append('longitude', longitude);
+
+    fetch('http://127.0.0.1:4000/jobs', {
       method: 'POST',
-      body: JSON.stringify(newJobPost),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
+      body: formData,
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      }
+    }).then(response => {
+      if (!response.ok) {
+        console.log('POST: did not create job to mongo db');
+      }
+      if (response.status === 409) {
+        alert('Job already exists.');
+        console.log('job already saved in mongo collection');
+      }
+      if (response.ok) {
+        alert('Job post submitted.')
+        setTitle('');
+        setDescription('');
+        setLocation('');
+        setCompany('')
+        setSalary(0);
+        setLatitude(0);
+        setLongitude(0);
+        navigate('/userjobposts');
+      }
+      // response.json();
     });
 
-    const resJson = await response.json();
-    if (!response.ok) {
-      console.log('POST: did not create job to mongo db');
-    };
-    if (response.status === 409) {
-      alert('Job already exists.');
-      console.log('job already saved inmongo collection');
-    };
-    if (response.ok) {
-      alert('Job post submitted.')
-      navigate('/userjobposts');
-      setTitle('');
-      setDescription('');
-      setLocation('');
-      setCompany('')
-      setSalary(0);
-      setLatitude(0);
-      setLongitude(0);
-    };
+    // const resJson = await response.json();
+    // if (!response.ok) {
+    //   console.log('POST: did not create job to mongo db');
+    // };
+    // if (response.status === 409) {
+    //   alert('Job already exists.');
+    //   console.log('job already saved inmongo collection');
+    // };
+    // if (response.ok) {
+    //   alert('Job post submitted.')
+    //   navigate('/userjobposts');
+    //   setTitle('');
+    //   setDescription('');
+    //   setLocation('');
+    //   setCompany('')
+    //   setSalary(0);
+    //   setLatitude(0);
+    //   setLongitude(0);
+    // };
 
 
   };
