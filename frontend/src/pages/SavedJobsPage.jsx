@@ -1,5 +1,7 @@
 export default function SavedJobsPage() {
   return (
-    <div>SavedJobsPage</div>
+    <div className="page">
+      <h1>SavedJobsPage</h1>
+    </div>
   )
 }
