@@ -33,33 +33,47 @@ function JobCard({ job }) {
 
     const token = `Bearer ${localStorage.getItem('token')}`
 
-    const response = await fetch('http://127.0.0.1:4000/jobs', {
-      method: 'POST',
+    await fetch('http://127.0.0.1:4000/bookmarklist', {
+      method: 'PUT',
       body: JSON.stringify(job),
-      headers: {
-        authorization: token,
-      }
-    });
-
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        "Authorization": token
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.log('POST: did not send to mongo db');
+        }
+        if (response.status === 409) {
+          alert('Something went wrong with adding to the list.');
+        }
+        if (response.ok) {
+          alert(`${title} has been added to saved list`);
+          console.log('new job added', response.json());
+          // setIsBookmarked(true);
+        }
+        // response.json();
+      })
 
     // .then(res => res.json())
     // .then(data => console.log(data));
 
-    const resJson = await response.json();
-    console.log('JOB CARD: ')
-    console.log(resJson);
-    if (!response.ok) {
-      console.log('POST: did not send to mongo db');
-    }
-    if (response.status === 409) {
-      alert('Job has already been saved.');
-      console.log('job already saved in mongo collection');
-    }
-    if (response.ok) {
-      alert(`${title} has been added to saved list`);
-      console.log('new job added', resJson);
-      // setIsBookmarked(true);
-    }
+    // const resJson = await response.json();
+    // console.log('JOB CARD: ')
+    // console.log(resJson);
+    // if (!response.ok) {
+    //   console.log('POST: did not send to mongo db');
+    // }
+    // if (response.status === 409) {
+    //   alert('Job has already been saved.');
+    //   console.log('job already saved in mongo collection');
+    // }
+    // if (response.ok) {
+    //   alert(`${title} has been added to saved list`);
+    //   console.log('new job added', resJson);
+    //   // setIsBookmarked(true);
+    // }
   };
 
   const handleOnClick = async (e) => {
@@ -81,9 +95,9 @@ function JobCard({ job }) {
       <hr />
       <div className='job-card-details'>
         <h3>Location:</h3>
-        <p>{(location.display_name || location)}</p>
+        <p>{(location?.display_name || location)}</p>
         <h3>Company:</h3>
-        <p>{(company.display_name || company)}</p>
+        <p>{(company?.display_name || company)}</p>
         <h3>Salary:</h3>
         <p>{salaryListing}</p>
         <h3>Date Created: </h3>
