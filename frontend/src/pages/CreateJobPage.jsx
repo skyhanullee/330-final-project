@@ -17,38 +17,27 @@ function CreateJobPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const newJobPost = {
-    //   title: title,
-    //   description: description,
-    //   location: location,
-    //   company: company,
-    //   salary: salary,
-    //   latitude: latitude,
-    //   longitude: longitude,
-    //   // url: "",
-    //   isAdzuna: false,
-    //   // author: mongoose.Types.ObjectId(this.props.userId),
-    // };
+    const newJobPost = {
+      title: title,
+      description: description,
+      location: location,
+      company: company,
+      salary: salary,
+      latitude: latitude,
+      longitude: longitude,
+      isAdzuna: false,
+    };
 
     const token = `Bearer ${localStorage.getItem('token')}`
 
-    // console.log(JSON.stringify(newJobPost));
-
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('location', location);
-    formData.append('company', company);
-    formData.append('salary', salary);
-    formData.append('latitude', latitude);
-    formData.append('longitude', longitude);
+    console.log(JSON.stringify(newJobPost));
 
     fetch('http://127.0.0.1:4000/jobs', {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(newJobPost),
       headers: {
         'Authorization': token,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       }
     }).then(response => {
       if (!response.ok) {
@@ -60,16 +49,17 @@ function CreateJobPage() {
       }
       if (response.ok) {
         alert('Job post submitted.')
-        setTitle('');
-        setDescription('');
-        setLocation('');
-        setCompany('')
-        setSalary(0);
-        setLatitude(0);
-        setLongitude(0);
-        navigate('/userjobposts');
+        // setTitle('');
+        // setDescription('');
+        // setLocation('');
+        // setCompany('')
+        // setSalary(0);
+        // setLatitude(0);
+        // setLongitude(0);
+        // navigate('/userjobposts');
       }
       // response.json();
+      console.log(title);
     });
 
     // const resJson = await response.json();
@@ -99,7 +89,7 @@ function CreateJobPage() {
     <div className="page">
       <h1>CreateJobPage</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form method="POST" onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input
           type="text"
