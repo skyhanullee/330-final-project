@@ -49,11 +49,20 @@ module.exports.getAllBookmarkLists = () => {
 };
 
 // should add job to bookmarkList
-module.exports.addJobToBookmarkList = async (userId, jobId) => {
-  const bookmarkList = BookmarkList.findOne({ user: userId });
+module.exports.updateBookmarkList = async (userId, jobId) => {
+  let bookmarkList = BookmarkList.findOne({ userId: userId });
+  // console.log(bookmarkList);
+  if (!bookmarkList) {
+    console.log('bookmark list for user does not exist');
+    return null;
+  }
 
-  bookmarkList.jobs?.push(jobId);
-  return true;
+  // bookmarkList.jobs?.push(jobId);
+  bookmarkList.updateOne(
+    { userId: userId },
+    { $push: { jobs: jobId } },
+  )
+  return bookmarkList;
 };
 
 // should delete job from bookmarkList
