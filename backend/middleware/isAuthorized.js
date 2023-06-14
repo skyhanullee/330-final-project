@@ -7,8 +7,7 @@ require('dotenv').config();
 const isAuthorized = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    console.log(token);
-    console.log(`ISAUTHORIZED: ${token}`);
+
     if (!token || !token.includes('Bearer')) {
       res.status(401).send({ message: 'No valid token.' });
     }
