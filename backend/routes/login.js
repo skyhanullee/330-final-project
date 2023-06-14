@@ -66,7 +66,7 @@ router.post("/", async (req, res, next) => {
     // set authorization for user
     req.headers.authorization = `Bearer ${token}`;
     // res.cookie("token", token, { httpOnly: true })
-    console.log(`POST /LOGIN: {$req.headers.authorization}`);
+    console.log(`POST /LOGIN: ${req.headers.authorization}`);
 
     return res.json({ token: token });
   }
