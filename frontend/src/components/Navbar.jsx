@@ -41,8 +41,8 @@ function Navbar() {
           </li>
           {
             user &&
-            <li className="nav-link" id='saved-post-link'>
-              <Link to='/'>Saved Posts</Link>
+            <li className="nav-link" id='saved-posts-link'>
+              <Link to='/savedjobs'>Saved Posts</Link>
             </li>
           }
           {
