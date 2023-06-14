@@ -41,6 +41,7 @@ router.post("/", isAuthorized, async (req, res, next) => {
   // router.post("/", async (req, res, next) => {
   try {
     const job = req.body;
+    console.log('POST: printing req.body')
     console.log(job);
 
     const newJobId = uuid.v4();
