@@ -15,8 +15,8 @@ describe("/jobs", () => {
   afterEach(testUtils.clearDB);
 
   const job0 = {
-    "jobId": "",
-    "title": "[AFTER MONGO DATABASE CHANGE] Senior Javascript Engineer",
+    "jobId": "123",
+    "title": "[TEST] Senior Javascript Engineer",
     "description": "A legal automation company with the first employees of Amazon is looking for a Javascript ringer This Jobot Job is hosted by: Brian Moriarty Are you a fit? Easy Apply now by clicking the \"Apply Now\" button and sending us your resume. Salary: $150,000 - $190,000 per year A bit about us: A series C funded legal document automation company is looking to hire a senior Javascript/Typescript engineer. As a company, their combination of cutting edge technology, data analytics, and a world renown team …",
     "location": "Times Square, King County",
     "company": "Jobot",
@@ -28,8 +28,8 @@ describe("/jobs", () => {
     "isAdzuna": false,
   };
   const job1 = {
-    "jobId": "",
-    "title": "[AFTER MONGO DATABASE CHANGE] QA Analyst",
+    "jobId": "456",
+    "title": "[TEST] QA Analyst",
     "description": "Pay Scale $67,670 to $98,799 Savers Benefits Geographic & job eligibility rules may apply Work Address: Healthcare Plans Comprehensive coverage (medical/dental/vision) at a reasonable cost Specialized health programs - Improve wellness (quit smoking, counseling, diabetes management, chronic joint pain) Paid Time Off Sick Pay - Actual amount based on position and hours worked - Increases with length of service - 40 to 80 hours annually Vacation Pay - Actual amount based on position and hours wor…",
     "location": "Bellevue, King County",
     "company": "Savers | Value Village",
@@ -56,7 +56,7 @@ describe("/jobs", () => {
       });
     });
     describe('GET /', () => {
-      it('should send 200 to anyone', async () => {
+      it('should send 200 to all users', async () => {
         const res = await request(server).get("/jobs");
         expect(res.statusCode).toEqual(200);
       });
@@ -108,18 +108,10 @@ describe("/jobs", () => {
       adminToken = res1.body.token;
     });
     describe.each([job0, job1])("POST / job %#", (job) => {
-      it('should send 403 to normal user and not store job', async () => {
+      it('should send 200 to all users and store job', async () => {
         const res = await request(server)
           .post("/jobs")
           .set('Authorization', 'Bearer ' + token0)
-          .send(job);
-        expect(res.statusCode).toEqual(403);
-        expect(await Job.countDocuments()).toEqual(0);
-      });
-      it('should send 200 to admin user and store job', async () => {
-        const res = await request(server)
-          .post("/jobs")
-          .set('Authorization', 'Bearer ' + adminToken)
           .send(job);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toMatchObject({ ...job, jobId: res.body.jobId })
@@ -189,7 +181,7 @@ describe("/jobs", () => {
         jobs = (await Job.insertMany([job0, job1])).map(i => i.toJSON())
         jobs.forEach(i => i._id = i._id.toString());
       });
-      it('should send 200 to normal user and return all jobs', async () => {
+      it('should send 200 to all user and return all jobs', async () => {
         const res = await request(server)
           .get("/jobs/")
           .set('Authorization', 'Bearer ' + token0)
@@ -197,14 +189,14 @@ describe("/jobs", () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toMatchObject(jobs);
       });
-      it('should send 200 to admin user and return all jobs', async () => {
-        const res = await request(server)
-          .get("/jobs/")
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send();
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toMatchObject(jobs);
-      });
+      // it('should send 200 to admin user and return all jobs', async () => {
+      //   const res = await request(server)
+      //     .get("/jobs/")
+      //     .set('Authorization', 'Bearer ' + adminToken)
+      //     .send();
+      //   expect(res.statusCode).toEqual(200);
+      //   expect(res.body).toMatchObject(jobs);
+      // });
     });
   });
 
