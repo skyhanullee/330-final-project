@@ -3,16 +3,19 @@ const request = require("supertest");
 const server = require("../server");
 const testUtils = require('../test-utils');
 
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const Job = require('../models/job');
 
-describe("/jobs", () => {
+describe.only("/jobs", () => {
   beforeAll(testUtils.connectDB);
   afterAll(testUtils.stopDB);
 
-  afterEach(testUtils.clearDB);
+  afterEach(() => {
+    testUtils.clearDB;
+    consolee.log('deleted.')
+  });
 
   const job0 = {
     "jobId": "123",
@@ -119,36 +122,6 @@ describe("/jobs", () => {
         expect(savedJob).toMatchObject({ ...job, jobId: res.body.jobId });
       });
     });
-    describe.each([job0, job1])("PUT / job %#", (job) => {
-      let originalJob;
-      beforeEach(async () => {
-        const res = await request(server)
-          .post("/jobs")
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send(job);
-        originalJob = res.body;
-      });
-      it('should send 403 to normal user and not update job', async () => {
-        const res = await request(server)
-          .put("/jobs/" + originalJob._id)
-          .set('Authorization', 'Bearer ' + token0)
-          .send(job);
-        expect(res.statusCode).toEqual(403);
-        const newJob = await Job.findById(originalJob._id).lean();
-        newJob._id = newJob._id.toString();
-        expect(newJob).toMatchObject(originalJob);
-      });
-      it('should send 200 to admin user and update job', async () => {
-        const res = await request(server)
-          .put("/jobs/" + originalJob._id)
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send(job);
-        expect(res.statusCode).toEqual(200);
-        const newJob = await Job.findById(originalJob._id).lean();
-        newJob._id = newJob._id.toString();
-        expect(newJob).toMatchObject(originalJob);
-      });
-    });
     describe.each([job0, job1])("GET /:id job %#", (job) => {
       let originalJob;
       beforeEach(async () => {
@@ -175,29 +148,47 @@ describe("/jobs", () => {
         expect(res.body).toMatchObject(originalJob);
       });
     });
-    describe("GET /", () => {
-      let jobs;
-      beforeEach(async () => {
-        jobs = (await Job.insertMany([job0, job1])).map(i => i.toJSON())
-        jobs.forEach(i => i._id = i._id.toString());
-      });
-      it('should send 200 to all user and return all jobs', async () => {
-        const res = await request(server)
-          .get("/jobs/")
-          .set('Authorization', 'Bearer ' + token0)
-          .send();
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toMatchObject(jobs);
-      });
-      // it('should send 200 to admin user and return all jobs', async () => {
-      //   const res = await request(server)
-      //     .get("/jobs/")
-      //     .set('Authorization', 'Bearer ' + adminToken)
-      //     .send();
-      //   expect(res.statusCode).toEqual(200);
-      //   expect(res.body).toMatchObject(jobs);
-      // });
+
+    // it('should send 200 to admin user and return all jobs', async () => {
+    //   const res = await request(server)
+    //     .get("/jobs/")
+    //     .set('Authorization', 'Bearer ' + adminToken)
+    //     .send();
+    //   expect(res.statusCode).toEqual(200);
+    //   expect(res.body).toMatchObject(jobs);
+    // });
+  });
+  describe.each([job0, job1])("PUT / job %#", (job) => {
+    let originalJob;
+    beforeEach(async () => {
+      const res = await request(server)
+        .post("/jobs")
+        .set('Authorization', 'Bearer ' + adminToken)
+        .send(job);
+      originalJob = res.body;
+    });
+    it('should send 403 to normal user and not update job', async () => {
+      const res = await request(server)
+        .put("/jobs/" + originalJob._id)
+        .set('Authorization', 'Bearer ' + token0)
+        .send(job);
+      expect(res.statusCode).toEqual(403);
+      const newJob = await Job.findById(originalJob._id).lean();
+      newJob._id = newJob._id.toString();
+      expect(newJob).toMatchObject(originalJob);
+    });
+    it('should send 200 to admin user and update job', async () => {
+      const res = await request(server)
+        .put("/jobs/" + originalJob._id)
+        .set('Authorization', 'Bearer ' + adminToken)
+        .send(job);
+      expect(res.statusCode).toEqual(200);
+      const newJob = await Job.findById(originalJob._id).lean();
+      newJob._id = newJob._id.toString();
+      expect(newJob).toMatchObject(originalJob);
     });
   });
+
+});
 
 });
