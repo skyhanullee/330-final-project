@@ -9,13 +9,13 @@ const isAuthorized = async (req, res, next) => {
     const token = req.headers.authorization;
 
     if (!token || !token.includes('Bearer')) {
-      res.status(401).send({ message: 'No valid token.' });
+      return res.status(401).send({ message: 'No valid token.' });
     }
     else {
       const userToken = token.replace('Bearer ', '');
       const authorizedUser = jwt.verify(userToken, process.env.JWT_SECRET_KEY);
       if (!authorizedUser) {
-        return res.status(401).send({ message: 'Token from user does not exist.' })
+        return res.status(401).send({ message: 'Token from user does not exist.' });
       }
 
       const isUserExists = userDAO.getUser(authorizedUser?._id);
@@ -33,6 +33,10 @@ const isAuthorized = async (req, res, next) => {
     }
   }
   catch (e) {
+    if (e instanceof jwt.JsonWebTokenError) {
+      res.status(401).send('Unauthorized');
+    }
+    // console.log(e);
     next(e);
   }
 };

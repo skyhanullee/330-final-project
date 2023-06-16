@@ -22,7 +22,7 @@
    - allow users to have additional information
    - [extend the data thats already available]
    - have a field for "flagged" for users
-   - CRUD route for pro user to edit users
+   - CRUD route for admin user to edit users
 
 1. A description of the scenario your project is operating in.
    <br>
