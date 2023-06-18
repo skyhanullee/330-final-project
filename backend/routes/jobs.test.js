@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Job = require('../models/job');
 
-describe.only("/jobs", () => {
+describe("/jobs", () => {
   beforeAll(testUtils.connectDB);
   afterAll(testUtils.stopDB);
 
@@ -16,29 +16,21 @@ describe.only("/jobs", () => {
 
   const job0 = {
     "jobId": "123",
-    "title": "[TEST] Senior Javascript Engineer",
-    "description": "A legal automation company with the first employees of Amazon is looking for a Javascript ringer This Jobot Job is hosted by: Brian Moriarty Are you a fit? Easy Apply now by clicking the \"Apply Now\" button and sending us your resume. Salary: $150,000 - $190,000 per year A bit about us: A series C funded legal document automation company is looking to hire a senior Javascript/Typescript engineer. As a company, their combination of cutting edge technology, data analytics, and a world renown team …",
-    "location": "Times Square, King County",
-    "company": "Jobot",
-    "salary": 97159.38,
-    "createdAt": "2023-02-09T17:58:35Z",
-    "latitude": 47.606389,
-    "longitude": -122.330833,
-    "url": "https://www.adzuna.com/land/ad/3915792488?se=3ts136ix7RG2WelpRG5a-w&utm_medium=api&utm_source=15ced00f&v=648F52509273F440670C8A66026A3FC40FDC8ECF",
+    "title": "[TEST] Job 0",
+    "description": "Job description",
+    "location": "Location 0",
+    "company": "Company 0",
+    "salary": 100,
     "isAdzuna": false,
   };
   const job1 = {
     "jobId": "456",
-    "title": "[TEST] QA Analyst",
-    "description": "Pay Scale $67,670 to $98,799 Savers Benefits Geographic & job eligibility rules may apply Work Address: Healthcare Plans Comprehensive coverage (medical/dental/vision) at a reasonable cost Specialized health programs - Improve wellness (quit smoking, counseling, diabetes management, chronic joint pain) Paid Time Off Sick Pay - Actual amount based on position and hours worked - Increases with length of service - 40 to 80 hours annually Vacation Pay - Actual amount based on position and hours wor…",
-    "location": "Bellevue, King County",
-    "company": "Savers | Value Village",
-    "salary": 83988.98,
-    "createdAt": "2023-06-09T12:06:33Z",
-    "latitude": 47.61457,
-    "longitude": -122.168358,
-    "url": "https://www.adzuna.com/details/4143831936?utm_medium=api&utm_source=15ced00f",
-    "isAdzuna": true,
+    "title": "[TEST] Job 1",
+    "description": "Job description",
+    "location": "Location 1",
+    "company": "Company 1",
+    "salary": 200,
+    "isAdzuna": false,
   };
 
   describe('Before login', () => {
@@ -53,12 +45,6 @@ describe.only("/jobs", () => {
           .set('Authorization', 'Bearer BAD')
           .send(job0);
         expect(res.statusCode).toEqual(401);
-      });
-    });
-    describe('GET /', () => {
-      it('should send 200 to all users', async () => {
-        const res = await request(server).get("/jobs");
-        expect(res.statusCode).toEqual(200);
       });
     });
     describe('GET /:id', () => {
@@ -88,6 +74,8 @@ describe.only("/jobs", () => {
   //   });
   // });
   describe('after login', () => {
+    afterEach(testUtils.clearDB);
+
     const user0 = {
       email: 'user0@mail.com',
       password: '123password'
@@ -117,6 +105,23 @@ describe.only("/jobs", () => {
         expect(res.body).toMatchObject({ ...job, jobId: res.body.jobId })
         const savedJob = await Job.findOne({ _id: res.body._id }).lean();
         expect(savedJob).toMatchObject({ ...job, jobId: res.body.jobId });
+        console.log('------ POST ------');
+        console.log(job);
+      });
+      it('should create jobId if jobId is not provided', async () => {
+        const jobWithoutId = { ...job1, jobId: '' };
+
+        const res = await request(server)
+          .post("/jobs")
+          .set('Authorization', 'Bearer ' + token0)
+          .send(jobWithoutId);
+        expect(res.statusCode).toEqual(200);
+      });
+    });
+    describe('GET /', () => {
+      it('should send 200 to all users', async () => {
+        const res = await request(server).get("/jobs");
+        expect(res.statusCode).toEqual(200);
       });
     });
     describe.each([job0, job1])("GET /:id job %#", (job) => {
@@ -150,6 +155,7 @@ describe.only("/jobs", () => {
       beforeEach(async () => {
         jobs = (await Job.insertMany([job0, job1])).map(i => i.toJSON())
         jobs.forEach(i => i._id = i._id.toString());
+        console.log(jobs);
       });
       it('should send 200 to all users and return all jobs', async () => {
         const res = await request(server)
@@ -157,18 +163,10 @@ describe.only("/jobs", () => {
           .set('Authorization', 'Bearer ' + token0)
           .send();
 
-        console.log(res.body);
+        // console.log(res.body);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toMatchObject(jobs);
       });
-      // it('should send 200 to admin user and return all jobs', async () => {
-      //   const res = await request(server)
-      //     .get("/jobs/")
-      //     .set('Authorization', 'Bearer ' + adminToken)
-      //     .send();
-      //   expect(res.statusCode).toEqual(200);
-      //   expect(res.body).toMatchObject(jobs);
-      // });
     });
     describe.each([job0, job1])("PUT / job %#", (job) => {
       let originalJob;
