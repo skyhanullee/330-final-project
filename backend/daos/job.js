@@ -24,6 +24,18 @@ module.exports.getJobByJobId = async (jobId) => {
   return job;
 };
 
+// should get job for jobId (jobId)
+module.exports.getJobById = async (id) => {
+  console.log(typeof id);
+  console.log('BOOKMARKLIST DAO');
+  const job = await Job.findOne({ _id: id }).lean();
+  console.log(job);
+  if (!job) {
+    return null;
+  }
+  return job;
+};
+
 // should get all jobs for userId
 module.exports.getAllJobs = async () => {
   const jobs = await Job.find().lean();
