@@ -55,7 +55,7 @@ router.get("/", isAuthorized, async (req, res, next) => {
 // BookmarkLists (requires authentication)
 // Get an bookmarkList: GET /bookmarkList/:id - return an bookmarkList with the jobs array containing the full job objects rather than just their _id. 
 //  - If the user is a normal user return a 404 if they did not place the bookmarkList. An admin user should be able to get any bookmarkList.
-router.get("/:id", isAuthorized, async (req, res, next) => {
+router.get("/:id", isAuthorized, isAdmin, async (req, res, next) => {
   try {
     // const bookmarkListId = req.params.id;
     const userId = req.params.id;
@@ -69,24 +69,25 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
     if (!bookmarkList) {
       return res.status(400).send({ message: 'BookmarkList does not exist.' });
     }
+    return res.json(bookmarkListJobs);
 
-    // return an bookmarkList with jobs array containing full job objects, not just their ids
-    // if not admin, only return their own bookmarkLists for the specific user
-    if (!userRoles.roles.includes('admin')) {
-      if (req.user._id === bookmarkList[0].userId.toString()) {
-        // console.log(bookmarkList);
-        return res.json(bookmarkList);
-      }
-      else {
-        return res.status(404).send({ message: 'Invalid user id' });
-      }
-    }
+    // // return an bookmarkList with jobs array containing full job objects, not just their ids
+    // // if not admin, only return their own bookmarkLists for the specific user
+    // if (!userRoles.roles.includes('admin')) {
+    //   if (req.user._id === bookmarkList[0].userId.toString()) {
+    //     // console.log(bookmarkList);
+    //     return res.json(bookmarkList);
+    //   }
+    //   else {
+    //     return res.status(404).send({ message: 'Invalid user id' });
+    //   }
+    // }
 
-    if (userRoles.roles.includes('admin')) {
-      console.log('user is admin')
-      return res.json(bookmarkListJobs);
-    }
-    return res.status(404).send();
+    // if (userRoles.roles.includes('admin')) {
+    //   console.log('user is admin')
+    //   return res.json(bookmarkListJobs);
+    // }
+    // return res.status(404).send();
   } catch (e) {
     console.log(e);
     next(e);
