@@ -6,7 +6,7 @@ module.exports = {};
 
 // should create a bookmarkList for the given user
 module.exports.createBookmarkList = async (userId) => {
-  const created = await BookmarkList.create(userId);
+  const created = await BookmarkList.create({ userId: userId });
   if (!created) {
     return null;
   }
@@ -32,11 +32,19 @@ module.exports.getBookmarkListById = async (bookmarkListId) => {
 };
 
 module.exports.getBookmarkListByUserId = async (userId) => {
-  const bookmarkList = await BookmarkList.find({ userId: userId });
-  if (!bookmarkList) {
-    return null;
+  try {
+    const bookmarkList = await BookmarkList.find({ userId: userId });
+    if (!bookmarkList) {
+      return null;
+    }
+    return bookmarkList;
   }
-  return bookmarkList;
+  catch (e) {
+    if (e.message.includes('validation failed')) {
+      throw new BadDataError(e.message);
+    }
+    throw e;
+  }
 };
 
 // should get all bookmarkLists for userId
@@ -49,9 +57,8 @@ module.exports.getAllBookmarkLists = () => {
 };
 
 // should add job to bookmarkList
-module.exports.updateBookmarkList = async (userId, jobId) => {
+module.exports.updateBookmarkListByUserId = async (userId, jobId) => {
   let bookmarkList = BookmarkList.findOne({ userId: userId });
-  // console.log(bookmarkList);
   if (!bookmarkList) {
     console.log('bookmark list for user does not exist');
     return null;
@@ -60,8 +67,8 @@ module.exports.updateBookmarkList = async (userId, jobId) => {
   // bookmarkList.jobs?.push(jobId);
   bookmarkList.updateOne(
     { userId: userId },
-    { $push: { jobs: jobId } },
-  )
+    { $addToSet: { jobs: jobId } },
+  );
   return bookmarkList;
 };
 
