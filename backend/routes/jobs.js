@@ -14,7 +14,13 @@ router.post("/", isAuthorized, async (req, res, next) => {
     // console.log('POST: printing req.body')
     // console.log(job);
 
-    const newJobId = uuid.v4();
+    let jobId;
+    if (!req.body.jobId) {
+      jobId = uuid.v4();
+    }
+    else {
+      jobId = req.body.jobId;
+    }
     if (!job) {
       res.status(400).send({ message: 'No job given.' });
     }
@@ -24,12 +30,12 @@ router.post("/", isAuthorized, async (req, res, next) => {
     //   return res.status(409).send({ message: 'Job already saved.' });
     // }
 
-    const editedJob = { ...job, jobId: newJobId };
+    const editedJob = { ...job, jobId: jobId };
 
     await jobDAO.createJob(editedJob);
     res.status(200).json(editedJob);
     // console.log(job.jobId);
-    // console.log(editedJob.jobId);
+    // console.log(editedJob);
 
   } catch (e) {
     next(e);
@@ -42,7 +48,7 @@ router.get("/", async (req, res, next) => {
   try {
     const jobs = await jobDAO.getAllJobs();
     res.json(jobs);
-    console.log(res.body);
+    // console.log(res.body);
     // res.json({ msg: "get works!" });
   } catch (e) {
     next(e);
@@ -55,6 +61,7 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
   try {
     const jobId = req.params.id;
     const job = await jobDAO.getJobByJobId(jobId);
+    // const job = await jobDAO.getJobById(jobId);
     if (!job) {
       res.status(404).send({ message: 'Cannot find job from id.' })
     }
