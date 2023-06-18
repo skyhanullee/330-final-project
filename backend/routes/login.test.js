@@ -7,7 +7,7 @@ const testUtils = require('../test-utils');
 const User = require('../models/user');
 const { afterEach } = require("node:test");
 
-describe.skip("/login", () => {
+describe("/login", () => {
   beforeAll(testUtils.connectDB);
   afterAll(testUtils.stopDB);
 
