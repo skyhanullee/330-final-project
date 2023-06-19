@@ -5,18 +5,17 @@ import { Icon } from '@iconify/react';
 function ThemeButton() {
   const { themeName, setThemeName } = useContext(UserContext);
   return (
-    <button 
+    <button
       id="theme-button"
       onClick={() => {
         themeName === 'dark-mode' ? setThemeName('light-mode') : setThemeName('dark-mode')
-        console.log('theme icon clicked');
       }}>
-      <Icon 
+      <Icon
         id="theme-icon"
         icon={
-            themeName === 'dark-mode' ? 
+          themeName === 'dark-mode' ?
             "material-symbols:dark-mode" : "material-symbols:light-mode"
-          }
+        }
       />
     </button>
   )

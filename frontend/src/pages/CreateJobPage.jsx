@@ -30,7 +30,7 @@ function CreateJobPage() {
 
     const token = `Bearer ${localStorage.getItem('token')}`
 
-    console.log(JSON.stringify(newJobPost));
+    // console.log(JSON.stringify(newJobPost));
 
     fetch('http://127.0.0.1:4000/jobs', {
       method: 'POST',
@@ -45,43 +45,11 @@ function CreateJobPage() {
       }
       if (response.status === 409) {
         alert('Job already exists.');
-        console.log('job already saved in mongo collection');
       }
       if (response.ok) {
         alert('Job post submitted.')
-        // setTitle('');
-        // setDescription('');
-        // setLocation('');
-        // setCompany('')
-        // setSalary(0);
-        // setLatitude(0);
-        // setLongitude(0);
-        // navigate('/userjobposts');
       }
-      // response.json();
-      console.log(title);
     });
-
-    // const resJson = await response.json();
-    // if (!response.ok) {
-    //   console.log('POST: did not create job to mongo db');
-    // };
-    // if (response.status === 409) {
-    //   alert('Job already exists.');
-    //   console.log('job already saved inmongo collection');
-    // };
-    // if (response.ok) {
-    //   alert('Job post submitted.')
-    //   navigate('/userjobposts');
-    //   setTitle('');
-    //   setDescription('');
-    //   setLocation('');
-    //   setCompany('')
-    //   setSalary(0);
-    //   setLatitude(0);
-    //   setLongitude(0);
-    // };
-
 
   };
 

@@ -33,7 +33,6 @@ function SignInPage() {
     if (!response.ok) {
       console.log('POST: did not send to mongo db');
     }
-    // if (response.ok) {
     // when successful, token is passed in response
     if (resJson.token) {
       alert(`Login successful`);

@@ -18,12 +18,9 @@ function UserJobPosts() {
       });
 
   };
-  console.log(jobPosts);
   useEffect(() => {
     getAllJobPosts();
   }, []);
-
-  // getAllJobPosts();
 
   const jobPostsList = jobPosts.map((jobPost) => {
     return (
