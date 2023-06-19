@@ -12,7 +12,7 @@ A description of the scenario your project is operating in.
 
 3. A description of what the technical components of your project will be, including: the routes, the data models, any external data sources you'll use, etc.
    <br>
-   - Mongo, React, Express
+   - Mongo Atlas, React, Express
 
 4. Clear and direct call-outs of how you will meet the various project requirements.
    <br>
@@ -44,3 +44,4 @@ A description of the scenario your project is operating in.
    - A couple tests still do not pass but that is most likely errors coming from the tests.
         - Needs more thourough testing.
         - I need more practice in writing jest tests.
+   - I will continue working on this to have a complete full stack application.
