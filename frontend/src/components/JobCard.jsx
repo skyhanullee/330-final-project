@@ -29,7 +29,6 @@ function JobCard({ job }) {
       author: 'adzuna',
     };
 
-    console.log(job);
 
     const token = `Bearer ${localStorage.getItem('token')}`
 
@@ -53,33 +52,13 @@ function JobCard({ job }) {
           console.log('new job added', response.json());
           // setIsBookmarked(true);
         }
-        // response.json();
       })
 
-    // .then(res => res.json())
-    // .then(data => console.log(data));
-
-    // const resJson = await response.json();
-    // console.log('JOB CARD: ')
-    // console.log(resJson);
-    // if (!response.ok) {
-    //   console.log('POST: did not send to mongo db');
-    // }
-    // if (response.status === 409) {
-    //   alert('Job has already been saved.');
-    //   console.log('job already saved in mongo collection');
-    // }
-    // if (response.ok) {
-    //   alert(`${title} has been added to saved list`);
-    //   console.log('new job added', resJson);
-    //   // setIsBookmarked(true);
-    // }
   };
 
   const handleOnClick = async (e) => {
     e.stopPropagation();
     addToFavorites();
-    // console.log(job);
   }
 
   return (
