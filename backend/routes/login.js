@@ -9,7 +9,7 @@ require('dotenv').config();
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
 
 // Signup: POST /login/signup
-// create user record with email and password stored
+// Create user record with email and password stored
 router.post("/signup", async (req, res, next) => {
   try {
     const { email, password, roles } = req.body;
@@ -70,7 +70,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// Change Password POST /login/password
+// Change Password: POST /login/password
 router.post("/password", isAuthorized, async (req, res, next) => {
   try {
     const user = req.user;

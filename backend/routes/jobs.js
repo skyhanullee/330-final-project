@@ -2,11 +2,11 @@ const { Router } = require("express");
 const router = Router();
 const jobDAO = require('../daos/job');
 const isAuthorized = require("../middleware/isAuthorized");
-const isAdmin = require("../middleware/isAdmin");
+// const isAdmin = require("../middleware/isAdmin");
 const uuid = require('uuid');
 
-// Create: POST /jobs - restricted to users with the "admin" role
-// router.post("/", isAuthorized, isAdmin, async (req, res, next) => {
+// Create: POST /jobs 
+// Restricted to users with the "admin" role
 router.post("/", isAuthorized, async (req, res, next) => {
   try {
     let editedJob;
@@ -14,11 +14,6 @@ router.post("/", isAuthorized, async (req, res, next) => {
     if (!job) {
       res.status(400).send({ message: 'No job given.' });
     }
-
-    // if (job.isAdzuna === false) {
-    //   console.log('is not from adzuna', req.user._id)
-    //   editedJob = { ...job, userId: req.user._id };
-    // }
 
     let jobId;
     if (!req.body.jobId) {
@@ -43,7 +38,8 @@ router.post("/", isAuthorized, async (req, res, next) => {
   }
 });
 
-// Get all jobs: GET /jobs - open to all users
+// Get all jobs: GET /jobs 
+// Open to all users
 router.get("/", async (req, res, next) => {
   try {
     const jobs = await jobDAO.getAllJobs();
@@ -53,7 +49,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// Get specific job: GET /jobs/:id - open to all users
+// Get specific job: GET /jobs/:id 
+// Open to all users
 router.get("/:id", isAuthorized, async (req, res, next) => {
   try {
     const jobId = req.params.id;
@@ -69,8 +66,8 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
   }
 });
 
-// Update a note: PUT /jobs/:id - restricted to users with the "admin" role
-// router.put("/:id", isAuthorized, isAdmin, async (req, res, next) => {
+// Update a note: PUT /jobs/:id 
+// Restricted to users with the "admin" role
 router.put("/:id", isAuthorized, async (req, res, next) => {
   try {
     const jobId = req.body.jobId;
@@ -90,10 +87,6 @@ router.put("/:id", isAuthorized, async (req, res, next) => {
     if (!jobObj) {
       return res.status(400).send({ message: 'Job does not exist.' });
     }
-    // console.log('--------- PUT JOB EDITED --------');
-    // console.log(req.user);
-    // console.log(jobObj);
-    // console.log(`user: ${req.user._id}, jobObj: ${jobObj.userId}`)
     const userRoles = req.user;
     if (!userRoles.roles.includes('admin')) {
       if (userId !== jobObj.userId) {

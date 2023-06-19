@@ -1,15 +1,15 @@
 const { Router } = require("express");
 const isAuthorized = require("../middleware/isAuthorized");
-const isAdmin = require("../middleware/isAdmin");
+// const isAdmin = require("../middleware/isAdmin");
 const bookmarkListDAO = require('../daos/bookmarkList');
 const jobDAO = require('../daos/job');
 const router = Router();
 
-// BookmarkLists (requires authentication)
-// Create: POST /bookmarkLists - open to all users
-//  - Takes in userId.
-//    BookmarkList should be created only once.
-//    The bookmarkList should also have the userId of the user placing the bookmarkList.
+// Create: POST /bookmarkLists 
+// Open to all users
+// Takes in userId.
+// BookmarkList should be created only once.
+// The bookmarkList should also have the userId of the user placing the bookmarkList.
 router.post("/", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -24,9 +24,9 @@ router.post("/", isAuthorized, async (req, res, next) => {
   }
 });
 
-// BookmarkLists (requires authentication)
-// GET /bookmarkLists - return bookmarkList made by the user making the request if not an admin user. 
-//  - If they are an admin user, it should return all bookmarkLists in the DB.
+// Get bookmark list: GET /bookmarkLists 
+// Return bookmarkList made by the user making the request if not an admin user. 
+// If they are an admin user, it should return all bookmarkLists in the DB.
 router.get("/", isAuthorized, async (req, res, next) => {
   try {
     const user = req.user;
@@ -53,9 +53,9 @@ router.get("/", isAuthorized, async (req, res, next) => {
   }
 });
 
-// BookmarkLists (requires admin role)
-// Get an bookmarkList: GET /bookmarkList/ - return an bookmarkList with the jobs array containing the full job objects rather than just their _id.
-//  - If the user is a normal user return a 404. An admin user should be able to get any bookmarkList.
+// Get an bookmarkList: GET /bookmarkList/ 
+// Return an bookmarkList with the jobs array containing the full job objects rather than just their _id.
+// If the user is a normal user return a 404. An admin user should be able to get any bookmarkList.
 router.get("/:id", isAuthorized, async (req, res, next) => {
   try {
     const userRoles = req.user;
@@ -71,7 +71,8 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
   }
 });
 
-// should update bookmarkList by adding a job to the list
+// Update a bookmark list: PUT /:id 
+// Should update bookmarkList by adding a job to the list
 router.put("/:id", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
@@ -91,14 +92,10 @@ router.put("/:id", isAuthorized, async (req, res, next) => {
 
     const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj);
     if (!updatedBookmarkList) {
-      // console.log('something went wrong with adding job to bookmarkList');
       return res.status(409).send('Something went wrong with adding to bookmarkList.');
     };
 
-    // console.log(updatedBookmarkList);
     return res.json(updatedBookmarkList);
-    // return res.status(403).send({ message: 'Invalid user id.' })
-
   }
   catch (e) {
     console.log(e);
