@@ -49,13 +49,11 @@ router.post("/", async (req, res, next) => {
     }
     const user = await userDAO.getUser(email);
     if (!user) {
-      console.log('User not found.');
       return res.status(401).send({ message: 'User not found.' });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-      console.log('Incorrect password.');
       return res.status(401).send({ message: 'Incorrect password.' });
     }
 
@@ -64,11 +62,6 @@ router.post("/", async (req, res, next) => {
       email: user.email,
       roles: user.roles
     }, process.env.JWT_SECRET_KEY);
-
-    // set authorization for user
-    // req.headers.authorization = `Bearer ${token}`;
-    // res.cookie("token", token, { httpOnly: true })
-    // console.log(`POST /LOGIN: ${req.headers.authorization}`);
 
     return res.json({ token: token });
   }
@@ -81,7 +74,6 @@ router.post("/", async (req, res, next) => {
 router.post("/password", isAuthorized, async (req, res, next) => {
   try {
     const user = req.user;
-    // console.log(user);
     const { password } = req.body;
     if (!user) {
       return res.status(401).send({ message: 'User is not authenticated yet.' });
@@ -94,11 +86,9 @@ router.post("/password", isAuthorized, async (req, res, next) => {
       const newHashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
       const isUserUpdated = await userDAO.updateUserPassword(user._id, newHashedPassword);
       if (!isUserUpdated) {
-        console.log('pw no update')
         return res.status(401).send({ message: 'Password did not update' });
       }
       else {
-        console.log('pw updated now')
         return res.status(200).send({ message: 'User password is updated.' });
       }
     }
@@ -107,38 +97,5 @@ router.post("/password", isAuthorized, async (req, res, next) => {
     next(e);
   }
 });
-
-// [LOGOUT MUST BE HANDLED IN THE FRONT END]
-// [with the way jwt works, server side does not handle logout, delete jwt token from frontend]
-// // POST /logout 
-// // if the user is logged in, invalidate their token so they can't use it again (remove it)
-// router.post("/logout", isAuthorized, async (req, res, next) => {
-//   try {
-//     if (!req.user) {
-//       return res.status(401).send('Token does not match.');
-//     }
-//     else {
-//       // remove token from local storage
-//       // global.localStorage.removeItem('token');
-//       // console.log(req.headers.authorization);
-//       // const isTokenExist = global.localStorage?.getItem('token');
-//       // const isTokenExist = clearCookie('token');
-//       // console.log(isTokenExist);
-//       req.headers.authorization = ''; // this does not work.
-//       console.log(req.user);
-//       // if (!isTokenExist) {
-//       //   res.status(401).send('Logout went wrong.');
-//       // }
-//       // else {
-//       //   res.status(200).send('Logout successful.');
-//       // }
-//       res.status(200).send('Logout was called');
-//     }
-//   }
-//   catch (e) {
-//     console.log(e);
-//     next(e);
-//   }
-// });
 
 module.exports = router;
