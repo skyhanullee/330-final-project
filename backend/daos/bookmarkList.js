@@ -47,7 +47,7 @@ module.exports.getBookmarkListByUserId = async (userId) => {
   }
 };
 
-// should get all bookmarkLists for userId
+// should get all bookmarkLists
 module.exports.getAllBookmarkLists = () => {
   const bookmarkLists = BookmarkList.find().lean();
   if (!bookmarkLists) {
@@ -60,7 +60,7 @@ module.exports.getAllBookmarkLists = () => {
 module.exports.updateBookmarkListByUserId = async (userId, jobId) => {
   let bookmarkList = BookmarkList.findOne({ userId: userId });
   if (!bookmarkList) {
-    console.log('bookmark list for user does not exist');
+    console.log('bookmarkList for user does not exist');
     return null;
   }
 

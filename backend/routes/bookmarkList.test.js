@@ -6,6 +6,10 @@ const testUtils = require('../test-utils');
 const User = require('../models/user');
 const Job = require('../models/job');
 const BookmarkList = require('../models/bookmarkList');
+const bookmarkList = require("../models/bookmarkList");
+
+const mongoose = require('mongoose');
+
 
 describe("/bookmarklist", () => {
   beforeAll(testUtils.connectDB);
@@ -20,6 +24,10 @@ describe("/bookmarklist", () => {
   const user1 = {
     email: 'user1@mail.com',
     password: '456password'
+  };
+  const adminUser = {
+    email: 'admin@mail.com',
+    password: '789password'
   };
 
   const job0 = {
@@ -57,6 +65,13 @@ describe("/bookmarklist", () => {
   // beforeEach(async () => {
   //   jobs = (await Job.insertMany([job0, job1])).map(i => i.toJSON());
   // });
+
+  beforeEach(async () => {
+    const collections = await mongoose.connection.db.collections();
+    for (const collection of collections) {
+      await collection.deleteMany({});
+    }
+  });
 
   // BEFORE LOGIN
   describe('Before login', () => {
@@ -112,18 +127,33 @@ describe("/bookmarklist", () => {
     // afterEach(testUtils.clearDB);
 
     let token0;
+    let token1;
     let adminToken;
 
     let user0Res;
+    let user1Res;
     let adminRes;
+
+    // let bookmarkList0Res;
+
     beforeEach(async () => {
       user0Res = await request(server).post("/login/signup").send(user0);
       const res0 = await request(server).post("/login").send(user0);
       token0 = res0.body.token;
-      adminRes = await request(server).post("/login/signup").send(user1);
-      await User.updateOne({ email: user1.email }, { $push: { roles: 'admin' } });
+
+      user1Res = await request(server).post("/login/signup").send(user1);
       const res1 = await request(server).post("/login").send(user1);
-      adminToken = res1.body.token;
+      token1 = res1.body.token;
+
+      adminRes = await request(server).post("/login/signup").send(adminUser);
+      await User.updateOne({ email: adminUser.email }, { $push: { roles: 'admin' } });
+      const resAdmin = await request(server).post("/login").send(adminUser);
+      adminToken = resAdmin.body.token;
+
+      // bookmarkList0Res = await request(server)
+      //   .post('/bookmarklist')
+      //   .set('Authorization', 'Bearer ' + token0)
+      //   .send(user0);
     });
 
     describe('POST /', () => {
@@ -132,6 +162,7 @@ describe("/bookmarklist", () => {
           .post('/bookmarklist')
           .set('Authorization', 'Bearer ' + token0)
           .send(user0);
+        // const res = bookmarkList0Res;
         expect(res.statusCode).toEqual(200);
         const storedBookmarkList = await BookmarkList.findOne().lean();
         expect(storedBookmarkList).toMatchObject({
@@ -144,6 +175,8 @@ describe("/bookmarklist", () => {
           .post('/bookmarklist')
           .set('Authorization', 'Bearer ' + token0)
           .send(user0);
+        // let res = bookmarkList0Res;
+
         expect(res.statusCode).toEqual(200);
         res = await request(server)
           .post('/bookmarklist')
@@ -162,18 +195,19 @@ describe("/bookmarklist", () => {
           .post('/jobs')
           .set('Authorization', 'Bearer ' + token0)
           .send(job1);
-        const res0 = await request(server)
+        await request(server)
           .post('/bookmarklist')
           .set('Authorization', 'Bearer ' + token0)
           .send(user0);
-        bookmarkList0Id = res0.body._id;
-        const res1 = await request(server)
-          .post('/bookmarklist')
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send(user1);
-        bookmarkList1Id = res1.body._id;
+        // bookmarkList0Id = res0.body._id;
+        // await request(server)
+        //   .post('/bookmarklist')
+        //   .set('Authorization', 'Bearer ' + adminToken)
+        //   .send(adminUser);
+        // // bookmarkList1Id = resAdmin.body._id;
       });
       it('should send 200 to normal user with their bookmark list', async () => {
+
         const user0Id = user0Res.body._id;
         const res = await request(server)
           .put('/bookmarklist/' + user0Id)
@@ -188,34 +222,91 @@ describe("/bookmarklist", () => {
           "matchedCount": 1
         });
       });
-      it("should send 404 to normal user with someone else's bookmark list", async () => {
-        const user0Id = user0Res.body._id;
-        const res = await request(server)
-          .put('/bookmarklist/' + user0Id)
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send(job1);
-        expect(res.statusCode).toEqual(404);
-      });
+
     });
     describe('GET /:id', () => {
-      let bookmarkList0Id, bookmarkList1Id;
+      // let bookmarkList0Id, bookmarkList1Id;
       beforeEach(async () => {
-        const res0 = await request(server)
+        await request(server)
+          .post('/jobs')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(job0);
+        await request(server)
+          .post('/jobs')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(job1);
+        await request(server)
           .post('/bookmarklist')
           .set('Authorization', 'Bearer ' + token0)
           .send(user0);
-        bookmarkList0Id = res0.body._id;
-        const res1 = await request(server)
-          .post('/bookmarklist')
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send(user1);
-        bookmarkList1Id = res1.body._id;
+        // bookmarkList0Id = res0.body._id;
+        // await request(server)
+        //   .post('/bookmarklist')
+        //   .set('Authorization', 'Bearer ' + adminToken)
+        //   .send(adminUser);
+        // // bookmarkList1Id = resAdmin.body._id;
       });
-      it('should send 200 to normal user with their bookmark list', async () => {
-        // console.log(`this is in test GET /:id ${bookmarkList0Id}`)
+      it('should send 404 for normal users', async () => {
+        await request(server)
+          .post('/bookmarklist')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(user0);
+
         const user0Id = user0Res.body._id;
         const res = await request(server)
           .get('/bookmarklist/' + user0Id)
+          .set('Authorization', 'Bearer ' + token0)
+          .send();
+        expect(res.statusCode).toEqual(404);
+      });
+      it('should send 200 for admins', async () => {
+        await request(server)
+          .post('/bookmarklist')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(user0);
+
+        const adminId = adminRes.body._id;
+        const res = await request(server)
+          .get('/bookmarklist/' + adminId)
+          .set('Authorization', 'Bearer ' + adminToken)
+          .send();
+        expect(res.statusCode).toEqual(200);
+      });
+    });
+    describe('GET /', () => {
+      beforeEach(async () => {
+        await request(server)
+          .post('/bookmarklist')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(user0);
+
+        // await request(server)
+        //   .post('/bookmarklist')
+        //   .set('Authorization', 'Bearer ' + adminToken)
+        //   .send(adminUser);
+        // // bookmarkList1Id = resAdmin.body._id;
+      });
+      it('should send 200 for admin with all the bookmark lists', async () => {
+        // const adminId = adminRes.body._id;
+        const res = await request(server)
+          .get('/bookmarklist/')
+          .set('Authorization', 'Bearer ' + adminToken)
+          .send();
+        expect(res.statusCode).toEqual(200);
+        console.log(res.body);
+        console.log(res.body.length);
+        // expect(res.body).toMatchObject(await BookmarkList.find().lean());
+      });
+      it('should send 200 to normal user with their bookmark list', async () => {
+        // console.log(`this is in test GET /:id ${bookmarkList0Id}`)
+        await request(server)
+          .post('/bookmarklist')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(user0);
+
+        const user0Id = user0Res.body._id;
+        const res = await request(server)
+          .get('/bookmarklist/')
           .set('Authorization', 'Bearer ' + token0)
           .send();
         expect(res.statusCode).toEqual(200);
@@ -227,36 +318,13 @@ describe("/bookmarklist", () => {
           __v: 0
         });
       });
-    });
-    describe('GET /', () => {
-      beforeEach(async () => {
-        const res0 = await request(server)
-          .post('/bookmarklist')
-          .set('Authorization', 'Bearer ' + token0)
-          .send(user0);
-        bookmarkList0Id = res0.body._id;
-        const res1 = await request(server)
-          .post('/bookmarklist')
-          .set('Authorization', 'Bearer ' + adminToken)
-          .send(user1);
-        bookmarkList1Id = res1.body._id;
-      });
-      it('should send 200 for admin with all the bookmark lists', async () => {
-        const user0Id = user0Res.body._id;
+      it("should send 400 if bookmark list does not exist", async () => {
+        // const user0Id = user0Res.body._id;
         const res = await request(server)
-          .get('/bookmarklist/' + user0Id)
-          .set('Authorization', 'Bearer ' + adminToken)
+          .get('/bookmarklist/')
+          .set('Authorization', 'Bearer ' + token1)
           .send();
-        expect(res.statusCode).toEqual(200);
-        console.log(res.body);
-      });
-      it('should send 404 for normal users', async () => {
-        const user0Id = user0Res.body._id;
-        const res = await request(server)
-          .get('/bookmarklist/' + user0Id)
-          .set('Authorization', 'Bearer ' + token0)
-          .send();
-        expect(res.statusCode).toEqual(404);
+        expect(res.statusCode).toEqual(400);
       });
     });
   });

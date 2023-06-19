@@ -17,10 +17,10 @@ router.post("/", isAuthorized, async (req, res, next) => {
     // console.log(isUserHaveBookmarkList.length);
     if (isUserHaveBookmarkList.length > 0) {
       // console.log('bookmark already exists');
-      return res.status(409).send({ message: 'bookmark list already exists' });
+      return res.status(409).send({ message: 'bookmarkList already exists' });
     }
     const newBookmarkList = await bookmarkListDAO.createBookmarkList(userId);
-    // console.log('bookmark list created');
+    console.log('bookmarkList created');
     // console.log(newBookmarkList)
     res.json(newBookmarkList);
   } catch (e) {
@@ -30,71 +30,61 @@ router.post("/", isAuthorized, async (req, res, next) => {
 });
 
 // BookmarkLists (requires authentication)
-// Get all bookmarkLists: GET /bookmarkLists - return all the bookmarkLists made by the user making the request if not an admin user. 
-//  - If they are an admin user it should return all bookmarkLists in the DB.
+// GET /bookmarkLists - return bookmarkList made by the user making the request if not an admin user. 
+//  - If they are an admin user, it should return all bookmarkLists in the DB.
 router.get("/", isAuthorized, async (req, res, next) => {
   try {
-    const userRoles = req.user;
-    if (!userRoles.roles.includes('admin')) {
-      const userBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(req.user._id);
-      console.log('not admin');
-      return res.json(userBookmarkList);
-    }
-    if (userRoles.roles.includes('admin')) {
+    const user = req.user;
+
+    // return a bookmarkList 
+    // admin: return all bookmarkLists
+    if (user.roles.includes('admin')) {
+      // console.log('user is admin')
+      // const bookmarkListJobs = await bookmarkListDAO.getBookmarkListById(bookmarkList[0]._id);
+      //   res.json(bookmarkListJobs);
       const allBookmarkLists = await bookmarkListDAO.getAllBookmarkLists();
-      console.log('admin');
-
-      return res.json(allBookmarkLists);
+      res.status(200).json(allBookmarkLists);
     }
-    return res.status(404).send();
-  } catch (e) {
-    next(e);
-  }
-});
 
-// BookmarkLists (requires authentication)
-// Get an bookmarkList: GET /bookmarkList/:id - return an bookmarkList with the jobs array containing the full job objects rather than just their _id. 
-//  - If the user is a normal user return a 404 if they did not place the bookmarkList. An admin user should be able to get any bookmarkList.
-router.get("/:id", isAuthorized, isAdmin, async (req, res, next) => {
-  try {
-    // const bookmarkListId = req.params.id;
-    const userId = req.params.id;
-    const userRoles = req.user;
+    // normal user: only return their own bookmarkLists for the specific user
+    if (!user.roles.includes('admin')) {
+      const bookmarkList = await bookmarkListDAO.getBookmarkListByUserId(user._id);
 
-    // const bookmarkList = await bookmarkListDAO.getBookmarkListById(bookmarkListId);
-    const bookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
-    // console.log(`bookmark something soemthing${bookmarkList[0]}`);
-    const bookmarkListJobs = await bookmarkListDAO.getBookmarkListById(bookmarkList[0]._id);
-
-    if (!bookmarkList) {
-      return res.status(400).send({ message: 'BookmarkList does not exist.' });
+      // if bookmarkList does not exist for user
+      if (bookmarkList[0] === undefined) {
+        // console.log('GET / BookmarkList does not exist.');
+        return res.status(400).send({ message: 'BookmarkList does not exist.' });
+      }
+      res.status(200).json(bookmarkList);
     }
-    return res.json(bookmarkListJobs);
-
-    // // return an bookmarkList with jobs array containing full job objects, not just their ids
-    // // if not admin, only return their own bookmarkLists for the specific user
-    // if (!userRoles.roles.includes('admin')) {
-    //   if (req.user._id === bookmarkList[0].userId.toString()) {
-    //     // console.log(bookmarkList);
-    //     return res.json(bookmarkList);
-    //   }
-    //   else {
-    //     return res.status(404).send({ message: 'Invalid user id' });
-    //   }
-    // }
-
-    // if (userRoles.roles.includes('admin')) {
-    //   console.log('user is admin')
-    //   return res.json(bookmarkListJobs);
-    // }
-    // return res.status(404).send();
   } catch (e) {
     console.log(e);
     next(e);
   }
 });
 
-// should update bookmark list by adding a job to the list
+// BookmarkLists (requires admin role)
+// Get an bookmarkList: GET /bookmarkList/ - return an bookmarkList with the jobs array containing the full job objects rather than just their _id.
+//  - If the user is a normal user return a 404. An admin user should be able to get any bookmarkList.
+router.get("/:id", isAuthorized, async (req, res, next) => {
+  try {
+    const userRoles = req.user;
+    if (!userRoles.roles.includes('admin')) {
+      // console.log('not admin');
+      res.status(404).send();
+    }
+    if (userRoles.roles.includes('admin')) {
+      const userBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(req.user._id);
+      // console.log('admin');
+      res.json(userBookmarkList);
+    }
+    // res.status(404).send();
+  } catch (e) {
+    next(e);
+  }
+});
+
+// should update bookmarkList by adding a job to the list
 router.put("/:id", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
@@ -104,7 +94,7 @@ router.put("/:id", isAuthorized, async (req, res, next) => {
     console.log(userId.toString(), paramId.toString());
 
     if (userId.toString() !== paramId.toString()) {
-      console.log('user not the same')
+      // console.log('user not the same')
       return res.status(404).send({ message: 'Invalid user id.' })
     }
 
@@ -116,8 +106,8 @@ router.put("/:id", isAuthorized, async (req, res, next) => {
 
     const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj);
     if (!updatedBookmarkList) {
-      console.log('something went wrong with adding job to bookmark list');
-      return res.status(409).send('Something went wrong with adding to bookmark list.');
+      // console.log('something went wrong with adding job to bookmarkList');
+      return res.status(409).send('Something went wrong with adding to bookmarkList.');
     };
 
     // console.log(updatedBookmarkList);
