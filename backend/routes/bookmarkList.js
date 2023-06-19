@@ -14,18 +14,13 @@ router.post("/", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id;
     const isUserHaveBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
-    // console.log(isUserHaveBookmarkList.length);
     if (isUserHaveBookmarkList.length > 0) {
-      // console.log('bookmark already exists');
       return res.status(409).send({ message: 'bookmarkList already exists' });
     }
     const newBookmarkList = await bookmarkListDAO.createBookmarkList(userId);
-    console.log('bookmarkList created');
-    // console.log(newBookmarkList)
     res.json(newBookmarkList);
   } catch (e) {
     next(e);
-    // console.log(e);
   }
 });
 
@@ -39,9 +34,6 @@ router.get("/", isAuthorized, async (req, res, next) => {
     // return a bookmarkList 
     // admin: return all bookmarkLists
     if (user.roles.includes('admin')) {
-      // console.log('user is admin')
-      // const bookmarkListJobs = await bookmarkListDAO.getBookmarkListById(bookmarkList[0]._id);
-      //   res.json(bookmarkListJobs);
       const allBookmarkLists = await bookmarkListDAO.getAllBookmarkLists();
       res.status(200).json(allBookmarkLists);
     }
@@ -52,13 +44,11 @@ router.get("/", isAuthorized, async (req, res, next) => {
 
       // if bookmarkList does not exist for user
       if (bookmarkList[0] === undefined) {
-        // console.log('GET / BookmarkList does not exist.');
         return res.status(400).send({ message: 'BookmarkList does not exist.' });
       }
       res.status(200).json(bookmarkList);
     }
   } catch (e) {
-    console.log(e);
     next(e);
   }
 });
@@ -70,15 +60,12 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
   try {
     const userRoles = req.user;
     if (!userRoles.roles.includes('admin')) {
-      // console.log('not admin');
       res.status(404).send();
     }
     if (userRoles.roles.includes('admin')) {
       const userBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(req.user._id);
-      // console.log('admin');
       res.json(userBookmarkList);
     }
-    // res.status(404).send();
   } catch (e) {
     next(e);
   }
@@ -88,17 +75,15 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
 router.put("/:id", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
-    const paramId = req.params.id.toString();
+    const paramsId = req.params.id.toString();
     const jobData = req.body;
 
-    console.log(userId.toString(), paramId.toString());
 
-    if (userId.toString() !== paramId.toString()) {
-      // console.log('user not the same')
+    if (userId !== paramsId) {
       return res.status(404).send({ message: 'Invalid user id.' })
     }
 
-    let jobObj = await jobDAO.getJobByJobId(jobData.jobId);
+    const jobObj = await jobDAO.getJobByJobId(jobData.jobId);
 
     if (!jobObj) {
       return res.status(400).send({ message: 'Job does not exist.' });
