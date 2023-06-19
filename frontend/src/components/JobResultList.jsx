@@ -54,14 +54,12 @@ function JobResultList({ jobMarkerList, setJobMarkerList }) {
         toggleEmptyList(false);
       }
     })
-    console.log(jobMarkerList);
   }, [jobResult, bounds]);
 
   if (emptyList) {
     return <EmptyListPage />
   }
 
-  console.log(jobMarkerList);
 
   const jobResultList = jobMarkerList.map((jobMarker) => {
     const { job } = jobMarker;
@@ -95,8 +93,6 @@ function JobResultList({ jobMarkerList, setJobMarkerList }) {
       </li>
     )
   });
-
-  console.log(jobMarkerList);
 
   return (
     <ul>{jobResultList}</ul>
