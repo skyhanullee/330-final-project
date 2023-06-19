@@ -13,24 +13,6 @@ module.exports.createBookmarkList = async (userId) => {
   return created;
 };
 
-// should get the bookmarkList back by the bookmarkListId, not userId
-module.exports.getBookmarkListById = async (bookmarkListId) => {
-  const bookmarkList = await BookmarkList.findOne({ _id: bookmarkListId }).lean();
-  if (!bookmarkList) {
-    return null;
-  }
-  const jobIds = bookmarkList.jobs;
-  const jobs = await Job.find({ _id: { $in: jobIds } }).lean();
-
-  let jobArray = [];
-  jobIds.forEach(i => {
-    const job = jobs.find(tempJob => tempJob._id.toString() === i.toString());
-    jobArray.push(job);
-  });
-  bookmarkList.jobs = jobArray;
-  return bookmarkList;
-};
-
 module.exports.getBookmarkListByUserId = async (userId) => {
   try {
     const bookmarkList = await BookmarkList.find({ userId: userId });
@@ -60,7 +42,6 @@ module.exports.getAllBookmarkLists = () => {
 module.exports.updateBookmarkListByUserId = async (userId, jobId) => {
   let bookmarkList = BookmarkList.findOne({ userId: userId });
   if (!bookmarkList) {
-    console.log('bookmarkList for user does not exist');
     return null;
   }
 
