@@ -13,7 +13,7 @@ const jobSchema = new mongoose.Schema({
   longitude: { type: Number },
   url: { type: String },
   isAdzuna: { type: Boolean, required: true },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 });
 
 module.exports = mongoose.model("jobs", jobSchema, "testJobs");
