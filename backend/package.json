@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand --verbose --coverage",
     "ci": "jest --json --runInBand | node .github/workflows/parseOutput.js",
-    "tdd": "jest --watch --runInBand --verbose",
+    "tdd": "jest --watch --runInBand --verbose --coverage --watchAll",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
