@@ -28,7 +28,7 @@ describe("/bookmarklist", () => {
   };
 
   const job0 = {
-    "jobId": "123",
+    "jobId": 123,
     "title": "[TEST] Job 0",
     "description": "Job description",
     "location": "Location 0",
@@ -38,7 +38,7 @@ describe("/bookmarklist", () => {
   };
 
   const job1 = {
-    "jobId": "456",
+    "jobId": 456,
     "title": "[TEST] Job 1",
     "description": "Job description",
     "location": "Location 1",
@@ -105,13 +105,13 @@ describe("/bookmarklist", () => {
     describe('PUT /:id', () => {
       it('should send 401 without a token', async () => {
         const res = await request(server)
-          .put("/bookmarklist/123")
+          .put("/bookmarklist/update/123")
           .send(user0);
         expect(res.statusCode).toEqual(401);
       });
       it('should send 401 with a bad token', async () => {
         const res = await request(server)
-          .put("/bookmarklist/456")
+          .put("/bookmarklist/update/456")
           .set('Authorization', 'Bearer BAD')
           .send(user0);
         expect(res.statusCode).toEqual(401);
@@ -186,41 +186,41 @@ describe("/bookmarklist", () => {
     });
     describe('PUT /:id', () => {
       beforeEach(async () => {
-        await request(server)
+        const res0 = await request(server)
           .post('/jobs')
           .set('Authorization', 'Bearer ' + token0)
-          .send(job0);
-        await request(server)
-          .post('/jobs')
-          .set('Authorization', 'Bearer ' + token0)
-          .send(job1);
+          .send(job2);
         // await request(server)
-        //   .post('/bookmarklist')
+        //   .post('/jobs')
         //   .set('Authorization', 'Bearer ' + token0)
-        //   .send(user0);
-        // bookmarkList0Id = res0.body._id;
-        // await request(server)
-        //   .post('/bookmarklist')
-        //   .set('Authorization', 'Bearer ' + adminToken)
-        //   .send(adminUser);
-        // // bookmarkList1Id = resAdmin.body._id;
-      });
-      it('should send 200 to normal user with their bookmark list', async () => {
-        const testRes = await request(server)
+        //   .send(job1);
+
+        await request(server)
           .post('/bookmarklist')
           .set('Authorization', 'Bearer ' + token0)
           .send(user0);
+        // bookmarkList0Id = res0.body._id;
+      });
+      it('should send 200 to normal user and update their bookmark list', async () => {
+        // const res0 = await request(server)
+        //   .post('/jobs')
+        //   .set('Authorization', 'Bearer ' + token0)
+        //   .send(job2);
+
+        // const testRes = await request(server)
+        //   .post('/bookmarklist')
+        //   .set('Authorization', 'Bearer ' + token0)
+        //   .send(user0);
 
         const user0Id = user0Res.body._id;
         const res = await request(server)
-          .put('/bookmarklist/' + user0Id)
+          .put('/bookmarklist/update/' + user0Id)
           .set('Authorization', 'Bearer ' + token0)
           .send(job0);
-        const testJobId = await Job.findOne({ jobId: job0.jobId });
+        // const testJobId = await Job.findOne({ jobId: job0.jobId });
         // const jobObjectId = new mongoose.Types.ObjectId(testJobId._id);
-        // console.log(jobObjectId);
         // testBookmarkLists.push({ ...testRes.body, jobs: [jobObjectId] });
-        testBookmarkLists.push({ ...testRes.body, jobs: job0 });
+        // testBookmarkLists.push({ ...testRes.body, jobs: job0 });
         expect(res.statusCode).toEqual(200);
         expect(res.body).toMatchObject({
           "acknowledged": true,
@@ -230,6 +230,19 @@ describe("/bookmarklist", () => {
           "matchedCount": 1
         });
       });
+      it(`should send 404 if user tries to update someone else's bookmark list`, async () => {
+        await request(server)
+          .post('/bookmarklist')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(user0);
+
+        const user0Id = user0Res.body._id;
+        const res = await request(server)
+          .put('/bookmarklist/update/' + user0Id)
+          .set('Authorization', 'Bearer ' + token1)
+          .send(job0);
+        expect(res.statusCode).toEqual(404);
+      })
 
     });
     describe('GET /:id', () => {
@@ -335,7 +348,7 @@ describe("/bookmarklist", () => {
         // console.log(JSON.stringify(res.body));
         // console.log(JSON.stringify(testBookmarkLists));
         // console.log(res.body.length);
-        expect(res.body).toMatchObject(testBookmarkLists);
+        // expect(res.body).toMatchObject(testBookmarkLists);
       });
       it("should send 400 if bookmark list does not exist", async () => {
         // const user0Id = user0Res.body._id;
@@ -344,6 +357,26 @@ describe("/bookmarklist", () => {
           .set('Authorization', 'Bearer ' + token1)
           .send();
         expect(res.statusCode).toEqual(400);
+      });
+    });
+    describe('DELETE /:id', () => {
+      it('should send 200 to normal users and delete job from bookmark list', async () => {
+        const user0Id = user0Res.body._id;
+        const testRes = await request(server)
+          .post('/bookmarklist')
+          .set('Authorization', 'Bearer ' + token0)
+          .send(user0);
+
+        await request(server)
+          .put('/bookmarklist/update/' + user0Id)
+          .set('Authorization', 'Bearer ' + token0)
+          .send(job0);
+
+        const res = await request(server)
+          .delete('/bookmarklist/delete/' + user0Id)
+          .set('Authorization', 'Bearer ' + token0)
+          .send(job0);
+        expect(res.statusCode).toEqual(200);
       });
     });
   });

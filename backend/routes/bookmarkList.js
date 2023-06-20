@@ -3,7 +3,9 @@ const isAuthorized = require("../middleware/isAuthorized");
 // const isAdmin = require("../middleware/isAdmin");
 const bookmarkListDAO = require('../daos/bookmarkList');
 const jobDAO = require('../daos/job');
+const User = require("../models/user");
 const router = Router();
+const mongoose = require('mongoose');
 
 // Create: POST /bookmarkLists 
 // Open to all users
@@ -71,31 +73,76 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
   }
 });
 
-// Update a bookmark list: PUT /:id 
+// add a job to bookmark list: PUT /update/:id 
 // Should update bookmarkList by adding a job to the list
-router.put("/:id", isAuthorized, async (req, res, next) => {
+// :id is userId
+router.put("/update/:id", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
     const paramsId = req.params.id.toString();
     const jobData = req.body;
 
+    // console.log(`=-=-=-===-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-`)
+    // console.log(jobData);
 
     if (userId !== paramsId) {
-      return res.status(404).send({ message: 'Invalid user id.' })
+      return res.status(404).send({ message: 'User did not create this bookmark list. Cannot update.' })
     }
 
     const jobObj = await jobDAO.getJobByJobId(jobData.jobId);
+    // console.log(`=-=-=-===-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-`)
+    // console.log(jobObj);
 
-    if (!jobObj) {
-      return res.status(400).send({ message: 'Job does not exist.' });
-    }
+    // if (!jobObj) {
+    //   return res.status(400).send({ message: 'Job does not exist.' });
+    // }
 
-    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj);
+    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
     if (!updatedBookmarkList) {
       return res.status(409).send('Something went wrong with adding to bookmarkList.');
     };
 
     return res.json(updatedBookmarkList);
+  }
+  catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
+// Delete a job from bookmark list: PUT /delete/:id 
+// Should update bookmarkList by removing a job from the list
+// :id is userId
+router.delete("/delete/:id", isAuthorized, async (req, res, next) => {
+  try {
+    const userId = req.user._id.toString();
+    const paramsId = req.params.id.toString();
+    const jobData = req.body;
+    const jobId = req.body.jobId;
+
+    // console.log(userId, paramsId);
+    // console.log(await User.findOne({ _id: userId }));
+    // console.log(await User.findOne({ _id: paramsId }));
+    if (userId !== paramsId) {
+      return res.status(404).send({ message: 'User did not create this bookmark list. Cannot update.' })
+    }
+
+    const jobObj = await jobDAO.getJobByJobId(jobId);
+
+    if (!jobObj) {
+      return res.status(400).send({ message: 'Job does not exist.' });
+    }
+
+    const removedJob = await bookmarkListDAO.removeJobFromBookmarkList(userId, jobObj._id);
+    // console.log(removedJob);
+    if (!removedJob) {
+      return res.status(409).send('Something went wrong with removing from bookmarkList.');
+    }
+    else if (removedJob.message) {
+      return res.status(409).send(removedJob.message);
+    }
+
+    return res.json(removedJob);
   }
   catch (e) {
     console.log(e);
