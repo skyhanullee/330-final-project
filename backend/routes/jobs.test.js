@@ -115,11 +115,17 @@ describe("/jobs", () => {
           .set('Authorization', 'Bearer ' + token0)
           .send(jobWithoutId);
         expect(res.statusCode).toEqual(200);
-
-        // console.log(res.body);
-        // console.log({ ...job, jobId: res.body.jobId });
         expect(res.body).toMatchObject({ ...job, jobId: res.body.jobId });
       });
+    });
+    describe('POST /', () => {
+      it('should send 400 if no job is given', async () => {
+        const res = await request(server)
+          .post("/jobs")
+          .set('Authorization', 'Bearer ' + token0)
+          .send();
+        expect(res.statusCode).toEqual(400);
+      })
     });
     describe('GET /', () => {
       it('should send 200 to all users', async () => {
@@ -157,24 +163,6 @@ describe("/jobs", () => {
         expect(JSON.stringify(res.body)).toEqual(JSON.stringify(testJob));
       });
     });
-    // describe("GET /", () => {
-    //   let jobs;
-    //   beforeEach(async () => {
-    //     jobs = (await Job.insertMany([job0, job1])).map(i => i.toJSON())
-    //     jobs.forEach(i => i._id = i._id.toString());
-    //     console.log(jobs);
-    //   });
-    //   it('should send 200 to all users and return all jobs', async () => {
-    //     const res = await request(server)
-    //       .get("/jobs/")
-    //       .set('Authorization', 'Bearer ' + token0)
-    //       .send();
-
-    //     // console.log(res.body);
-    //     expect(res.statusCode).toEqual(200);
-    //     expect(res.body).toMatchObject(jobs);
-    //   });
-    // });
     describe.each([job0, job1])("PUT / job %#", (job) => {
       // let originalJob;
       // beforeEach(async () => {
@@ -189,8 +177,9 @@ describe("/jobs", () => {
           .post("/jobs")
           .set('Authorization', 'Bearer ' + token0)
           .send(job);
-        originalJob = postRes.body;
-        const testJob = await Job.findOne({ jobId: job.jobId }).lean();
+        // originalJob = postRes.body;
+        // const testJob = await Job.findOne({ jobId: job.jobId }).lean();
+
         const res = await request(server)
           .put("/jobs/" + job.jobId)
           .set('Authorization', 'Bearer ' + token0)
@@ -204,6 +193,36 @@ describe("/jobs", () => {
         const testJob = await Job.findOne({ jobId: job.jobId }).lean();
         const res = await request(server)
           .put("/jobs/" + job.jobId)
+          .set('Authorization', 'Bearer ' + adminToken)
+          .send(job);
+        expect(res.statusCode).toEqual(200);
+        // const newJob = await Job.findById(testJob.jobId).lean();
+        // newJob.jobId = newJob.jobId.toString();
+        // expect(newJob).toMatchObject(testJob);
+      });
+    });
+
+    describe.each([job0, job1])("DELETE / job %#", (job) => {
+      it('should send 200 to normal user and delete job they posted', async () => {
+        const postRes = await request(server)
+          .post("/jobs")
+          .set('Authorization', 'Bearer ' + token0)
+          .send(job);
+        originalJob = postRes.body;
+        const testJob = await Job.findOne({ jobId: job.jobId }).lean();
+        const res = await request(server)
+          .delete("/jobs/" + job.jobId)
+          .set('Authorization', 'Bearer ' + token0)
+          .send(job);
+        expect(res.statusCode).toEqual(200);
+        // const newJob = await Job.findById(testJob.jobId).lean();
+        // newJob.jobId = newJob.jobId.toString();
+        // expect(newJob).toMatchObject(testJob);
+      });
+      it('should send 200 to admin user and delete job', async () => {
+        const testJob = await Job.findOne({ jobId: job.jobId }).lean();
+        const res = await request(server)
+          .delete("/jobs/" + job.jobId)
           .set('Authorization', 'Bearer ' + adminToken)
           .send(job);
         expect(res.statusCode).toEqual(200);

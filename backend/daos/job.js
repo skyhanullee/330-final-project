@@ -24,6 +24,15 @@ module.exports.getJobByJobId = async (jobId) => {
   return job;
 };
 
+// // should get job for _id (id)
+// module.exports.getJobById = async (id) => {
+//   const job = await Job.findOne({ _id: id }).lean();
+//   if (!job) {
+//     return null;
+//   }
+//   return job;
+// };
+
 // should get all jobs for userId
 module.exports.getAllJobs = async () => {
   const jobs = await Job.find().lean();
@@ -37,6 +46,12 @@ module.exports.updateJobById = async (jobId, jobObj) => {
   const updatedJob = await Job.updateOne({ jobId: jobId }, jobObj);
   return updatedJob;
 };
+
+module.exports.deleteJobById = async (jobId) => {
+  const deletedJob = await Job.deleteOne({ jobId: jobId });
+  // console.log(deletedJob);
+  return deletedJob;
+}
 
 class BadDataError extends Error { };
 module.exports.BadDataError = BadDataError;

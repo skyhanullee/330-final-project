@@ -11,16 +11,17 @@ router.post("/", isAuthorized, async (req, res, next) => {
   try {
     let editedJob;
     const job = req.body;
-    if (!job) {
+    if (Object.keys(job).length === 0) {
       res.status(400).send({ message: 'No job given.' });
     }
 
     let jobId;
-    if (!req.body.jobId) {
-      jobId = uuid.v4();
+    if (req.body.jobId) {
+      jobId = req.body.jobId;
+      // console.log(jobId);
     }
     else {
-      jobId = req.body.jobId;
+      jobId = uuid.v4();
     }
 
     const existingJob = await jobDAO.getJobByJobId(job.jobId);
@@ -34,6 +35,7 @@ router.post("/", isAuthorized, async (req, res, next) => {
     res.status(200).json(editedJob);
 
   } catch (e) {
+    console.log(e);
     next(e);
   }
 });
@@ -66,8 +68,9 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
   }
 });
 
-// Update a note: PUT /jobs/:id 
-// Restricted to users with the "admin" role
+// Update a job: PUT /jobs/:id 
+// Restricted to users' own posts
+// Admins can update any post
 router.put("/:id", isAuthorized, async (req, res, next) => {
   try {
     const jobId = req.body.jobId;
@@ -90,7 +93,7 @@ router.put("/:id", isAuthorized, async (req, res, next) => {
     const userRoles = req.user;
     if (!userRoles.roles.includes('admin')) {
       if (userId !== jobObj.userId) {
-        return res.status(405).send({ message: 'Invalid user id.' });
+        return res.status(403).send({ message: 'User did not create this job. Cannot update.' });
       }
     }
     const isUpdated = await jobDAO.updateJobById(paramsId, jobData);
@@ -101,6 +104,47 @@ router.put("/:id", isAuthorized, async (req, res, next) => {
       res.status(200).send({ message: 'Job updated.' })
     }
   } catch (e) {
+    next(e);
+  }
+});
+
+// Delete a job: DELETE /jobs/:id
+// 
+router.delete("/:id", isAuthorized, async (req, res, next) => {
+  try {
+    // const jobId = req.body.jobId;
+    const paramsId = req.params.id;
+    // const jobData = req.body;
+    const userId = req.user._id;
+    if (!paramsId) {
+      res.status(400).send({ message: 'No job id / job data.' })
+    }
+
+    // if (jobId !== paramsId) {
+    //   return res.status(404).send({ message: 'Invalid job id.' })
+    // }
+
+    const jobObj = await jobDAO.getJobByJobId(paramsId);
+
+    if (!jobObj) {
+      return res.status(400).send({ message: 'Job does not exist.' });
+    }
+    const userRoles = req.user;
+    if (!userRoles.roles.includes('admin')) {
+      if (userId !== jobObj.userId) {
+        return res.status(403).send({ message: 'User did not create this job. Cannot update.' });
+      }
+    }
+    const isDeleted = await jobDAO.deleteJobById(paramsId);
+    if (!isDeleted) {
+      res.status(400).send({ message: 'Not updated. Something went wrong.' });
+    }
+    else {
+      res.status(200).send({ message: 'Job deleted.' })
+    }
+  }
+  catch (e) {
+    console.log(e);
     next(e);
   }
 });
