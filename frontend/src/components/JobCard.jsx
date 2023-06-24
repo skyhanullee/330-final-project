@@ -58,6 +58,7 @@ function JobCard({ job }) {
 
   const handleOnClick = async (e) => {
     e.stopPropagation();
+    e.preventDefault();
     addToFavorites();
   }
 

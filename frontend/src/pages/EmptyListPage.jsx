@@ -1,6 +1,6 @@
 function EmptyListPage() {
   return (
-    <div className="page">
+    <div className='page'>
       <h1>
         The list seems empty, try making a search!
       </h1>

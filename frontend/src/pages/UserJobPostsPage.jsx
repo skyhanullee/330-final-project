@@ -26,14 +26,15 @@ function UserJobPosts() {
     return (
       // <li>{jobPost.title}</li>
       <li key={jobPost._id}>
-
-        <JobCard job={jobPost} />
+        <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}>
+          <JobCard job={jobPost} />
+        </Link>
       </li>
     )
   })
 
   return (
-    <div className="page">
+    <div className='page'>
       <h1>User Job Posts</h1>
       <button><Link to='/createJob'>Add a Job Post</Link></button>
       <ul>{jobPostsList}</ul>
