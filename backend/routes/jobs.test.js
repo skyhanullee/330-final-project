@@ -33,6 +33,16 @@ describe("/jobs", () => {
     "isAdzuna": false,
   };
 
+  const job2 = {
+    "jobId": "789",
+    "title": "[TEST] Job 2",
+    "description": "Job description",
+    "location": "Location 2",
+    "company": "Company 2",
+    "salary": 300,
+    "isAdzuna": false,
+  };
+
   describe('Before login', () => {
     describe('POST /', () => {
       it('should send 401 without a token', async () => {
@@ -74,8 +84,6 @@ describe("/jobs", () => {
   //   });
   // });
   describe('after login', () => {
-    afterEach(testUtils.clearDB);
-
     const user0 = {
       email: 'user0@mail.com',
       password: '123password'
@@ -86,7 +94,9 @@ describe("/jobs", () => {
     }
     let token0;
     let adminToken;
-    beforeEach(async () => {
+    // beforeEach(async () => {
+    const login = async () => {
+      // testUtils.clearDB;
       await request(server).post("/login/signup").send(user0);
       const res0 = await request(server).post("/login").send(user0);
       token0 = res0.body.token;
@@ -94,9 +104,18 @@ describe("/jobs", () => {
       await User.updateOne({ email: user1.email }, { $push: { roles: 'admin' } });
       const res1 = await request(server).post("/login").send(user1);
       adminToken = res1.body.token;
+      // });
+    };
+    beforeEach(async () => {
+      testUtils.clearDB
     });
-    describe.each([job0, job1])("POST / job %#", (job) => {
+
+    // so far, POST and DELETE only work if the job is made within the test.
+    // the userid and token changes after every test
+    // because the code signs up from scratch every time.
+    describe.only.each([job0, job1])("POST / job %#", (job) => {
       it('should send 200 to all users and store job', async () => {
+        login();
         const res = await request(server)
           .post("/jobs")
           .set('Authorization', 'Bearer ' + token0)
@@ -163,38 +182,40 @@ describe("/jobs", () => {
         expect(JSON.stringify(res.body)).toEqual(JSON.stringify(testJob));
       });
     });
-    describe.each([job0, job1])("PUT / job %#", (job) => {
-      // let originalJob;
-      // beforeEach(async () => {
-      //   const res = await request(server)
-      //     .post("/jobs")
-      //     .set('Authorization', 'Bearer ' + token0)
-      //     .send(job);
-      //   originalJob = res.body;
-      // });
-      it('should send 200 to normal user and update job they posted', async () => {
-        const postRes = await request(server)
+    describe("PUT / job 2", () => {
+      // testUtils.clearDB;
+      let originalJob;
+      beforeEach(async () => {
+        const res = await request(server)
           .post("/jobs")
           .set('Authorization', 'Bearer ' + token0)
-          .send(job);
-        // originalJob = postRes.body;
-        // const testJob = await Job.findOne({ jobId: job.jobId }).lean();
-
+          .send(job2);
+        originalJob = res.body;
+      });
+      it('should send 200 to normal user and update job they posted', async () => {
+        // const getRes = await request(server).get("/jobs");
+        // console.log(getRes);
+        // await request(server)
+        //   .post("/jobs")
+        //   .set('Authorization', 'Bearer ' + token0)
+        //   .send(job);
+        console.log(originalJob);
         const res = await request(server)
-          .put("/jobs/" + job.jobId)
+          .put("/jobs/" + originalJob._id)
           .set('Authorization', 'Bearer ' + token0)
-          .send(job);
+          .send(job2);
         expect(res.statusCode).toEqual(200);
         // const newJob = await Job.findById(testJob.jobId).lean();
         // newJob.jobId = newJob.jobId.toString();
         // expect(newJob).toMatchObject(testJob);
       });
       it('should send 200 to admin user and update job', async () => {
-        const testJob = await Job.findOne({ jobId: job.jobId }).lean();
+        // const testJob = await Job.findOne({ jobId: job.jobId }).lean();
         const res = await request(server)
-          .put("/jobs/" + job.jobId)
+          .put("/jobs/" + job2.jobId)
+          // .put("/jobs/" + originalJob._Id)
           .set('Authorization', 'Bearer ' + adminToken)
-          .send(job);
+          .send(job2);
         expect(res.statusCode).toEqual(200);
         // const newJob = await Job.findById(testJob.jobId).lean();
         // newJob.jobId = newJob.jobId.toString();
@@ -202,29 +223,37 @@ describe("/jobs", () => {
       });
     });
 
-    describe.each([job0, job1])("DELETE / job %#", (job) => {
+    describe("DELETE / job 2", () => {
+      // let originalJob;
+      // beforeEach(async () => {
+      //   const res = await request(server)
+      //     .post("/jobs")
+      //     .set('Authorization', 'Bearer ' + token0)
+      //     .send(job2);
+      //   originalJob = res.body;
+      //   console.log(originalJob);
+      // });
       it('should send 200 to normal user and delete job they posted', async () => {
-        const postRes = await request(server)
-          .post("/jobs")
-          .set('Authorization', 'Bearer ' + token0)
-          .send(job);
-        originalJob = postRes.body;
-        const testJob = await Job.findOne({ jobId: job.jobId }).lean();
+        // const postRes = await request(server)
+        //   .post("/jobs")
+        //   .set('Authorization', 'Bearer ' + token0)
+        //   .send(job);
+        // originalJob = postRes.body;
+        // const testJob = await Job.findOne({ jobId: job.jobId }).lean();
         const res = await request(server)
-          .delete("/jobs/" + job.jobId)
+          .delete("/jobs/" + job2._id)
           .set('Authorization', 'Bearer ' + token0)
-          .send(job);
+          .send(job2);
         expect(res.statusCode).toEqual(200);
         // const newJob = await Job.findById(testJob.jobId).lean();
         // newJob.jobId = newJob.jobId.toString();
         // expect(newJob).toMatchObject(testJob);
       });
       it('should send 200 to admin user and delete job', async () => {
-        const testJob = await Job.findOne({ jobId: job.jobId }).lean();
         const res = await request(server)
-          .delete("/jobs/" + job.jobId)
+          .delete("/jobs/" + originalJob._id)
           .set('Authorization', 'Bearer ' + adminToken)
-          .send(job);
+          .send(job2);
         expect(res.statusCode).toEqual(200);
         // const newJob = await Job.findById(testJob.jobId).lean();
         // newJob.jobId = newJob.jobId.toString();
