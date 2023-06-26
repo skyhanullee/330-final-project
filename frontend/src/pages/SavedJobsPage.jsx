@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import JobCard from "../components/JobCard";
 
 export default function SavedJobsPage() {
+  const [job, setJob] = useState();
   const [jobPosts, setJobPosts] = useState([]);
   const token = `Bearer ${localStorage.getItem('token')}`
 
@@ -26,8 +27,18 @@ export default function SavedJobsPage() {
   }, []);
 
 
+  // // const token = `Bearer ${localStorage.getItem('token')}`
+  // fetch(`http://127.0.0.1:4000/job/${job.jobId}`, {
+  //   method: 'GET',
+  //   body: JSON.stringify(job),
+  //   headers: new Headers({
+  //     'Content-Type': 'application/json',
+  //     "Authorization": token
+  //   })
+  // })
+
   let jobPostsList;
-  // console.log(jobPosts[0]?.jobs)
+  console.log(jobPosts[0])
 
   if (jobPosts[0] === undefined || jobPosts[0].jobs.length === 0) {
     jobPostsList = jobPosts.map((jobPost) => {
@@ -61,7 +72,7 @@ export default function SavedJobsPage() {
   return (
     <div className='page'>
       <h1>Saved Jobs</h1>
-      {/* <ul>{jobPostsList}</ul> */}
+      <ul>{jobPostsList}</ul>
     </div>
   )
 }
