@@ -18,22 +18,22 @@ function SignInPage() {
       password
     };
 
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
 
-    const response = await fetch('http://127.0.0.1:4000/login', {
+    const signInRes = await fetch('http://127.0.0.1:4000/login', {
       method: 'POST',
       body: JSON.stringify(loginUser),
       headers: new Headers({
         'Content-Type': 'application/json',
-        "Authorization": token
+        // "Authorization": token
       })
     });
-    const resJson = await response.json();
+    const resJson = await signInRes.json();
     // console.log(resJson);
-    if (!response.ok) {
+    if (!signInRes.ok) {
       console.log('POST: did not send to mongo db');
     }
-    // when successful, token is passed in response
+    // when successful, token is passed in signInRes
     if (resJson.token) {
       alert(`Login successful`);
       // clear any token in localStorage
@@ -49,7 +49,7 @@ function SignInPage() {
     else {
       alert(`Please check your username and password`);
     }
-  }
+  };
 
   return (
     <div className='page'>

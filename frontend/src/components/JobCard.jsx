@@ -3,19 +3,20 @@ import { useState, useEffect, useContext } from "react"
 import UserContext from '../context/UserContext';
 
 function JobCard({ job }) {
-  const { title, location, company, salary_min, salary, created, createdAt, id, description, latitude, longitude, redirect_url } = job;
+  const { title, location, company, salary_min, salary, created, createdAt, jobId, description, latitude, longitude, redirect_url } = job;
   const dateCreated = new Date((created || createdAt)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   const salaryListing = (salary_min || salary)?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
   // const [user, setUser] = useState({});
   const { user, setUser } = useContext(UserContext);
   const { isBookmarked, setIsBookmarked } = useState(false);
+  console.log(job);
 
   const addToFavorites = async () => {
     // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
     const job = {
       isBookmarked: true,
-      jobId: id,
+      jobId: jobId,
       title: title,
       description: description,
       location: location.display_name,
@@ -32,7 +33,7 @@ function JobCard({ job }) {
 
     const token = `Bearer ${localStorage.getItem('token')}`
 
-    await fetch('http://127.0.0.1:4000/bookmarklist', {
+    await fetch('http://127.0.0.1:4000/bookmarklist/update', {
       method: 'PUT',
       body: JSON.stringify(job),
       headers: new Headers({
@@ -58,11 +59,12 @@ function JobCard({ job }) {
 
   const handleOnClick = async (e) => {
     e.stopPropagation();
+    e.preventDefault();
     addToFavorites();
   }
 
   return (
-    <div className='job-card' id={`job-${id}`}>
+    <div className='job-card' id={`job-${jobId}`}>
       <div className="job-card-header">
         <h1 className='job-card-title'>{title}</h1>
         <Icon

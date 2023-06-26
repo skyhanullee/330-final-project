@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import JobCard from "../components/JobCard";
 import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 function UserJobPosts() {
+  const { user, setUser } = useContext(UserContext);
   const [jobPosts, setJobPosts] = useState([]);
   const getAllJobPosts = () => {
     fetch('http://127.0.0.1:4000/jobs', {
@@ -26,16 +28,17 @@ function UserJobPosts() {
     return (
       // <li>{jobPost.title}</li>
       <li key={jobPost._id}>
-
-        <JobCard job={jobPost} />
+        <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}>
+          <JobCard job={jobPost} />
+        </Link>
       </li>
     )
   })
 
   return (
-    <div className="page">
+    <div className='page'>
       <h1>User Job Posts</h1>
-      <button><Link to='/createJob'>Add a Job Post</Link></button>
+      {user && <button><Link to='/createJob'>Add a Job Post</Link></button>}
       <ul>{jobPostsList}</ul>
     </div>
   )

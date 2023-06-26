@@ -330,6 +330,19 @@ button[type=submit]:hover {
   background-color: var(--card-background);
   padding: 2rem;
   color: var(--card-font-color);
+  max-width: 80%;
+  min-width: 50rem;
+  margin: 0 auto;
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.job-page-details {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
 }
 
 /* Medium devices (landscape tablets, 768px and up) */

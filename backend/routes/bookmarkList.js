@@ -76,6 +76,29 @@ router.get("/:id", isAuthorized, async (req, res, next) => {
 // add a job to bookmark list: PUT /update/:id 
 // Should update bookmarkList by adding a job to the list
 // :id is userId
+router.put("/update", isAuthorized, async (req, res, next) => {
+  try {
+    const userId = req.user._id.toString();
+    const jobData = req.body;
+
+    const jobObj = await jobDAO.getJobByJobId(jobData.jobId);
+
+    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
+    if (!updatedBookmarkList) {
+      return res.status(409).send('Something went wrong with adding to bookmarkList.');
+    };
+
+    return res.json(updatedBookmarkList);
+  }
+  catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
+// add a job to bookmark list: PUT /update/:id 
+// Should update bookmarkList by adding a job to the list
+// :id is userId
 router.put("/update/:id", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();

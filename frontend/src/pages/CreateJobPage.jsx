@@ -54,7 +54,7 @@ function CreateJobPage() {
   };
 
   return (
-    <div className="page">
+    <div className='page'>
       <h1>CreateJobPage</h1>
 
       <form method="POST" onSubmit={handleSubmit}>
