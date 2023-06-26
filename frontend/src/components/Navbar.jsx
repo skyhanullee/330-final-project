@@ -48,13 +48,13 @@ function Navbar() {
           {
             !user &&
             <li className='nav-link' id='sign-in-out-link'>
-              <Link to='/signin'>Signin/Register</Link>
+              <Link to='/signin'>Sign In</Link>
             </li>
           }
           {
             user &&
             <li className='nav-link' id='sign-out-link' onClick={handleLogout}>
-              Logout
+              Log Out
               {/* <Link to='/'>Logout</Link> */}
             </li>
           }
