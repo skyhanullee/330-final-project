@@ -7,7 +7,7 @@ function JobPage() {
   const { jobId } = useParams();
   const dataLocation = useLocation();
   const jobObject = dataLocation.state?.data;
-  console.log(jobObject);
+  // console.log(jobObject);
   const { title } = jobObject.job;
 
   return (
