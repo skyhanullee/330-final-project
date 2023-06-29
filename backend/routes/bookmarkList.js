@@ -43,12 +43,18 @@ router.get("/", isAuthorized, async (req, res, next) => {
     // normal user: only return their own bookmarkLists for the specific user
     if (!user.roles.includes('admin')) {
       const bookmarkList = await bookmarkListDAO.getBookmarkListByUserId(user._id);
-
       // if bookmarkList does not exist for user
       if (bookmarkList[0] === undefined) {
         return res.status(400).send({ message: 'BookmarkList does not exist.' });
       }
-      res.status(200).json(bookmarkList);
+      const savedJobs = [];
+      for (let i of bookmarkList[0].jobs) {
+        // console.log(i);
+        savedJobs.push(await jobDAO.getJobById(i));
+      }
+      // console.log(savedJobs);
+      // res.status(200).json(bookmarkList);
+      res.status(200).json(savedJobs);
     }
   } catch (e) {
     next(e);

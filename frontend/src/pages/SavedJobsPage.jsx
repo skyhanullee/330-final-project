@@ -22,9 +22,44 @@ export default function SavedJobsPage() {
       });
 
   };
+
+  // const getAllJobs = () => {
+  //   for (let jobId of jobIds) {
+  //     fetch(`http://127.0.0.1:4000/jobs/${jobId}`, {
+  //       method: 'GET',
+  //       headers: new Headers({
+  //         'Authorization': token,
+  //         'Content-Type': 'application/json'
+  //       })
+  //     })
+  //       .then(response => {
+  //         const res = response.json();
+  //         console.log(res);
+  //       })
+  //       .then(data => {
+  //         console.log(data);
+  //         setJobPosts([...jobPosts, data]);
+  //       });
+  //   }
+  // }
   useEffect(() => {
     getAllJobPosts();
+    // fetch('http://127.0.0.1:4000/bookmarklist', {
+    //   method: 'GET',
+    //   headers: new Headers({
+    //     'Authorization': token,
+    //     'Content-Type': 'application/json'
+    //   })
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log(data);
+    //     setJobIds(data[0].jobs);
+    //   });
+
   }, []);
+
+
 
 
   // // const token = `Bearer ${localStorage.getItem('token')}`
@@ -38,10 +73,10 @@ export default function SavedJobsPage() {
   // })
 
   let jobPostsList;
-  console.log(jobPosts[0])
+  console.log(jobPosts)
 
-  if (jobPosts[0] === undefined || jobPosts[0].jobs.length === 0) {
-    jobPostsList = jobPosts.map((jobPost) => {
+  if (jobPosts === undefined || jobPosts.jobs?.length === 0) {
+    jobPostsList = jobPosts.jobs.map((jobPost) => {
       return (
         // <li>{jobPost.title}</li>
         <li key={jobPost._id}>

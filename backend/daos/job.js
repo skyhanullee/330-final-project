@@ -24,14 +24,14 @@ module.exports.getJobByJobId = async (jobId) => {
   return job;
 };
 
-// // should get job for _id (id)
-// module.exports.getJobById = async (id) => {
-//   const job = await Job.findOne({ _id: id }).lean();
-//   if (!job) {
-//     return null;
-//   }
-//   return job;
-// };
+// should get job for _id (id)
+module.exports.getJobById = async (id) => {
+  const job = await Job.findOne({ _id: new mongoose.Types.ObjectId(id) }).lean();
+  if (!job) {
+    return null;
+  }
+  return job;
+};
 
 // should get all jobs for userId
 module.exports.getAllJobs = async () => {

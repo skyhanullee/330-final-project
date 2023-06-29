@@ -57,7 +57,8 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", isAuthorized, async (req, res, next) => {
   try {
     const jobId = req.params.id;
-    const job = await jobDAO.getJobByJobId(jobId);
+    // const job = await jobDAO.getJobByJobId(jobId);
+    const job = await jobDAO.getJobById(jobId);
     if (!job) {
       return res.status(404).send({ message: 'Cannot find job from id.' })
     }
