@@ -54,9 +54,10 @@ function CreateJobPage() {
   };
 
   return (
-    <div className='page'>
-      <h1>CreateJobPage</h1>
-
+    <div className='page' id='create-job-page'>
+      <section className="page-header-container">
+        <h1 className="page-title">CreateJobPage</h1>
+      </section>
       <form method="POST" onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input
@@ -107,7 +108,7 @@ function CreateJobPage() {
           required
         />
         <br />
-
+        {/* 
         <label htmlFor="latitude">Latitude</label>
         <input
           type="number"
@@ -124,7 +125,7 @@ function CreateJobPage() {
           value={longitude}
           onChange={(e) => setLongitude(e.target.value)}
         />
-        <br />
+        <br /> */}
 
         <button type="submit">Submit</button>
 
