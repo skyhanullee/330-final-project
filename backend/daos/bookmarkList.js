@@ -41,10 +41,11 @@ module.exports.getAllBookmarkLists = () => {
 // should add job to bookmarkList
 // module.exports.updateBookmarkListByUserId = async (userId, jobObj) => {
 module.exports.updateBookmarkListByUserId = async (userId, jobId) => {
-  // console.log(typeof jobId);
+  console.log(jobId);
   // const jobIdObj = new mongoose.Types.ObjectId(jobId);
   // console.log(jobIdObj);
   const convertedJobId = await Job.findOne({ jobId: jobId });
+  console.log('BOOKMARKDAO ' + convertedJobId);
   let bookmarkList = await BookmarkList.findOne({ userId: userId });
   if (!bookmarkList) {
     return null;
@@ -68,7 +69,7 @@ module.exports.removeJobFromBookmarkList = async (userId, jobObj) => {
     return null;
   }
   const index = bookmarkList.jobs.indexOf(jobObj._id);
-  // console.log(`jobObj._id: ${jobObj._id}, index: ${index}`);
+  console.log(`jobObj._id: ${jobObj._id}, index: ${index}`);
   if (index === -1) {
     // console.log('not in index');
     return { message: 'Job not in index. Cannot remove.' };

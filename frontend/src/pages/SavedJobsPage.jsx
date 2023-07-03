@@ -80,7 +80,7 @@ export default function SavedJobsPage() {
     jobPostsList = jobPosts.jobs.map((jobPost) => {
       return (
         // <li>{jobPost.title}</li>
-        <li key={jobPost._id}>
+        <li key={jobPost?._id}>
           <div className='job-listing' >
             <div className="job-listing-header">
               <p>
@@ -93,10 +93,13 @@ export default function SavedJobsPage() {
     })
   }
   else {
-    jobPostsList = jobPosts.map((jobPost) => {
+    jobPostsList = jobPosts.filter(j => j !== null).map((jobPost) => {
+      console.log(jobPost);
+      // if (jobPost === null) {
+      // }
       return (
         // <li>{jobPost.title}</li>
-        <li key={jobPost._id}>
+        <li key={jobPost?._id}>
           {/* <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}> */}
           <JobListing job={jobPost} />
           {/* </Link> */}

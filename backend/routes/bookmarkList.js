@@ -86,20 +86,23 @@ router.put("/update", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
     const jobData = req.body;
-    let updatedBookmarkList;
+    console.log(jobData.jobId);
 
-    // if the job is from Adzuna, update bookmark list right away
-    if (jobData.isAdzuna) {
-      // TODO: ADD ADZUNA JOB TO JOBS DB SO THAT IT CAN BE REFERENCED.
-      // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
-      // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
-      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobData.jobId);
+    // if job is from user posted jobs, check if job exists first
+    const jobFromDB = await jobDAO.getJobByJobId(jobData.jobId);
+
+    if (!jobFromDB) {
+      // if the job is from Adzuna, add job to jobs collection
+      if (jobData.isAdzuna) {
+        // TODO: ADD ADZUNA JOB TO JOBS COLLECTION SO THAT IT CAN BE REFERENCED.
+        // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
+        // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
+        const newJob = await jobDAO.createJob(jobData);
+      }
     }
-    // if job is from user posted jobs, checkl if job exists first
-    else {
-      const jobObj = await jobDAO.getJobByJobId(jobData.jobId);
-      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
-    }
+
+    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobFromDB.jobId);
+    // }
     if (!updatedBookmarkList) {
       return res.status(409).send('Something went wrong with adding to bookmarkList.');
     };
@@ -111,13 +114,49 @@ router.put("/update", isAuthorized, async (req, res, next) => {
   }
 });
 
+/**
+// add a job to bookmark list: PUT /update/:id 
+// Should update bookmarkList by adding a job to the list
+// :id is userId
+router.put("/update", isAuthorized, async (req, res, next) => {
+  try {
+    const userId = req.user._id.toString();
+    const jobData = req.body;
+    let updatedBookmarkList;
+
+    // if the job is from Adzuna, update bookmark list right away
+    if (jobData.isAdzuna) {
+      // TODO: ADD ADZUNA JOB TO JOBS DB SO THAT IT CAN BE REFERENCED.
+      // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
+      // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
+      const newJob = await jobDAO.createJob(jobData);
+      console.log('BOOKMARK ROUTES: ' + newJob);
+      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobData.jobId);
+    }
+    // if job is from user posted jobs, check if job exists first
+    else {
+      const jobFromDB = await jobDAO.getJobByJobId(jobData.jobId);
+      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobFromDB.jobId);
+    }
+    if (!updatedBookmarkList) {
+      return res.status(409).send('Something went wrong with adding to bookmarkList.');
+    };
+    return res.json(updatedBookmarkList);
+  }
+  catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+ */
+
 // add a job to bookmark list: PUT /update/:id 
 // Should update bookmarkList by adding a job to the list
 // :id is userId
 router.put("/update/:id", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
-    const paramsId = req.params.id.toString();
+    // const paramsId = req.params.id.toString();
     const jobData = req.body;
 
     // console.log(`=-=-=-===-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-`)
@@ -151,27 +190,28 @@ router.put("/update/:id", isAuthorized, async (req, res, next) => {
 // Delete a job from bookmark list: PUT /delete/:id 
 // Should update bookmarkList by removing a job from the list
 // :id is userId
-router.delete("/delete/:id", isAuthorized, async (req, res, next) => {
+router.delete("/delete", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
-    const paramsId = req.params.id.toString();
+    // const paramsId = req.params.id.toString();
     const jobData = req.body;
-    const jobId = req.body.jobId;
+    // const jobId = req.body.jobId;
 
     // console.log(userId, paramsId);
     // console.log(await User.findOne({ _id: userId }));
     // console.log(await User.findOne({ _id: paramsId }));
-    if (userId !== paramsId) {
-      return res.status(404).send({ message: 'User did not create this bookmark list. Cannot update.' })
-    }
+    // if (userId !== paramsId) {
+    //   return res.status(404).send({ message: 'User did not create this bookmark list. Cannot update.' })
+    // }
 
-    const jobObj = await jobDAO.getJobByJobId(jobId);
+    const jobFromDB = await jobDAO.getJobByJobId(jobData.jobId);
+    console.log(jobFromDB);
 
-    if (!jobObj) {
+    if (!jobFromDB) {
       return res.status(400).send({ message: 'Job does not exist.' });
     }
 
-    const removedJob = await bookmarkListDAO.removeJobFromBookmarkList(userId, jobObj._id);
+    const removedJob = await bookmarkListDAO.removeJobFromBookmarkList(userId, jobFromDB._id);
     // console.log(removedJob);
     if (!removedJob) {
       return res.status(409).send('Something went wrong with removing from bookmarkList.');
