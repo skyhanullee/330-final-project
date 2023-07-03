@@ -239,7 +239,8 @@ button[type=submit]:hover {
   font-size: var(--font-size-large);
 }
 
-.job-card-container {
+.job-card-container,
+.job-listing-container {
   overflow-y: scroll;
 
 }
@@ -248,30 +249,35 @@ button[type=submit]:hover {
   display: none;
 }
 
-.job-card-container>ul {
+.job-card-container>ul,
+.job-listing-container>ul {
   display: grid;
   overflow: auto;
 
 }
 
-.job-card {
+.job-card,
+.job-listing {
   background-color: var(--card-background);
   color: var(--card-font-color);
   margin: 1rem;
 }
 
-.job-card:hover {
+.job-card:hover,
+.job-listing:hover {
   background-color: var(--background-hover);
 }
 
-.job-card-header {
+.job-card-header,
+.job-listing-header {
   display: grid;
   grid-template-columns: 10fr 1fr;
   padding: 1rem;
   gap: 1rem;
 }
 
-.job-card-title {
+.job-card-title,
+.job-listing-title {
   /* padding: 1rem; */
   font-size: var(--font-size-medium);
 }
@@ -295,7 +301,8 @@ button[type=submit]:hover {
   color: var(--card-font-color);
 }
 
-.job-card-details>* {
+.job-card-details>*,
+.job-listing-details>* {
   font-size: var(--font-size-small);
 }
 
@@ -328,7 +335,7 @@ button[type=submit]:hover {
 
 .page {
   background-color: var(--card-background);
-  padding: 2rem;
+  padding: 1rem;
   color: var(--card-font-color);
   max-width: 80%;
   min-width: 50rem;
@@ -337,12 +344,54 @@ button[type=submit]:hover {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-height: calc(100svh - var(--nav-height));
+}
+
+.page-title,
+#user-job-posts-page,
+#saved-job-page,
+#empty-page,
+#create-job-page,
+#error-page,
+#loading-page {
+  /* background-color: var(--card-background); */
+  /* max-width: 100% !important; */
+  /* margin: 0 auto; */
+}
+
+#empty-page {
+  min-width: 100%;
+}
+
+/* #create-job-page {
+  background-color: var(--card-background);
+}  */
+
+.page-header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .job-page-details {
   display: flex;
   flex-direction: row;
   gap: 2rem;
+}
+
+.job-listing-details {
+  display: flex;
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)); */
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  color: var(--card-font-color);
+}
+
+.job-listing-description {
+  gap: 1rem;
+  padding: 1rem;
+  color: var(--card-font-color);
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
