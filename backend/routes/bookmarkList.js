@@ -86,14 +86,20 @@ router.put("/update", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
     const jobData = req.body;
+    let updatedBookmarkList;
 
-    const jobObj = await jobDAO.getJobByJobId(jobData.jobId);
-
-    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
+    // if the job is from Adzuna, update bookmark list right away
+    if (jobData.isAdzuna) {
+      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobData.jobId);
+    }
+    // if job is from user posted jobs, checkl if job exists first
+    else {
+      const jobObj = await jobDAO.getJobByJobId(jobData.jobId);
+      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
+    }
     if (!updatedBookmarkList) {
       return res.status(409).send('Something went wrong with adding to bookmarkList.');
     };
-
     return res.json(updatedBookmarkList);
   }
   catch (e) {
