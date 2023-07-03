@@ -1,6 +1,6 @@
 function ErrorPage() {
   return (
-    <div className='page'>
+    <div className='page' id='error-page'>
       <h1>
         Error! Something went wrong!
       </h1>
