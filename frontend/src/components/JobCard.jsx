@@ -68,7 +68,8 @@ function JobCard({ job }) {
       <div className="job-card-header">
         <h1 className='job-card-title'>{title}</h1>
         <Icon
-          className='bookmark-icon'
+          className='icon'
+          id='bookmark-icon'
           icon={isBookmarked ? "material-symbols:bookmark" : "material-symbols:bookmark-outline"}
           onClick={handleOnClick}
         />

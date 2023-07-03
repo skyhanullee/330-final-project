@@ -17,7 +17,11 @@ function JobForm({ onFormSubmit, searchTerms, searchLocation, resultsPerPage }) 
           <input type='number' id='results_per_page-input' min='1' defaultValue='4' value={resultsPerPage} />
         </div> */}
         <button type='submit'>
-          <Icon icon='material-symbols:search-rounded' className='search-icon' />
+          <Icon
+            className='icon'
+            id='search-icon'
+            icon='material-symbols:search-rounded'
+          />
           Search
         </button>
       </form>
