@@ -2,33 +2,31 @@ import { Icon } from '@iconify/react';
 import { useState, useEffect, useContext } from "react"
 import UserContext from '../context/UserContext';
 
-function JobCard({ job }) {
-  const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = job;
-  const dateCreated = new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-  const salaryListing = salary_min?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+function JobListing({ job }) {
+  const { title, location, company, salary, createdAt, jobId, description, latitude, longitude, redirect_url } = job;
+  const dateCreated = new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const salaryListing = salary?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
-  // const [user, setUser] = useState({});
   const { user, setUser } = useContext(UserContext);
   const { isBookmarked, setIsBookmarked } = useState(false);
   console.log(job);
 
   const addToFavorites = async () => {
     // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
-
-    const jobToSave = {
+    const job = {
       isBookmarked: true,
-      jobId: id,
+      jobId: jobId,
       title: title,
       description: description,
       location: location.display_name,
       company: company.display_name,
-      salary: salary_min,
-      createdAt: created,
+      salary: salary,
+      createdAt: createdAt,
       latitude: latitude,
       longitude: longitude,
       url: redirect_url,
-      isAdzuna: true,
-      author: 'adzuna',
+      isAdzuna: false,
+      author: 'user',
     };
 
 
@@ -36,7 +34,7 @@ function JobCard({ job }) {
 
     await fetch('http://127.0.0.1:4000/bookmarklist/update', {
       method: 'PUT',
-      body: JSON.stringify(jobToSave),
+      body: JSON.stringify(job),
       headers: new Headers({
         'Content-Type': 'application/json',
         "Authorization": token
@@ -55,6 +53,7 @@ function JobCard({ job }) {
           // setIsBookmarked(true);
         }
       })
+
   };
 
   const handleOnClick = async (e) => {
@@ -64,9 +63,9 @@ function JobCard({ job }) {
   }
 
   return (
-    <div className='job-card' id={`job-${id}`}>
-      <div className="job-card-header">
-        <h1 className='job-card-title'>{title}</h1>
+    <div className='job-listing' id={`job-${jobId}`}>
+      <div className="job-listing-header">
+        <h1 className='job-listing-title'>{title}</h1>
         <Icon
           className='bookmark-icon'
           icon={isBookmarked ? "material-symbols:bookmark" : "material-symbols:bookmark-outline"}
@@ -74,18 +73,23 @@ function JobCard({ job }) {
         />
       </div>
       <hr />
-      <div className='job-card-details'>
+      <div className='job-listing-details'>
         <h3>Location:</h3>
-        <p>{(location?.display_name)}</p>
+        <p>{(location)}</p>
         <h3>Company:</h3>
-        <p>{(company?.display_name)}</p>
+        <p>{(company)}</p>
         <h3>Salary:</h3>
         <p>{salaryListing}</p>
         <h3>Date Created: </h3>
         <p>{dateCreated}</p>
+        <hr />
+      </div>
+      <div className="job-listing-description">
+        <h3>Description:</h3>
+        <p>{description}</p>
       </div>
     </div>
   )
 }
 
-export default JobCard
+export default JobListing
