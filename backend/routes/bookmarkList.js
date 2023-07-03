@@ -90,6 +90,9 @@ router.put("/update", isAuthorized, async (req, res, next) => {
 
     // if the job is from Adzuna, update bookmark list right away
     if (jobData.isAdzuna) {
+      // TODO: ADD ADZUNA JOB TO JOBS DB SO THAT IT CAN BE REFERENCED.
+      // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
+      // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
       updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobData.jobId);
     }
     // if job is from user posted jobs, checkl if job exists first
