@@ -173,7 +173,7 @@ h3, p {
 }
 
 #theme-icon {
-  font-size: var(--font-size-large);
+  /* font-size: var(--font-size-large); */
   color: var(--font-color);
 }
 
@@ -235,9 +235,9 @@ button[type=submit]:hover {
   cursor: pointer;
 }
 
-.search-icon {
+/* #search-icon {
   font-size: var(--font-size-large);
-}
+} */
 
 .job-card-container,
 .job-listing-container {
@@ -276,19 +276,26 @@ button[type=submit]:hover {
   gap: 1rem;
 }
 
+/* 
+.job-listing-header {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+} */
+
 .job-card-title,
 .job-listing-title {
   /* padding: 1rem; */
   font-size: var(--font-size-medium);
 }
 
-.bookmark-icon {
+.icon {
   font-size: var(--font-size-large);
   /* display: flex; */
   /* align-self: start; */
 }
 
-.bookmark-icon:hover {
+.icon:hover {
   cursor: pointer;
 }
 
@@ -302,11 +309,12 @@ button[type=submit]:hover {
 }
 
 .job-card-details>*,
-.job-listing-details>* {
+.job-listing-details>*,
+.job-listing-description>* {
   font-size: var(--font-size-small);
 }
 
-#job-link button {
+.job-link button {
   padding: 0.5rem;
   font-size: var(--font-size-small);
   border: none;
