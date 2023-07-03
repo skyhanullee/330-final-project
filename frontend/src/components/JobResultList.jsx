@@ -10,7 +10,7 @@ import MarkerCard from './MarkerCard';
 
 function createMarker(job, map, bounds, infowindow) {
   const { latitude, longitude, id } = job;
-  const markerPosition = { lat: latitude, lng: longitude }
+  const markerPosition = { lat: latitude, lng: longitude };
   const marker = new window.google.maps.Marker({
     id: id,
     position: markerPosition,
@@ -54,12 +54,11 @@ function JobResultList({ jobMarkerList, setJobMarkerList }) {
         toggleEmptyList(false);
       }
     })
-  }, [jobResult, bounds]);
+  }, [jobResult, bounds, setJobMarkerList, map, infowindow]);
 
   if (emptyList) {
     return <EmptyListPage />
   }
-
 
   const jobResultList = jobMarkerList.map((jobMarker) => {
     const { job } = jobMarker;

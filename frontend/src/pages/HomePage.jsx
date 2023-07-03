@@ -47,7 +47,7 @@ function HomePage() {
           setHasError(true);
         }
       );
-  }, [searchTerms, searchLocation])
+  }, [searchTerms, searchLocation, ADZUNA_API_ID, ADZUNA_API_KEY, resultsPerPage, setJobResult])
 
   if (loading) {
     return <LoadingPage />
