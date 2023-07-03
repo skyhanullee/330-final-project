@@ -15,7 +15,6 @@ function JobPage() {
       <h1 className='job-title'>{title}</h1>
       <JobDetails jobObject={jobObject} />
       <JobDescription jobObject={jobObject} />
-      <JobLink jobId={jobId} />
     </div>
   )
 }
