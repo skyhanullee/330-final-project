@@ -11,6 +11,7 @@ function ThemeButton() {
         themeName === 'dark-mode' ? setThemeName('light-mode') : setThemeName('dark-mode')
       }}>
       <Icon
+        className='icon'
         id="theme-icon"
         icon={
           themeName === 'dark-mode' ?
