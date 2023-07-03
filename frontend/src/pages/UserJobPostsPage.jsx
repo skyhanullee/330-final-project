@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import JobCard from "../components/JobCard";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import JobListing from "../components/JobListing";
 
 function UserJobPosts() {
   const { user, setUser } = useContext(UserContext);
@@ -28,18 +29,22 @@ function UserJobPosts() {
     return (
       // <li>{jobPost.title}</li>
       <li key={jobPost._id}>
-        <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}>
-          <JobCard job={jobPost} />
-        </Link>
+        {/* <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}> */}
+        <JobListing job={jobPost} />
+        {/* </Link> */}
       </li>
     )
   })
 
   return (
-    <div className='page'>
-      <h1>User Job Posts</h1>
-      {user && <button><Link to='/createJob'>Add a Job Post</Link></button>}
-      <ul>{jobPostsList}</ul>
+    <div className='page' id='user-job-posts-page'>
+      <section className="page-header-container">
+        <h1 className="page-title">User Job Posts</h1>
+        {user && <button><Link to='/createjob'>Add a Job Post</Link></button>}
+      </section>
+      <section className="job-listing-container">
+        <ul>{jobPostsList}</ul>
+      </section>
     </div>
   )
 }

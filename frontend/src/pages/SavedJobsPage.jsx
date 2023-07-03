@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import JobCard from "../components/JobCard";
+import JobListing from "../components/JobListing";
 
 export default function SavedJobsPage() {
   const [job, setJob] = useState();
@@ -80,8 +81,8 @@ export default function SavedJobsPage() {
       return (
         // <li>{jobPost.title}</li>
         <li key={jobPost._id}>
-          <div className='job-card' >
-            <div className="job-card-header">
+          <div className='job-listing' >
+            <div className="job-listing-header">
               <p>
                 Nothing saved yet.
               </p>
@@ -96,18 +97,22 @@ export default function SavedJobsPage() {
       return (
         // <li>{jobPost.title}</li>
         <li key={jobPost._id}>
-          <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}>
-            <JobCard job={jobPost} />
-          </Link>
+          {/* <Link to={`/job/${jobPost._id}`} state={{ data: { job: jobPost } }}> */}
+          <JobListing job={jobPost} />
+          {/* </Link> */}
         </li>
       )
     })
   }
 
   return (
-    <div className='page'>
-      <h1>Saved Jobs</h1>
-      <ul>{jobPostsList}</ul>
+    <div className='page' id='saved-jobs-page'>
+      <section className="page-header-container">
+        <h1 className="page-title">Saved Jobs</h1>
+      </section>
+      <section className="job-listing-container">
+        <ul>{jobPostsList}</ul>
+      </section>
     </div>
   )
 }
