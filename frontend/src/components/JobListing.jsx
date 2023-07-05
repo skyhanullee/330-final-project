@@ -4,7 +4,7 @@ import JobLink from './JobLink';
 // import UserContext from '../context/UserContext';
 
 function JobListing({ job }) {
-  const { title, location, company, salary, createdAt, jobId, description, isAdzuna } = job;
+  const { title, location, company, salary, createdAt, jobId, description, latitude, longitude, redirect_url, isBookmarked, isAdzuna } = job;
   const dateCreated = new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   const salaryListing = salary?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
@@ -12,50 +12,49 @@ function JobListing({ job }) {
   // const { isBookmarked, setIsBookmarked } = useState(false);
   // console.log(job);
 
-  // const addToFavorites = async () => {
-  //   // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
-  //   const job = {
-  //     isBookmarked: true,
-  //     jobId: jobId,
-  //     title: title,
-  //     description: description,
-  //     location: location.display_name,
-  //     company: company.display_name,
-  //     salary: salary,
-  //     createdAt: createdAt,
-  //     latitude: latitude,
-  //     longitude: longitude,
-  //     url: redirect_url,
-  //     isAdzuna: false,
-  //     author: 'user',
-  //   };
+  const addToFavorites = async () => {
+    // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
+    const job = {
+      isBookmarked: true,
+      jobId: jobId,
+      title: title,
+      description: description,
+      location: location.display_name,
+      company: company.display_name,
+      salary: salary,
+      createdAt: createdAt,
+      latitude: latitude,
+      longitude: longitude,
+      url: redirect_url,
+      isAdzuna: false,
+      author: 'user',
+    };
 
+    const token = `Bearer ${localStorage.getItem('token')}`
 
-  //   const token = `Bearer ${localStorage.getItem('token')}`
+    await fetch('http://127.0.0.1:4000/bookmarklist/update', {
+      method: 'PUT',
+      body: JSON.stringify(job),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        "Authorization": token
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.log('POST: did not send to mongo db');
+        }
+        if (response.status === 409) {
+          alert('Something went wrong with adding to the list.');
+        }
+        if (response.ok) {
+          alert(`${title} has been added to saved list`);
+          console.log('new job added', response.json());
+          // setIsBookmarked(true);
+        }
+      })
 
-  //   await fetch('http://127.0.0.1:4000/bookmarklist/update', {
-  //     method: 'PUT',
-  //     body: JSON.stringify(job),
-  //     headers: new Headers({
-  //       'Content-Type': 'application/json',
-  //       "Authorization": token
-  //     })
-  //   })
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         console.log('POST: did not send to mongo db');
-  //       }
-  //       if (response.status === 409) {
-  //         alert('Something went wrong with adding to the list.');
-  //       }
-  //       if (response.ok) {
-  //         alert(`${title} has been added to saved list`);
-  //         console.log('new job added', response.json());
-  //         // setIsBookmarked(true);
-  //       }
-  //     })
-
-  // };
+  };
 
   const removeFromFavorites = async () => {
     const token = `Bearer ${localStorage.getItem('token')}`
@@ -86,26 +85,30 @@ function JobListing({ job }) {
   const handleOnClick = async (e) => {
     e.stopPropagation();
     e.preventDefault();
-    // addToFavorites();
-    removeFromFavorites();
+    if (isBookmarked) {
+      removeFromFavorites();
+    }
+    else {
+      addToFavorites();
+    }
   }
 
   return (
     <div className='job-listing' id={`job-${jobId}`}>
       <div className="job-listing-header">
         <h1 className='job-listing-title'>{title}</h1>
-        {/* <Icon
+        <Icon
           className='icon'
           id='bookmark-icon'
           icon={isBookmarked ? "material-symbols:bookmark" : "material-symbols:bookmark-outline"}
           onClick={handleOnClick}
-        /> */}
-        <Icon
+        />
+        {/* <Icon
           className='icon'
           id='delete-icon'
           icon="material-symbols:delete-outline"
           onClick={handleOnClick}
-        />
+        /> */}
       </div>
       <hr />
       <div className='job-listing-details'>

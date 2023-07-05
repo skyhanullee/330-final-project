@@ -8,21 +8,21 @@ export default function SavedJobsPage() {
   const [jobPosts, setJobPosts] = useState([]);
   const token = `Bearer ${localStorage.getItem('token')}`
 
-  const getAllJobPosts = () => {
-    fetch('http://127.0.0.1:4000/bookmarklist', {
-      method: 'GET',
-      headers: new Headers({
-        'Authorization': token,
-        'Content-Type': 'application/json'
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        setJobPosts(data);
-      });
+  // const getAllJobPosts = () => {
+  //   fetch('http://127.0.0.1:4000/bookmarklist', {
+  //     method: 'GET',
+  //     headers: new Headers({
+  //       'Authorization': token,
+  //       'Content-Type': 'application/json'
+  //     })
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       setJobPosts(data);
+  //     });
 
-  };
+  // };
 
   // const getAllJobs = () => {
   //   for (let jobId of jobIds) {
@@ -44,21 +44,21 @@ export default function SavedJobsPage() {
   //   }
   // }
   useEffect(() => {
-    getAllJobPosts();
-    // fetch('http://127.0.0.1:4000/bookmarklist', {
-    //   method: 'GET',
-    //   headers: new Headers({
-    //     'Authorization': token,
-    //     'Content-Type': 'application/json'
-    //   })
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     console.log(data);
-    //     setJobIds(data[0].jobs);
-    //   });
+    // getAllJobPosts();
+    fetch('http://127.0.0.1:4000/bookmarklist', {
+      method: 'GET',
+      headers: new Headers({
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setJobPosts(data);
+      });
 
-  }, []);
+  }, [token]);
 
 
 
@@ -94,9 +94,7 @@ export default function SavedJobsPage() {
   }
   else {
     jobPostsList = jobPosts.filter(j => j !== null).map((jobPost) => {
-      console.log(jobPost);
-      // if (jobPost === null) {
-      // }
+      jobPost = { ...jobPost, isBookmarked: true };
       return (
         // <li>{jobPost.title}</li>
         <li key={jobPost?._id}>
