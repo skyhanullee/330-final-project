@@ -6,11 +6,11 @@ function JobForm({ onFormSubmit, searchTerms, searchLocation, resultsPerPage }) 
       <form onSubmit={onFormSubmit}>
         <div id='form-search-terms'>
           <label htmlFor='job-search'>Search: </label>
-          <input type='text' id='job-search-input' placeholder='Job, Company, Title' value={searchTerms} />
+          <input type='text' id='job-search-input' placeholder='Job, Company, Title' defaultValue={searchTerms} />
         </div>
         <div id='form-location'>
           <label htmlFor='job-search'>Location: </label>
-          <input type='text' id='location-input' placeholder='City, State, Zip Code' value={searchLocation} />
+          <input type='text' id='location-input' placeholder='City, State, Zip Code' defaultValue={searchLocation} />
         </div>
         {/* <div id='form-results-per-page'>
           <label htmlFor='job-search'>Results per page: </label>

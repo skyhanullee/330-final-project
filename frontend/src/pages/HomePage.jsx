@@ -11,12 +11,12 @@ const DEFAULT_SEARCH_LOCATION = '';
 const DEFAULT_RESULTS_PER_PAGE = 10;
 
 function HomePage() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { termsQuery, locationQuery, searchResults } = JSON.parse(window.sessionStorage.getItem("searchDetails") ? window.sessionStorage.getItem("searchDetails") : '{"termsQuery": "", "locationsQuery": "","searchResults": ""}');
 
-  const [searchTerms, setSearchTerms] = useState(DEFAULT_SEARCH_TERMS);
-  const [searchLocation, setSearchLocation] = useState(DEFAULT_SEARCH_LOCATION);
+  const [searchTerms, setSearchTerms] = useState(termsQuery ? termsQuery : DEFAULT_SEARCH_TERMS);
+  const [searchLocation, setSearchLocation] = useState(locationQuery ? locationQuery : DEFAULT_SEARCH_LOCATION);
   const resultsPerPage = DEFAULT_RESULTS_PER_PAGE;
-  const { setJobResult } = useContext(JobResultContext);
+  const { jobResult, setJobResult } = useContext(JobResultContext);
   const [jobMarkerList, setJobMarkerList] = useState([]);
 
   const onFormSubmit = (event) => {
@@ -32,21 +32,30 @@ function HomePage() {
   const [loading, toggleLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
+
   useEffect(() => {
+    // if (!jobResult) {
     fetch(`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${ADZUNA_API_ID}&app_key=${ADZUNA_API_KEY}&results_per_page=${resultsPerPage}&what=${searchTerms}&where=${searchLocation}`)
       .then(response => response.json())
       .then(
         (data) => {
           setJobResult(data);
+          console.log(data);
           toggleLoading(false);
           console.log('fetched');
           // updateJobMarkerList();
+          window.sessionStorage.setItem("searchDetails", JSON.stringify({ searchQuery: searchTerms, searchDetails: data.results }));
+
         },
         (error) => {
           toggleLoading(false);
           setHasError(true);
         }
       );
+    // }
+    // else {
+
+    // }
   }, [searchTerms, searchLocation, ADZUNA_API_ID, ADZUNA_API_KEY, resultsPerPage, setJobResult])
 
   if (loading) {
@@ -65,8 +74,8 @@ function HomePage() {
       <section className='job-app-container'>
         <JobForm
           onFormSubmit={onFormSubmit}
-          setSearchTerms={setSearchTerms}
-          setSearchLocation={setSearchLocation}
+          searchTerms={searchTerms}
+          searchLocation={searchLocation}
         />
         <section className='job-card-container'>
           <JobResultList jobMarkerList={jobMarkerList} setJobMarkerList={setJobMarkerList} />
