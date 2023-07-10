@@ -87,22 +87,35 @@ router.put("/update", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
     const jobData = req.body;
-    console.log(jobData.jobId);
+    console.log(userId, jobData.jobId);
 
     // if job is from user posted jobs, check if job exists first
-    const jobFromDB = await jobDAO.getJobByJobId(jobData.jobId);
+    let jobFromDB = await jobDAO.getJobByJobId(jobData.jobId);
 
     if (!jobFromDB) {
       // if the job is from Adzuna, add job to jobs collection
       if (jobData.isAdzuna) {
         // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
         // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
-        await jobDAO.createJob(jobData);
+        jobFromDB = await jobDAO.createJob(jobData);
       }
     }
 
-    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobFromDB.jobId);
-    // }
+    console.log(jobFromDB._id);
+    const userBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
+    console.log(userBookmarkList[0].jobs)
+    // Check if maximum number of saved jobs
+    if (userBookmarkList[0].jobs.length >= 5) {
+      return res.status(409).send({ message: 'Maximum of 5 jobs in the saved list' });
+    }
+
+    // Check if the job already exists in the bookmark list
+    if (userBookmarkList[0].jobs.includes(jobFromDB._id)) {
+      return res.status(409).send({ message: 'Job already exists in the bookmark list.' });
+    }
+
+    const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobData.jobId);
+
     if (!updatedBookmarkList) {
       return res.status(409).send('Something went wrong with adding to bookmarkList.');
     };
@@ -113,42 +126,6 @@ router.put("/update", isAuthorized, async (req, res, next) => {
     next(e);
   }
 });
-
-/**
-// add a job to bookmark list: PUT /update/:id 
-// Should update bookmarkList by adding a job to the list
-// :id is userId
-router.put("/update", isAuthorized, async (req, res, next) => {
-  try {
-    const userId = req.user._id.toString();
-    const jobData = req.body;
-    let updatedBookmarkList;
-
-    // if the job is from Adzuna, update bookmark list right away
-    if (jobData.isAdzuna) {
-      // TODO: ADD ADZUNA JOB TO JOBS DB SO THAT IT CAN BE REFERENCED.
-      // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
-      // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
-      const newJob = await jobDAO.createJob(jobData);
-      console.log('BOOKMARK ROUTES: ' + newJob);
-      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobData.jobId);
-    }
-    // if job is from user posted jobs, check if job exists first
-    else {
-      const jobFromDB = await jobDAO.getJobByJobId(jobData.jobId);
-      updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobFromDB.jobId);
-    }
-    if (!updatedBookmarkList) {
-      return res.status(409).send('Something went wrong with adding to bookmarkList.');
-    };
-    return res.json(updatedBookmarkList);
-  }
-  catch (e) {
-    console.log(e);
-    next(e);
-  }
-});
- */
 
 // add a job to bookmark list: PUT /update/:id 
 // Should update bookmarkList by adding a job to the list
@@ -174,12 +151,12 @@ router.put("/update/:id", isAuthorized, async (req, res, next) => {
     //   return res.status(400).send({ message: 'Job does not exist.' });
     // }
 
-    // Check if the job already exists in the bookmark list
-    const isJobExists = bookmarkList.jobs.some((job) => job.jobId === jobObj.jobId);
+    // // Check if the job already exists in the bookmark list
+    // const isJobExists = bookmarkListDAO.jobs.some((job) => job.jobId === jobObj.jobId);
 
-    if (isJobExists) {
-      return res.status(409).send({ message: 'Job already exists in the bookmark list.' });
-    }
+    // if (isJobExists) {
+    //   return res.status(409).send({ message: 'Job already exists in the bookmark list.' });
+    // }
 
     const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
     if (!updatedBookmarkList) {
