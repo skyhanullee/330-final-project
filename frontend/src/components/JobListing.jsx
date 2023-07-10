@@ -3,7 +3,7 @@ import JobLink from './JobLink';
 // import { useState, useEffect, useContext } from "react"
 // import UserContext from '../context/UserContext';
 
-function JobListing({ job, setJobPostsList }) {
+function JobListing({ job }) {
   const { title, location, company, salary, createdAt, jobId, description, latitude, longitude, redirect_url, isBookmarked, isAdzuna } = job;
   const dateCreated = new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   const salaryListing = salary?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
@@ -133,7 +133,7 @@ function JobListing({ job, setJobPostsList }) {
         <p>{description}</p>
       </div>
       <hr />
-      {isAdzuna && <JobLink id={jobId} />}
+      {isAdzuna && <JobLink jobId={jobId} />}
     </div>
   )
 }
