@@ -6,7 +6,7 @@ import JobListing from "../components/JobListing";
 export default function SavedJobsPage() {
   const [job, setJob] = useState();
   const [jobPosts, setJobPosts] = useState([]);
-  const token = `Bearer ${localStorage.getItem('token')}`
+  const token = `Bearer ${localStorage.getItem('token')}`;
 
   // const getAllJobPosts = () => {
   //   fetch('http://127.0.0.1:4000/bookmarklist', {
@@ -74,6 +74,8 @@ export default function SavedJobsPage() {
   // })
 
   let jobPostsList;
+  // const [jobPostsList, setJobPostsList] = useState([]);
+  // let updatedJobPostsList = [];
   console.log(jobPosts)
 
   if (jobPosts === undefined || jobPosts.jobs?.length === 0) {

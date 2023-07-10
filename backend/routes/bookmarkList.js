@@ -15,11 +15,12 @@ const mongoose = require('mongoose');
 router.post("/", isAuthorized, async (req, res, next) => {
   try {
     const userId = req.user._id;
+    const email = req.body.email;
     const isUserHaveBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
     if (isUserHaveBookmarkList.length > 0) {
       return res.status(409).send({ message: 'bookmarkList already exists' });
     }
-    const newBookmarkList = await bookmarkListDAO.createBookmarkList(userId);
+    const newBookmarkList = await bookmarkListDAO.createBookmarkList(userId, email);
     res.json(newBookmarkList);
   } catch (e) {
     next(e);
@@ -94,10 +95,9 @@ router.put("/update", isAuthorized, async (req, res, next) => {
     if (!jobFromDB) {
       // if the job is from Adzuna, add job to jobs collection
       if (jobData.isAdzuna) {
-        // TODO: ADD ADZUNA JOB TO JOBS COLLECTION SO THAT IT CAN BE REFERENCED.
         // IT WILL CAUSE AN ERROR SINCE THE FUNCTION LOOKS FOR JOB DATA FROM JOBS DB
         // BUT THE DATA WAS FROM ADZUNA AND NEVER STORED.
-        const newJob = await jobDAO.createJob(jobData);
+        await jobDAO.createJob(jobData);
       }
     }
 
@@ -174,9 +174,16 @@ router.put("/update/:id", isAuthorized, async (req, res, next) => {
     //   return res.status(400).send({ message: 'Job does not exist.' });
     // }
 
+    // Check if the job already exists in the bookmark list
+    const isJobExists = bookmarkList.jobs.some((job) => job.jobId === jobObj.jobId);
+
+    if (isJobExists) {
+      return res.status(409).send({ message: 'Job already exists in the bookmark list.' });
+    }
+
     const updatedBookmarkList = await bookmarkListDAO.updateBookmarkListByUserId(userId, jobObj.jobId);
     if (!updatedBookmarkList) {
-      return res.status(409).send('Something went wrong with adding to bookmarkList.');
+      return res.status(409).send('Something went wrong with adding to bookmark list.');
     };
 
     return res.json(updatedBookmarkList);
@@ -211,16 +218,17 @@ router.delete("/delete", isAuthorized, async (req, res, next) => {
       return res.status(400).send({ message: 'Job does not exist.' });
     }
 
-    const removedJob = await bookmarkListDAO.removeJobFromBookmarkList(userId, jobFromDB._id);
-    // console.log(removedJob);
-    if (!removedJob) {
+    const updatedBookmarkList = await bookmarkListDAO.removeJobFromBookmarkList(userId, jobFromDB._id);
+    if (!updatedBookmarkList) {
       return res.status(409).send('Something went wrong with removing from bookmarkList.');
     }
-    else if (removedJob.message) {
-      return res.status(409).send(removedJob.message);
+    else if (updatedBookmarkList.message) {
+      return res.status(409).send(updatedBookmarkList.message);
     }
 
-    return res.json(removedJob);
+    // console.log('ROUTER DELETE: ')
+    // console.log(updatedBookmarkList);
+    return res.json(updatedBookmarkList);
   }
   catch (e) {
     console.log(e);

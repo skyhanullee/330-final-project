@@ -3,7 +3,7 @@ import JobLink from './JobLink';
 // import { useState, useEffect, useContext } from "react"
 // import UserContext from '../context/UserContext';
 
-function JobListing({ job }) {
+function JobListing({ job, setJobPostsList }) {
   const { title, location, company, salary, createdAt, jobId, description, latitude, longitude, redirect_url, isBookmarked, isAdzuna } = job;
   const dateCreated = new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   const salaryListing = salary?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
@@ -26,7 +26,7 @@ function JobListing({ job }) {
       latitude: latitude,
       longitude: longitude,
       url: redirect_url,
-      isAdzuna: false,
+      // isAdzuna: false,
       author: 'user',
     };
 
@@ -53,6 +53,9 @@ function JobListing({ job }) {
           // setIsBookmarked(true);
         }
       })
+      .then(data => {
+        console.log(data);
+      })
 
   };
 
@@ -76,9 +79,12 @@ function JobListing({ job }) {
         }
         if (response.ok) {
           alert(`${title} has been removed from saved list`);
-          console.log('new job added', response.json());
+          // console.log('job removed', response.json());
           // setIsBookmarked(true);
         }
+      })
+      .then(data => {
+        console.log(data);
       })
   };
 

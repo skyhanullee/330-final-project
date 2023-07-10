@@ -5,8 +5,8 @@ const Job = require('../models/job');
 module.exports = {};
 
 // should create a bookmarkList for the given user
-module.exports.createBookmarkList = async (userId) => {
-  const created = await BookmarkList.create({ userId: userId });
+module.exports.createBookmarkList = async (userId, email) => {
+  const created = await BookmarkList.create({ userId: userId, email: email });
   // if (!created) {
   //   return null;
   // }
@@ -51,6 +51,7 @@ module.exports.updateBookmarkListByUserId = async (userId, jobId) => {
     return null;
   }
 
+
   bookmarkList.jobs.push(convertedJobId);
   // bookmarkList.updateOne(
   //   { userId: userId },
@@ -77,6 +78,7 @@ module.exports.removeJobFromBookmarkList = async (userId, jobObj) => {
   bookmarkList.jobs.splice(index, 1);
   await bookmarkList.save();
 
+  // console.log('DAOS BOOKMARK: ')
   // console.log(bookmarkList);
   return bookmarkList;
 };

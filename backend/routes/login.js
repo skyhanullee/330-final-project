@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userDAO = require('../daos/user');
+const bookmarkListDAO = require('../daos/bookmarkList');
 const isAuthorized = require('../middleware/isAuthorized');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -12,7 +13,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
 // Create user record with email and password stored
 router.post("/signup", async (req, res, next) => {
   try {
-    const { email, password, roles } = req.body;
+    const { email, password } = req.body;
     if (!email) {
       return res.status(400)({ message: 'No email given.' });
     }
@@ -32,6 +33,14 @@ router.post("/signup", async (req, res, next) => {
       password: hashedPassword,
       roles: ['user'],
     });
+
+    // create new bookmark list for the new user
+    const userId = newUser._id;
+    const isUserHaveBookmarkList = await bookmarkListDAO.getBookmarkListByUserId(userId);
+    if (isUserHaveBookmarkList.length > 0) {
+      return res.status(409).send({ message: 'bookmarkList already exists' });
+    }
+    await bookmarkListDAO.createBookmarkList(userId, email);
 
     res.json(newUser);
   }

@@ -6,10 +6,6 @@ export default UserContext
 
 export function UserController({ children }) {
   const [themeName, setThemeName] = useState('dark-mode');
-  // const [user, setUser] = useState({
-  //   isLoggedIn: false,
-  //   token: "",
-  // });
   const [user, setUser] = useState(false);
 
   return (
