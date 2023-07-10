@@ -46,13 +46,19 @@ function JobCard({ job }) {
         if (!response.ok) {
           console.log('POST: did not send to mongo db');
         }
-        if (response.status === 409) {
-          alert('Something went wrong with adding to the list.');
+        if (response.status === 409 || !response.ok) {
+          // alert('Something went wrong with adding to the list.');
+          return response.json()
         }
         if (response.ok) {
           alert(`${title} has been added to saved list`);
-          return response.json();
+          // return response.json();
           // setIsBookmarked(true);
+        }
+      })
+      .then(data => {
+        if (data !== undefined) {
+          alert(data.message);
         }
       })
   };

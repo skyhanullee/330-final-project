@@ -41,10 +41,7 @@ function JobListing({ job }) {
       })
     })
       .then(response => {
-        if (!response.ok) {
-          console.log('POST: did not send to mongo db');
-        }
-        if (response.status === 409) {
+        if (response.status === 409 || !response.ok) {
           // alert('Something went wrong with adding to the list.');
           return response.json();
         }
@@ -75,22 +72,22 @@ function JobListing({ job }) {
       })
     })
       .then(response => {
-        if (!response.ok) {
-          console.log('POST: did not send to mongo db');
-        }
-        if (response.status === 409) {
+        if (response.status === 409 || !response.ok) {
           // alert('Something went wrong with adding to the list.');
-          alert(response.text());
+          return response.json();
         }
         if (response.ok) {
           alert(`${title} has been removed from saved list`);
           // console.log('job removed', response.json());
           // setIsBookmarked(true);
-          window.location.reload();
+          window.location.reload(); // to refresh the saved list, should change later to re-render state instead
+          // return response.json();
         }
       })
       .then(data => {
-        console.log(data);
+        if (data !== undefined) {
+          alert(data.message);
+        }
       })
   };
 
