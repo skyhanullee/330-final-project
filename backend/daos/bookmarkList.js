@@ -41,18 +41,18 @@ module.exports.getAllBookmarkLists = () => {
 // should add job to bookmarkList
 // module.exports.updateBookmarkListByUserId = async (userId, jobObj) => {
 module.exports.updateBookmarkListByUserId = async (userId, jobId) => {
-  console.log(jobId);
+  // console.log(jobId);
   // const jobIdObj = new mongoose.Types.ObjectId(jobId);
   // console.log(jobIdObj);
-  const convertedJobId = await Job.findOne({ jobId: jobId });
-  console.log('BOOKMARKDAO ' + convertedJobId);
+  const convertedJob = await Job.findOne({ jobId: jobId });
+  // console.log('BOOKMARKDAO ' + convertedJob);
   let bookmarkList = await BookmarkList.findOne({ userId: userId });
   if (!bookmarkList) {
     return null;
   }
 
 
-  bookmarkList.jobs.push(convertedJobId);
+  bookmarkList.jobs.push(convertedJob);
   // bookmarkList.updateOne(
   //   { userId: userId },
   //   { $addToSet: { jobs: jobIdObj } },
