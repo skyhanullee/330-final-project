@@ -45,16 +45,20 @@ function JobListing({ job }) {
           console.log('POST: did not send to mongo db');
         }
         if (response.status === 409) {
-          alert('Something went wrong with adding to the list.');
+          // alert('Something went wrong with adding to the list.');
+          return response.json();
         }
         if (response.ok) {
           alert(`${title} has been added to saved list`);
-          console.log('new job added', response.json());
+          // console.log('new job added', response.json());
           // setIsBookmarked(true);
         }
       })
       .then(data => {
-        console.log(data);
+        // console.log(data);
+        if (data !== undefined) {
+          alert(data.message);
+        }
       })
 
   };
@@ -75,12 +79,14 @@ function JobListing({ job }) {
           console.log('POST: did not send to mongo db');
         }
         if (response.status === 409) {
-          alert('Something went wrong with adding to the list.');
+          // alert('Something went wrong with adding to the list.');
+          alert(response.text());
         }
         if (response.ok) {
           alert(`${title} has been removed from saved list`);
           // console.log('job removed', response.json());
           // setIsBookmarked(true);
+          window.location.reload();
         }
       })
       .then(data => {
