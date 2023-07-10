@@ -1,19 +1,17 @@
 import { Icon } from '@iconify/react';
-import { useState, useEffect, useContext } from "react"
-import UserContext from '../context/UserContext';
+import { useState } from "react"
 
 function JobCard({ job }) {
-  const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = job;
+  const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url, isBookmarked } = job;
   const dateCreated = new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   const salaryListing = salary_min?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
   // const [user, setUser] = useState({});
-  const { user, setUser } = useContext(UserContext);
-  const { isBookmarked, setIsBookmarked } = useState(false);
+  // const { user, setUser } = useContext(UserContext);
+  // const { isBookmarked, setIsBookmarked } = useState(false);
   console.log(job);
 
   const addToFavorites = async () => {
-    // const { title, location, company, salary_min, created, id, description, latitude, longitude, redirect_url } = jobObject;
 
     const jobToSave = {
       isBookmarked: true,
@@ -30,6 +28,8 @@ function JobCard({ job }) {
       isAdzuna: true,
       author: 'adzuna',
     };
+
+    // console.log(jobToSave.jobId);
 
 
     const token = `Bearer ${localStorage.getItem('token')}`
@@ -51,7 +51,7 @@ function JobCard({ job }) {
         }
         if (response.ok) {
           alert(`${title} has been added to saved list`);
-          console.log('new job added', response.json());
+          return response.json();
           // setIsBookmarked(true);
         }
       })
